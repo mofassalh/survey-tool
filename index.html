@@ -224,20 +224,31 @@ input:focus, select:focus, textarea:focus {
 
 /* Print */
 @media print {
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  .left-panel { display: none !important; }
-  .app-wrap { display: block !important; }
-  .right-preview {
-    display: block !important;
-    padding: 0 !important;
-    margin: 0 !important;
+  /* Control Panel ba sidebar hide korar jonno */
+  .control-panel { 
+    display: none !important; 
   }
-  .a4 {
-    width: 210mm !important;
-    min-height: 297mm !important;
-    padding: 8mm 10mm !important;
+
+  /* Preview area-ke full screen korar jonno */
+  .preview-area {
+    margin-left: 0 !important;
+    padding: 0 !important;
+    display: block !important;
+  }
+
+  /* A4 page-ke center kora ebong shadow bad deya */
+  .a4-page {
     box-shadow: none !important;
+    border: none !important;
     margin: 0 auto !important;
+    width: 210mm !important; /* Standard A4 Width */
+    height: 297mm !important; /* Standard A4 Height */
+    padding: 10mm !important;
+  }
+
+  /* Body background white rakhar jonno */
+  body {
+    background: white !important;
   }
 }
 </style>
