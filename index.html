@@ -224,11 +224,21 @@ input:focus, select:focus, textarea:focus {
 
 /* Print */
 @media print {
-  body { background: none; }
-  .control-panel { display: none; }
-  .preview-area { margin-left: 0; padding: 0; display: block; }
-  .a4-page { box-shadow: none; border: none; margin: 0; width: 210mm; min-height: 297mm; }
-  .canvas-wrap { min-height: 280px; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  .left-panel { display: none !important; }
+  .app-wrap { display: block !important; }
+  .right-preview {
+    display: block !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+  .a4 {
+    width: 210mm !important;
+    min-height: 297mm !important;
+    padding: 8mm 10mm !important;
+    box-shadow: none !important;
+    margin: 0 auto !important;
+  }
 }
 </style>
 </head>
