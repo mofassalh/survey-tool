@@ -2,852 +2,614 @@
 <html lang="bn">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ডিজিটাল ভূমি জরিপ ও নকশা — RS/CS</title>
-<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&family=Tiro+Bangla&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>বাংলাদেশ ভূমি জরিপ</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <style>
-:root {
-  --green: #006a4e;
-  --green-light: #e8f4f0;
-  --green-mid: #008a65;
-  --dark: #1a1a1a;
-  --gold: #b8860b;
-  --gold-light: #f5e6b8;
-  --red: #c0392b;
-  --paper: #ffffff;
-  --border: #006a4e;
-  --panel-bg: #f7f9f8;
-  --input-bg: #fff;
-  --shadow: 0 2px 8px rgba(0,106,78,0.10);
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Hind Siliguri','Noto Sans Bengali','Segoe UI',Arial,sans-serif;background:#e8ede9;font-size:13px;color:#222}
+.app-wrap{display:flex;min-height:100vh}
+.left-panel{width:460px;min-width:460px;background:#fff;height:100vh;position:sticky;top:0;overflow-y:auto;box-shadow:3px 0 18px rgba(0,106,78,.13);flex-shrink:0;display:flex;flex-direction:column}
+.panel-head{background:#006a4e;color:#fff;padding:13px 18px;font-size:14px;font-weight:700;display:flex;align-items:center;gap:8px;position:sticky;top:0;z-index:10;flex-shrink:0}
+.panel-body{padding:14px 16px;flex:1}
+.sec-title{font-size:10px;font-weight:700;color:#006a4e;text-transform:uppercase;letter-spacing:1px;margin:14px 0 8px;padding-bottom:4px;border-bottom:2px solid #e8f4f0}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:8px}
+.row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:8px}
+.field{margin-bottom:8px}
+.field label{display:block;font-size:10px;font-weight:700;color:#555;margin-bottom:3px}
+.field input,.field select,.field textarea{width:100%;padding:6px 8px;border:1px solid #d0dbd6;border-radius:5px;font-family:inherit;font-size:12px;background:#fff;color:#222;outline:none;transition:border-color .2s}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:#006a4e}
+.field textarea{resize:vertical}
+.tabs{display:flex;gap:6px;margin-bottom:12px}
+.tab-btn{flex:1;padding:7px 0;border:2px solid #ddd;border-radius:6px;background:#f5f5f5;color:#777;cursor:pointer;font-weight:700;font-size:12px;font-family:inherit;transition:all .2s}
+.tab-btn.active{border-color:#006a4e;background:#006a4e;color:#fff}
+.shape-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:10px}
+.shape-btn{padding:7px 4px;border:2px solid #ddd;border-radius:6px;background:#f9f9f9;color:#555;cursor:pointer;font-weight:600;font-size:11px;text-align:center;font-family:inherit;transition:all .2s}
+.shape-btn.active{border-color:#006a4e;background:#e8f4f0;color:#006a4e}
+.shape-btn .icon{font-size:18px;display:block;margin-bottom:3px}
+.scale-box{background:#e8f4f0;border:1px solid #b5d9ce;border-radius:6px;padding:10px;margin-bottom:8px}
+.scale-info{font-size:10px;color:#558878;margin-top:5px}
+.sides-header{display:grid;grid-template-columns:26px 1.4fr 0.8fr 0.8fr 0.8fr 28px;gap:4px;font-size:9px;font-weight:700;color:#888;text-align:center;margin-bottom:4px}
+.side-row{display:grid;grid-template-columns:26px 1.4fr 0.8fr 0.8fr 0.8fr 28px;gap:4px;margin-bottom:5px;align-items:center}
+.row-num{width:26px;height:26px;background:#006a4e;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700}
+.side-row input{width:100%;padding:5px 4px;border:1px solid #d0dbd6;border-radius:5px;font-family:inherit;font-size:11px;text-align:center;outline:none;color:#222;transition:border-color .2s}
+.side-row input:focus{border-color:#006a4e}
+.side-row input.ft-inp{background:#f0f8ff}
+.side-row input.lnk-inp{background:#fffde8}
+.side-row input.ang-inp{background:#f0f4ff}
+.side-row input.name-inp{text-align:left;background:#fff}
+.chou-header{display:grid;grid-template-columns:0.8fr 1.5fr 28px;gap:4px;font-size:9px;font-weight:700;color:#888;margin-bottom:4px}
+.chou-row{display:grid;grid-template-columns:0.8fr 1.5fr 28px;gap:4px;margin-bottom:5px;align-items:center}
+.chou-row input{width:100%;padding:5px 6px;border:1px solid #d0dbd6;border-radius:5px;font-family:inherit;font-size:11px;outline:none;color:#222;transition:border-color .2s}
+.chou-row input:focus{border-color:#006a4e}
+.add-btn{width:100%;padding:7px 0;background:#e8f4f0;color:#006a4e;border:1.5px dashed #006a4e;border-radius:6px;cursor:pointer;font-weight:700;font-size:12px;margin-bottom:6px;font-family:inherit}
+.del-btn{width:26px;height:26px;background:#fff;color:#c0392b;border:1px solid #e0c0c0;border-radius:5px;cursor:pointer;font-weight:900;font-size:13px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.draw-btn{width:100%;padding:10px;background:#006a4e;color:#fff;border:none;border-radius:6px;cursor:pointer;font-weight:700;font-size:13px;margin-top:8px;font-family:inherit}
+.print-btn{width:100%;padding:11px;background:#1a1a1a;color:#fff;border:none;border-radius:6px;cursor:pointer;font-weight:700;font-size:13px;margin-top:6px;font-family:inherit}
+.print-btn:disabled{background:#777;cursor:not-allowed}
+.reset-btn{width:100%;padding:7px;background:#fff;color:#999;border:1px solid #ddd;border-radius:6px;cursor:pointer;font-size:11px;margin-top:4px;font-family:inherit}
+.right-preview{flex:1;padding:24px;display:flex;justify-content:center;align-items:flex-start;overflow-x:auto}
+.a4{width:210mm;min-height:297mm;background:#fff;padding:8mm 10mm;box-shadow:0 4px 30px rgba(0,0,0,.18);display:flex;flex-direction:column}
+.cert-header{text-align:center;padding-bottom:8px;margin-bottom:8px;border-bottom:3px double #006a4e}
+.survey-badge{display:inline-block;padding:2px 10px;border-radius:3px;font-size:10px;font-weight:700;letter-spacing:1px;margin-bottom:4px}
+.cert-org-name{font-family:serif;color:#006a4e;font-size:20px;font-weight:700;margin-bottom:2px}
+.cert-org-sub{font-size:10px;color:#555;font-weight:600}
+.cert-meta-row{display:grid;grid-template-columns:repeat(4,1fr);font-size:10px;margin-bottom:6px;background:#f5faf8;border:1px solid #d0e8df;border-radius:4px;overflow:hidden}
+.cert-meta-cell{padding:5px 7px;border-right:1px solid #d0e8df}
+.cert-meta-cell:last-child{border-right:none}
+.cert-meta-cell .mlabel{color:#006a4e;font-size:9px;display:block}
+.cert-meta-cell .mval{color:#222;font-size:10px;font-weight:700}
+.cert-location{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:6px;padding:4px 8px;background:#006a4e;border-radius:4px}
+.cert-location span{color:#fff;font-size:10px;font-weight:700}
+.cert-location span b{color:#b8ffdf}
+.cert-owner{font-size:11px;font-weight:600;margin-bottom:7px;padding:4px 7px;background:#fffde8;border-left:3px solid #b8860b;color:#333}
+.cert-canvas-wrap{flex-grow:1;border:1.5px solid #333;background:#fff;position:relative;overflow:hidden;min-height:280px}
+#map-canvas{position:absolute;top:0;left:0;width:100%;height:100%}
+.north-tag{position:absolute;top:8px;right:10px;background:#fff;border:1.5px solid #006a4e;color:#006a4e;font-weight:900;font-size:12px;padding:2px 6px;border-radius:3px;z-index:2}
+
+/* ── SCALE LEGEND BOX (print এ দেখাবে) ── */
+.scale-legend{position:absolute;bottom:8px;left:10px;background:rgba(255,255,255,.95);padding:6px 8px;border:1px solid #333;font-size:9px;color:#222;z-index:2;min-width:140px}
+.scale-legend-title{font-weight:700;font-size:9px;color:#006a4e;margin-bottom:3px;border-bottom:1px solid #ccc;padding-bottom:2px}
+.scale-bar-row{display:flex;align-items:center;gap:4px;margin-bottom:2px}
+.scale-bar-strip{height:7px;border:1px solid #000;flex-shrink:0}
+.scale-bar-half{display:inline-block;height:100%}
+.scale-text{font-size:9px;color:#222;margin-bottom:1px}
+.scale-ratio{font-size:8px;color:#555;font-style:italic}
+
+.cert-bottom{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px;border-top:2px solid #006a4e;padding-top:8px}
+.chou-table{width:100%;border-collapse:collapse;font-size:11px}
+.chou-table th{background:#006a4e;color:#fff;padding:4px 6px;font-size:10px;text-align:left}
+.chou-table td{border:1px solid #d0e8df;padding:4px 6px}
+.area-box{background:#e8f4f0;border:1px solid #b5d9ce;border-radius:4px;padding:8px;margin-top:8px;font-size:11px;line-height:1.8;font-weight:600}
+.area-title{font-size:13px;font-weight:700;color:#006a4e}
+.sig-area{text-align:right;display:flex;flex-direction:column;justify-content:flex-end;gap:8px}
+.seal-circle{border:2px dashed #bbb;border-radius:50%;width:80px;height:80px;display:flex;align-items:center;justify-content:center;font-size:9px;color:#bbb;text-align:center;margin-left:auto}
+.sig-line{border-top:1.5px solid #333;padding-top:4px;font-size:10px;color:#555;font-weight:600;margin-top:30px}
+.cert-footer{font-size:9px;color:#999;text-align:center;margin-top:6px;border-top:1px solid #eee;padding-top:4px}
+.mobile-toggle{display:none;margin-left:auto;background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.5);color:#fff;border-radius:5px;padding:5px 12px;cursor:pointer;font-size:12px;font-family:inherit;font-weight:700;white-space:nowrap}
+
+@media(max-width:900px){
+  .app-wrap{flex-direction:column}
+  .left-panel{width:100%;min-width:unset;height:auto;position:relative;box-shadow:none;border-bottom:3px solid #006a4e}
+  .mobile-toggle{display:block}
+  .panel-body{display:none}
+  .panel-body.show{display:block}
+  .right-preview{display:none;padding:12px}
+  .right-preview.show{display:flex}
+  .a4{width:100%;min-width:unset;min-height:auto;padding:12px}
+  .cert-org-name{font-size:15px}
+  .cert-meta-row{grid-template-columns:1fr 1fr}
+  .cert-meta-cell:nth-child(2){border-right:none}
+  .cert-bottom{grid-template-columns:1fr}
+  .cert-canvas-wrap{min-height:200px}
+  .row3{grid-template-columns:1fr 1fr}
+  .shape-grid{grid-template-columns:repeat(2,1fr)}
 }
 
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: 'Hind Siliguri', sans-serif; background: #e8ede9; color: #222; }
-
-/* ── CONTROL PANEL ── */
-.control-panel {
-  width: 460px; background: #fff; padding: 0;
-  height: 100vh; position: fixed; left: 0; top: 0;
-  overflow-y: auto; box-shadow: 3px 0 18px rgba(0,106,78,0.13); z-index: 100;
+@media print{
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:#fff}
+  .left-panel,.mobile-toggle{display:none!important}
+  .app-wrap{display:block!important}
+  .right-preview{display:block!important;padding:0!important;margin:0!important}
+  .a4{width:210mm!important;min-height:297mm!important;padding:8mm 10mm!important;box-shadow:none!important;margin:0 auto!important}
+  .scale-legend{border:1.5px solid #333!important;background:#fff!important}
 }
-.panel-header {
-  background: var(--green); color: #fff; padding: 14px 20px;
-  font-size: 15px; font-weight: 700; letter-spacing: 0.5px;
-  display: flex; align-items: center; gap: 8px; position: sticky; top: 0; z-index: 10;
-}
-.panel-body { padding: 16px 18px; }
-
-.section-title {
-  font-size: 11px; font-weight: 700; color: var(--green);
-  text-transform: uppercase; letter-spacing: 1px; margin: 14px 0 8px;
-  padding-bottom: 4px; border-bottom: 2px solid var(--green-light);
-  display: flex; align-items: center; gap: 6px;
-}
-
-.input-row { display: grid; gap: 6px; margin-bottom: 8px; }
-.input-row.col2 { grid-template-columns: 1fr 1fr; }
-.input-row.col3 { grid-template-columns: 1fr 1fr 1fr; }
-.input-row.col4 { grid-template-columns: 1fr 1fr 1fr 1fr; }
-
-label.lbl { display: block; font-size: 10px; font-weight: 700; color: #555; margin-bottom: 3px; }
-input[type="text"], input[type="number"], select, textarea {
-  width: 100%; padding: 7px 9px; border: 1px solid #d0dbd6;
-  border-radius: 5px; font-family: inherit; font-size: 12px;
-  background: var(--input-bg); color: #222; transition: border 0.2s;
-}
-input:focus, select:focus, textarea:focus {
-  outline: none; border-color: var(--green); box-shadow: 0 0 0 2px rgba(0,106,78,0.10);
-}
-
-/* Survey Type Tabs */
-.survey-tabs { display: flex; gap: 6px; margin-bottom: 12px; }
-.tab-btn {
-  flex: 1; padding: 8px 0; border: 2px solid #ddd;
-  border-radius: 6px; background: #f5f5f5; cursor: pointer;
-  font-family: inherit; font-size: 13px; font-weight: 700;
-  transition: all 0.2s; color: #777;
-}
-.tab-btn.active { background: var(--green); border-color: var(--green); color: #fff; }
-
-/* Side table */
-.side-header {
-  display: grid; grid-template-columns: 30px 1.5fr 0.9fr 0.9fr 0.9fr 36px;
-  gap: 4px; font-size: 10px; font-weight: 700; color: #888;
-  margin-bottom: 4px; padding: 0 2px; text-align: center;
-}
-.side-row {
-  display: grid; grid-template-columns: 30px 1.5fr 0.9fr 0.9fr 0.9fr 36px;
-  gap: 4px; margin-bottom: 5px; align-items: center;
-}
-.side-num {
-  width: 28px; height: 28px; background: var(--green); color: #fff;
-  border-radius: 50%; display: flex; align-items: center; justify-content: center;
-  font-size: 11px; font-weight: 700;
-}
-.side-row input { padding: 5px 6px; font-size: 12px; text-align: center; }
-
-/* Chou */
-.chou-header {
-  display: grid; grid-template-columns: 0.8fr 1.5fr 36px;
-  gap: 4px; font-size: 10px; font-weight: 700; color: #888;
-  margin-bottom: 4px; padding: 0 2px;
-}
-.chou-row {
-  display: grid; grid-template-columns: 0.8fr 1.5fr 36px;
-  gap: 4px; margin-bottom: 5px; align-items: center;
-}
-
-.del-btn {
-  width: 28px; height: 28px; background: #fff; color: #c0392b;
-  border: 1px solid #e0c0c0; border-radius: 5px; cursor: pointer;
-  font-weight: 900; font-size: 14px; display: flex; align-items: center;
-  justify-content: center; transition: background 0.15s; flex-shrink: 0;
-}
-.del-btn:hover { background: #fde8e8; }
-
-.btn { width: 100%; padding: 8px; border: none; border-radius: 6px; font-weight: 700; cursor: pointer; font-family: inherit; font-size: 12px; transition: all 0.2s; }
-.btn-add { background: var(--green-light); color: var(--green); border: 1.5px dashed var(--green); margin-bottom: 5px; }
-.btn-add:hover { background: #d0eae3; }
-.btn-draw { background: var(--green); color: #fff; margin-top: 10px; font-size: 13px; padding: 10px; }
-.btn-draw:hover { background: var(--green-mid); }
-.btn-print { background: var(--dark); color: #fff; margin-top: 6px; font-size: 14px; padding: 11px; }
-.btn-print:hover { background: #333; }
-.btn-reset { background: #fff; color: #999; border: 1px solid #ddd; font-size: 11px; padding: 7px; margin-top: 4px; }
-
-/* Scale panel */
-.scale-box { background: var(--green-light); border: 1px solid #b5d9ce; border-radius: 6px; padding: 10px; margin-bottom: 8px; }
-.scale-box label.lbl { color: var(--green); }
-.scale-info { font-size: 10px; color: #558878; margin-top: 5px; line-height: 1.5; }
-
-/* Shape selector */
-.shape-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-bottom: 8px; }
-.shape-btn {
-  padding: 8px 4px; border: 2px solid #ddd; border-radius: 6px;
-  background: #f9f9f9; cursor: pointer; font-family: inherit;
-  font-size: 11px; font-weight: 600; text-align: center; color: #555;
-  transition: all 0.2s;
-}
-.shape-btn:hover, .shape-btn.active { border-color: var(--green); background: var(--green-light); color: var(--green); }
-.shape-btn .shape-icon { font-size: 18px; display: block; margin-bottom: 3px; }
-
-/* Angle input (for irregular) */
-.angle-hint { font-size: 10px; color: #888; margin-top: 3px; }
-
-/* ── PREVIEW AREA ── */
-.preview-area { margin-left: 460px; padding: 24px; display: flex; justify-content: center; min-height: 100vh; }
-
-/* A4 Page */
-.a4-page {
-  width: 210mm; min-height: 297mm; background: var(--paper);
-  padding: 8mm 10mm; position: relative; display: flex;
-  flex-direction: column; box-shadow: 0 4px 30px rgba(0,0,0,0.18);
-}
-
-/* Letterhead */
-.pad-header { text-align: center; padding-bottom: 8px; margin-bottom: 8px; position: relative; }
-.pad-header::after { content: ''; display: block; height: 3px; background: linear-gradient(90deg, var(--green) 0%, var(--gold) 50%, var(--green) 100%); margin-top: 8px; }
-.pad-header h1 { font-family: 'Tiro Bangla', serif; color: var(--green); font-size: 22px; margin-bottom: 2px; }
-.pad-header .sub { font-size: 11px; color: #555; font-weight: 600; }
-.pad-header .reg { font-size: 10px; color: var(--gold); font-weight: 700; margin-top: 2px; }
-
-/* Survey badge */
-.survey-badge {
-  display: inline-block; padding: 2px 10px; border-radius: 3px;
-  font-size: 11px; font-weight: 700; letter-spacing: 1px;
-  border: 1.5px solid; margin: 3px 0;
-}
-.badge-rs { background: #e8f4e8; color: #1a6b1a; border-color: #1a6b1a; }
-.badge-cs { background: #e8e8f8; color: #1a1a8b; border-color: #1a1a8b; }
-.badge-bs { background: #f8f0e8; color: #8b4a1a; border-color: #8b4a1a; }
-.badge-sa { background: #f8e8e8; color: #8b1a1a; border-color: #8b1a1a; }
-
-/* Meta grid */
-.meta-grid {
-  display: grid; grid-template-columns: repeat(4, 1fr);
-  font-size: 10px; font-weight: 600; margin-bottom: 6px;
-  background: #f5faf8; border: 1px solid #d0e8df;
-  border-radius: 4px; overflow: hidden;
-}
-.meta-cell { padding: 5px 7px; border-right: 1px solid #d0e8df; }
-.meta-cell:last-child { border-right: none; }
-.meta-cell .meta-lbl { color: var(--green); font-size: 9px; display: block; margin-bottom: 1px; }
-.meta-cell .meta-val { color: #222; font-size: 11px; font-weight: 700; }
-
-/* Land info bar */
-.land-bar {
-  display: flex; gap: 4px; flex-wrap: wrap; margin-bottom: 6px;
-  padding: 5px 8px; background: var(--green); border-radius: 4px;
-}
-.land-chip { color: #fff; font-size: 10px; font-weight: 700; }
-.land-chip span { color: #b8ffdf; }
-
-/* Canvas */
-.canvas-wrap {
-  flex-grow: 1; border: 1.5px solid #333; background: #fff;
-  position: relative; overflow: hidden; min-height: 280px;
-}
-#noksha-canvas { width: 100%; height: 100%; display: block; }
-
-.north-badge {
-  position: absolute; top: 8px; right: 10px;
-  background: #fff; border: 1.5px solid var(--green);
-  color: var(--green); font-weight: 900; font-size: 13px;
-  padding: 2px 6px; border-radius: 3px;
-}
-.scale-bar {
-  position: absolute; bottom: 8px; left: 10px;
-  background: rgba(255,255,255,0.9); padding: 3px 6px;
-  border: 1px solid #999; font-size: 9px; color: #333;
-}
-.scale-bar .bar { height: 6px; background: linear-gradient(90deg, #000 50%, #fff 50%); border: 1px solid #000; margin-bottom: 2px; }
-
-/* Bottom section */
-.bottom-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 8px; border-top: 2px solid var(--green); padding-top: 8px; }
-
-.boundary-table { width: 100%; border-collapse: collapse; font-size: 11px; }
-.boundary-table th { background: var(--green); color: #fff; padding: 4px 6px; font-size: 10px; text-align: left; }
-.boundary-table td { border: 1px solid #d0e8df; padding: 4px 6px; color: #222; }
-.boundary-table tr:nth-child(even) td { background: #f5faf8; }
-
-.calc-box {
-  background: var(--green-light); border: 1px solid #b5d9ce;
-  border-radius: 4px; padding: 8px; margin-top: 8px;
-  font-size: 12px; line-height: 1.8; font-weight: 600;
-}
-.calc-box .big { font-size: 14px; font-weight: 700; color: var(--green); }
-
-.sig-box { text-align: right; display: flex; flex-direction: column; justify-content: flex-end; gap: 8px; }
-.sig-line { border-top: 1.5px solid #333; padding-top: 4px; font-size: 10px; color: #555; font-weight: 600; margin-top: 30px; }
-.office-seal { border: 2px dashed #bbb; border-radius: 50%; width: 80px; height: 80px; display: flex; align-items: center; justify-content: center; font-size: 9px; color: #bbb; text-align: center; margin-left: auto; }
-
-.footnote { font-size: 9px; color: #999; text-align: center; margin-top: 6px; border-top: 1px solid #eee; padding-top: 4px; }
-
-/* Print */
-@media print {
-  @page { 
-    size: A4; 
-    margin: 0; 
-  }
-  
-  /* Sidebar, Header ar Buttons hide kora */
-  .control-panel, .panel-header, .btn, .btn-draw, .btn-print, .btn-add { 
-    display: none !important; 
-  }
-
-  /* Preview area-ke center kora */
-  .preview-area {
-    margin: 0 !important;
-    padding: 0 !important;
-    display: block !important;
-    width: 100% !important;
-  }
-
-  /* 1 Page-e fit korar main magic */
-  .a4-page {
-    width: 210mm !important;
-    height: 297mm !important;
-    margin: 0 auto !important;
-    padding: 8mm !important; 
-    box-shadow: none !important;
-    border: none !important;
-    page-break-after: avoid;
-    /* Pura content-ke halka choto korbe jate 1 page-e dhuke */
-    transform: scale(0.95); 
-    transform-origin: top center;
-  }
-
-  /* Noksha canvas-er height print-er jonno fixed kora */
-  .canvas-wrap {
-    height: 420px !important;
-    max-height: 420px !important;
-    overflow: hidden !important;
-  }
-
-  /* Background graphics on rakhar jonno */
-  body {
-    background: white !important;
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
-  }
-}
+input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none}
+input[type=number]{-moz-appearance:textfield}
 </style>
 </head>
 <body>
+<div class="app-wrap">
 
-<!-- ═══════════ CONTROL PANEL ═══════════ -->
-<div class="control-panel">
-  <div class="panel-header">
-    <span>🗺</span> বাংলাদেশ ভূমি জরিপ — নকশা কনফিগারেশন
+<div class="left-panel">
+  <div class="panel-head">
+    🗺 বাংলাদেশ ভূমি জরিপ — নকশা
+    <button class="mobile-toggle" id="mobileToggle" onclick="toggleView()">👁 প্রিভিউ</button>
   </div>
-  <div class="panel-body">
-
-    <!-- Survey Type -->
-    <div class="section-title">📋 জরিপের ধরন</div>
-    <div class="survey-tabs">
-      <button class="tab-btn active" onclick="setSurveyType('RS')">RS জরিপ</button>
-      <button class="tab-btn" onclick="setSurveyType('CS')">CS জরিপ</button>
-      <button class="tab-btn" onclick="setSurveyType('BS')">BS জরিপ</button>
-      <button class="tab-btn" onclick="setSurveyType('SA')">SA জরিপ</button>
+  <div class="panel-body show" id="panelBody">
+    <div class="sec-title">📋 জরিপের ধরন</div>
+    <div class="tabs">
+      <button class="tab-btn active" onclick="setSurvey('RS',this)">RS জরিপ</button>
+      <button class="tab-btn" onclick="setSurvey('CS',this)">CS জরিপ</button>
+      <button class="tab-btn" onclick="setSurvey('BS',this)">BS জরিপ</button>
+      <button class="tab-btn" onclick="setSurvey('SA',this)">SA জরিপ</button>
     </div>
 
-    <!-- Institute Info -->
-    <div class="section-title">🏛 প্রতিষ্ঠানের তথ্য</div>
-    <div class="input-row">
-      <div><label class="lbl">প্রতিষ্ঠানের নাম</label>
-        <input type="text" id="hTitle" value="ডিজিটাল ভূমি জরিপ ও নকশা কেন্দ্র" oninput="updateUI()">
-      </div>
-    </div>
-    <div class="input-row col3">
-      <div><label class="lbl">মোবাইল</label><input type="text" id="hPhone" value="+৮৮০-১৭০০-০০০০০" oninput="updateUI()"></div>
-      <div><label class="lbl">রেজিস্ট্রেশন</label><input type="text" id="hReg" value="REG-২০২৬" oninput="updateUI()"></div>
-      <div><label class="lbl">লাইসেন্স</label><input type="text" id="hLic" value="LIC-DHAKA" oninput="updateUI()"></div>
+    <div class="sec-title">🏛 প্রতিষ্ঠানের তথ্য</div>
+    <div class="field"><label>প্রতিষ্ঠানের নাম</label><input id="hTitle" value="ডিজিটাল ভূমি জরিপ ও নকশা কেন্দ্র" oninput="updatePreview()"></div>
+    <div class="row3">
+      <div class="field"><label>মোবাইল</label><input id="hPhone" value="+৮৮০-১৭০০-০০০০০" oninput="updatePreview()"></div>
+      <div class="field"><label>রেজিস্ট্রেশন</label><input id="hReg" value="REG-২০২৬" oninput="updatePreview()"></div>
+      <div class="field"><label>লাইসেন্স</label><input id="hLic" value="LIC-DHAKA" oninput="updatePreview()"></div>
     </div>
 
-    <!-- Land Record -->
-    <div class="section-title">📄 জমির রেকর্ড তথ্য</div>
-    <div class="input-row col2">
-      <div><label class="lbl">খতিয়ান নং</label><input type="text" id="khatianNo" value="খতিয়ান: ২৪৫" oninput="updateUI()"></div>
-      <div><label class="lbl">দাগ নং</label><input type="text" id="dagNo" value="দাগ: ১০৫" oninput="updateUI()"></div>
+    <div class="sec-title">📄 জমির রেকর্ড তথ্য</div>
+    <div class="row2">
+      <div class="field"><label>খতিয়ান নং</label><input id="khatianNo" value="খতিয়ান: ২৪৫" oninput="updatePreview()"></div>
+      <div class="field"><label>দাগ নং</label><input id="dagNo" value="দাগ: ১০৫" oninput="updatePreview()"></div>
     </div>
-    <div class="input-row col3">
-      <div><label class="lbl">মৌজা</label><input type="text" id="moujaName" value="চকবাজার" oninput="updateUI()"></div>
-      <div><label class="lbl">উপজেলা</label><input type="text" id="upojelaName" value="কোতোয়ালী" oninput="updateUI()"></div>
-      <div><label class="lbl">জেলা</label><input type="text" id="jelaName" value="ঢাকা" oninput="updateUI()"></div>
+    <div class="row3">
+      <div class="field"><label>মৌজা</label><input id="moujaName" value="চকবাজার" oninput="updatePreview()"></div>
+      <div class="field"><label>উপজেলা</label><input id="upojelaName" value="কোতোয়ালী" oninput="updatePreview()"></div>
+      <div class="field"><label>জেলা</label><input id="jelaName" value="ঢাকা" oninput="updatePreview()"></div>
     </div>
-    <div class="input-row col2">
-      <div><label class="lbl">বিভাগ</label><input type="text" id="bibhagName" value="ঢাকা বিভাগ" oninput="updateUI()"></div>
-      <div><label class="lbl">জরিপ বর্ষ</label><input type="text" id="srvYear" value="২০২৪" oninput="updateUI()"></div>
+    <div class="row2">
+      <div class="field"><label>বিভাগ</label><input id="bibhagName" value="ঢাকা বিভাগ" oninput="updatePreview()"></div>
+      <div class="field"><label>জরিপ বর্ষ</label><input id="srvYear" value="২০২৪" oninput="updatePreview()"></div>
     </div>
-    <div class="input-row">
-      <div><label class="lbl">মালিকের বিস্তারিত</label>
-        <textarea id="ownerDetails" rows="2" oninput="updateUI()">মালিক: মো: আব্দুল করিম, পিতা: মৃত রহিম উদ্দিন, গ্রাম: চকবাজার।</textarea>
-      </div>
+    <div class="field"><label>মালিকের বিস্তারিত</label>
+      <textarea id="ownerDetails" rows="2" oninput="updatePreview()">মালিক: মো: আব্দুল করিম, পিতা: মৃত রহিম উদ্দিন, গ্রাম: চকবাজার।</textarea>
     </div>
 
-    <!-- Scale System -->
-    <div class="section-title">📐 স্কেল সিস্টেম (বাংলাদেশ মান)</div>
+    <div class="sec-title">📐 স্কেল সিস্টেম</div>
     <div class="scale-box">
-      <label class="lbl">প্রিসেট স্কেল নির্বাচন করুন</label>
-      <select id="scalePreset" onchange="applyScalePreset()">
-        <option value="custom">কাস্টম স্কেল</option>
-        <optgroup label="— সরকারি স্কেল (বাংলাদেশ) —">
-          <option value="16_1mile">16 ইঞ্চি = 1 মাইল (RS/CS মৌজা ম্যাপ)</option>
-          <option value="32_1mile">32 ইঞ্চি = 1 মাইল (বিস্তারিত নকশা)</option>
-          <option value="8_1mile">8 ইঞ্চি = 1 মাইল (থানা/উপজেলা)</option>
-          <option value="4_1mile">4 ইঞ্চি = 1 মাইল (জেলা মানচিত্র)</option>
-        </optgroup>
-        <optgroup label="— মেট্রিক স্কেল —">
-          <option value="1_500">1:500</option>
-          <option value="1_1000">1:1000</option>
-          <option value="1_2000">1:2000</option>
-          <option value="1_5000">1:5000</option>
-        </optgroup>
-        <optgroup label="— প্রচলিত একক —">
-          <option value="link">1 ইঞ্চি = 1 শৃঙ্খল (চেইন)</option>
-        </optgroup>
-      </select>
-      <div class="scale-info" id="scaleInfo">স্কেল: 16" = 1 মাইল | 1 ফুট = ০.০০৩ ইঞ্চি | ক্যানভাস পিক্সেল/ফুট: ৩.৪৪</div>
+      <div class="field" style="margin-bottom:6px">
+        <label style="color:#006a4e">প্রিসেট স্কেল</label>
+        <select id="scaleKey" onchange="applyScale(this.value)">
+          <optgroup label="ইঞ্চি-মাইল (সরকারি)">
+            <option value="16_1mile" selected>16" = 1 মাইল — RS/CS মৌজা</option>
+            <option value="32_1mile">32" = 1 মাইল — শহর বিস্তারিত</option>
+            <option value="48_1mile">48" = 1 মাইল — বড় নকশা</option>
+            <option value="64_1mile">64" = 1 মাইল — অতি বিস্তারিত</option>
+            <option value="8_1mile">8" = 1 মাইল — থানা/উপজেলা</option>
+            <option value="4_1mile">4" = 1 মাইল — জেলা</option>
+            <option value="2_1mile">2" = 1 মাইল — বিভাগ</option>
+            <option value="1_1mile">1" = 1 মাইল — জাতীয়</option>
+          </optgroup>
+          <optgroup label="চেইন স্কেল (পুরনো)">
+            <option value="4_1chain">4" = 1 চেইন — শহর প্লট</option>
+            <option value="2_1chain">2" = 1 চেইন — বিস্তারিত প্লট</option>
+            <option value="1_1chain">1" = 1 চেইন — মাঠ জরিপ</option>
+          </optgroup>
+          <optgroup label="মেট্রিক স্কেল (নতুন)">
+            <option value="1_500">1:500 — পৌরসভা</option>
+            <option value="1_1000">1:1000 — উপশহর</option>
+            <option value="1_2000">1:2000 — গ্রামাঞ্চল</option>
+            <option value="1_2500">1:2500 — গ্রামাঞ্চল (RS)</option>
+            <option value="1_5000">1:5000 — বড় এলাকা</option>
+            <option value="1_10000">1:10000 — উপজেলা</option>
+            <option value="1_25000">1:25000 — জেলা</option>
+            <option value="1_50000">1:50000 — বিভাগ</option>
+          </optgroup>
+          <option value="custom">কাস্টম</option>
+        </select>
+      </div>
+      <div class="scale-info" id="scaleInfo"></div>
     </div>
-    <div>
-      <label class="lbl">ফাইন-টিউন (পিক্সেল/ফুট): <span id="zoomVal">3.44</span></label>
-      <input type="range" id="zoom" min="1" max="150" step="0.01" value="3.44" style="width:100%;" oninput="onZoom()">
+    <div class="field">
+      <label>ফাইন-টিউন: <span id="zoomVal">0</span> px/ft</label>
+      <input type="range" id="zoomRange" min="0.01" max="200" step="0.01" style="width:100%"
+        oninput="setZoom(+this.value);document.getElementById('scaleKey').value='custom'">
     </div>
 
-    <!-- Shape Selector -->
-    <div class="section-title">🔷 জমির আকৃতি</div>
+    <div class="sec-title">🔷 জমির আকৃতি</div>
     <div class="shape-grid">
-      <button class="shape-btn active" onclick="setShape('quad')" id="shp-quad"><span class="shape-icon">▭</span>চতুর্ভুজ</button>
-      <button class="shape-btn" onclick="setShape('tri')" id="shp-tri"><span class="shape-icon">△</span>ত্রিভুজ</button>
-      <button class="shape-btn" onclick="setShape('irr')" id="shp-irr"><span class="shape-icon">⬠</span>অনিয়মিত</button>
-      <button class="shape-btn" onclick="setShape('lshape')" id="shp-lshape"><span class="shape-icon">⌐</span>L-আকৃতি</button>
+      <button class="shape-btn active" onclick="loadShape('quad',this)"><span class="icon">▭</span>চতুর্ভুজ</button>
+      <button class="shape-btn" onclick="loadShape('tri',this)"><span class="icon">△</span>ত্রিভুজ</button>
+      <button class="shape-btn" onclick="loadShape('irr',this)"><span class="icon">⬠</span>অনিয়মিত</button>
+      <button class="shape-btn" onclick="loadShape('lshape',this)"><span class="icon">⌐</span>L-আকৃতি</button>
     </div>
 
-    <!-- Side Inputs -->
-    <div class="section-title">📏 বাহুর মাপ</div>
-    <div class="side-header">
-      <span>#</span><span>বাহুর নাম/দিক</span><span>ফুট</span><span>শতাংশ</span><span>কোণ°</span><span></span>
-    </div>
-    <div id="sideInputs"></div>
-    <button class="btn btn-add" onclick="addSide('নতুন বাহু', 0, 0, 90)">+ বাহু যোগ করুন</button>
+    <div class="sec-title">📏 বাহুর মাপ</div>
+    <div class="sides-header"><span>#</span><span>নাম</span><span>ফুট★</span><span>লিংক</span><span>কোণ°</span><span></span></div>
+    <div id="sidesBody"></div>
+    <button class="add-btn" onclick="addSide()">+ বাহু যোগ করুন</button>
 
-    <!-- Chou -->
-    <div class="section-title">🧭 চৌহদ্দি (সীমানা)</div>
+    <div class="sec-title">🧭 চৌহদ্দি</div>
     <div class="chou-header"><span>দিক</span><span>সীমান্তবর্তী</span><span></span></div>
-    <div id="chouInputs"></div>
-    <button class="btn btn-add" onclick="addChou('দিক', 'মালিকের নাম/পরিচয়')">+ চৌহদ্দি যোগ করুন</button>
+    <div id="chouBody"></div>
+    <button class="add-btn" onclick="addChou()">+ চৌহদ্দি যোগ করুন</button>
 
-    <!-- Actions -->
-    <div class="section-title">⚙️ কার্যক্রম</div>
-    <button class="btn btn-draw" onclick="draw()">🔄 নকশা আঁকুন / রিফ্রেশ করুন</button>
-    <button class="btn btn-print" onclick="window.print()">🖨️ প্রিন্ট / PDF সেভ করুন</button>
-    <button class="btn btn-reset" onclick="resetAll()">↩ সব রিসেট করুন</button>
-
+    <div class="sec-title">⚙️ কার্যক্রম</div>
+    <button class="draw-btn" onclick="draw()">🔄 নকশা রিফ্রেশ</button>
+    <button class="print-btn" id="pdfBtn" onclick="generatePDF()">🖨️ প্রিন্ট / PDF</button>
+    <button class="reset-btn" onclick="resetAll()">↩ রিসেট</button>
   </div>
 </div>
 
-<!-- ═══════════ PREVIEW / A4 PAGE ═══════════ -->
-<div class="preview-area">
-  <div class="a4-page">
-
-    <!-- Header -->
-    <div class="pad-header">
-      <div id="outBadge" class="survey-badge badge-rs">RS জরিপ | Revisional Survey</div>
-      <h1 id="outTitle">ডিজিটাল ভূমি জরিপ ও নকশা কেন্দ্র</h1>
-      <div class="sub" id="outSub">মোবাইল: +৮৮০-১৭০০-০০০০০ | REG-২০২৬ | LIC-DHAKA</div>
+<div class="right-preview show" id="rightPreview">
+  <div class="a4" id="a4Doc">
+    <div class="cert-header">
+      <span class="survey-badge" id="surveyBadge" style="border:1.5px solid #1a6b1a;background:#e8f4e8;color:#1a6b1a">RS জরিপ | Revisional Survey</span>
+      <div class="cert-org-name" id="cvTitle">ডিজিটাল ভূমি জরিপ ও নকশা কেন্দ্র</div>
+      <div class="cert-org-sub" id="cvSub">মোবাইল: +৮৮০-১৭০০-০০০০০ | REG-২০২৬ | LIC-DHAKA</div>
     </div>
-
-    <!-- Meta grid -->
-    <div class="meta-grid">
-      <div class="meta-cell"><span class="meta-lbl">খতিয়ান নং</span><span class="meta-val" id="outKhatian">—</span></div>
-      <div class="meta-cell"><span class="meta-lbl">দাগ নং</span><span class="meta-val" id="outDag">—</span></div>
-      <div class="meta-cell"><span class="meta-lbl">জরিপ বর্ষ</span><span class="meta-val" id="outSrvYear">—</span></div>
-      <div class="meta-cell"><span class="meta-lbl">তারিখ</span><span class="meta-val" id="outDate">—</span></div>
+    <div class="cert-meta-row">
+      <div class="cert-meta-cell"><span class="mlabel">খতিয়ান নং</span><span class="mval" id="cvKhatian">খতিয়ান: ২৪৫</span></div>
+      <div class="cert-meta-cell"><span class="mlabel">দাগ নং</span><span class="mval" id="cvDag">দাগ: ১০৫</span></div>
+      <div class="cert-meta-cell"><span class="mlabel">জরিপ বর্ষ</span><span class="mval" id="cvYear">২০২৪</span></div>
+      <div class="cert-meta-cell"><span class="mlabel">তারিখ</span><span class="mval" id="cvDate"></span></div>
     </div>
-
-    <!-- Land bar -->
-    <div class="land-bar">
-      <div class="land-chip">মৌজা: <span id="outMouja">—</span></div>
-      <div class="land-chip" style="color:#ccc;">|</div>
-      <div class="land-chip">উপজেলা: <span id="outUpojela">—</span></div>
-      <div class="land-chip" style="color:#ccc;">|</div>
-      <div class="land-chip">জেলা: <span id="outJela">—</span></div>
-      <div class="land-chip" style="color:#ccc;">|</div>
-      <div class="land-chip">বিভাগ: <span id="outBibhag">—</span></div>
+    <div class="cert-location" id="cvLocation">
+      <span>মৌজা: <b>চকবাজার</b></span><span>| উপজেলা: <b>কোতোয়ালী</b></span><span>| জেলা: <b>ঢাকা</b></span><span>| বিভাগ: <b>ঢাকা বিভাগ</b></span>
     </div>
-
-    <!-- Owner -->
-    <div id="outOwner" style="font-size:11px; font-weight:600; margin-bottom: 7px; padding: 4px 7px; background:#fffde8; border-left: 3px solid var(--gold); color:#333;">—</div>
-
-    <!-- Canvas -->
-    <div class="canvas-wrap" id="canvasWrap">
-      <canvas id="noksha-canvas"></canvas>
-      <div class="north-badge">N ↑</div>
-      <div class="scale-bar" id="scaleBarLabel">
-        <div class="bar" id="scaleBarDiv" style="width:50px;"></div>
-        <span id="scaleBarText">১০০ ফুট</span>
+    <div class="cert-owner" id="cvOwner">মালিক: মো: আব্দুল করিম, পিতা: মৃত রহিম উদ্দিন, গ্রাম: চকবাজার।</div>
+    <div class="cert-canvas-wrap" id="mapWrap">
+      <canvas id="map-canvas"></canvas>
+      <div class="north-tag">N ↑</div>
+      <!-- SCALE LEGEND — সবসময় দেখাবে, print এও থাকবে -->
+      <div class="scale-legend" id="scaleLegend">
+        <div class="scale-legend-title">📏 স্কেল</div>
+        <div class="scale-bar-row">
+          <div class="scale-bar-strip" id="scaleBarStrip" style="width:80px">
+            <span class="scale-bar-half" style="width:50%;background:#000;display:inline-block"></span>
+            <span class="scale-bar-half" style="width:50%;background:#fff;display:inline-block"></span>
+          </div>
+        </div>
+        <div class="scale-text" id="scaleBarLabel">0 ━━━ 100 ফুট</div>
+        <div class="scale-text" id="scaleLabelText" style="font-weight:700;color:#006a4e">16" = 1 মাইল</div>
+        <div class="scale-ratio" id="scaleRatioText">অনুপাত: 1:3,960</div>
       </div>
     </div>
-
-    <!-- Bottom -->
-    <div class="bottom-grid">
+    <div class="cert-bottom">
       <div>
-        <h4 style="font-size:12px; color:var(--green); margin-bottom:5px; font-weight:700;">চৌহদ্দি ও সীমানা তালিকা:</h4>
-        <table class="boundary-table" id="outChouTable">
-          <thead><tr><th>দিক</th><th>সীমান্তবর্তী জমি / পরিচয়</th></tr></thead>
-          <tbody></tbody>
-        </table>
-        <div class="calc-box" id="outCalc">ক্ষেত্রফল গণনা হচ্ছে...</div>
-        <div style="font-size: 10px; color: #777; margin-top: 5px;" id="outScaleNote">স্কেল: ১৬" = ১ মাইল (RS/CS মান)</div>
-      </div>
-      <div class="sig-box">
-        <div class="office-seal">অফিস সীল</div>
-        <div>
-          <div class="sig-line">তদন্তকারী সার্ভেয়ারের স্বাক্ষর ও সীল</div>
-          <div class="sig-line" style="margin-top:30px;">অনুমোদনকারী কর্মকর্তার স্বাক্ষর</div>
+        <div style="font-size:12px;color:#006a4e;font-weight:700;margin-bottom:5px">চৌহদ্দি ও সীমানা:</div>
+        <table class="chou-table"><thead><tr><th>দিক</th><th>সীমান্তবর্তী</th></tr></thead><tbody id="cvChouBody"></tbody></table>
+        <div class="area-box">
+          <div class="area-title">ক্ষেত্রফল:</div>
+          <div>📐 <b id="aFt2">0.00</b> বর্গফুট | <b id="aSqm">0.00</b> বর্গমিটার</div>
+          <div>🌾 <b id="aSha">0.0000</b> শতাংশ | <b id="aDec">0.0000</b> ডেসিমেল</div>
+          <div>🏡 <b id="aKatha">0.000</b> কাঠা | <b id="aBigha">0.0000</b> বিঘা</div>
         </div>
       </div>
+      <div class="sig-area">
+        <div class="seal-circle">অফিস সীল</div>
+        <div class="sig-line">তদন্তকারী সার্ভেয়ারের স্বাক্ষর</div>
+        <div class="sig-line">অনুমোদনকারী কর্মকর্তার স্বাক্ষর</div>
+      </div>
     </div>
-
-    <div class="footnote" id="outFootnote">
-      এই নকশা বাংলাদেশ ভূমি জরিপ অধিদপ্তরের নিয়মানুযায়ী প্রস্তুতকৃত। | <span id="outSrvType">RS জরিপ</span> | সার্ভার: DHAKA-BD-01
-    </div>
+    <div class="cert-footer" id="cvFooter">এই নকশা বাংলাদেশ ভূমি জরিপ অধিদপ্তরের নিয়মানুযায়ী প্রস্তুতকৃত।</div>
   </div>
 </div>
 
+</div>
 <script>
-// ═══════════════════════════════════════════════
-//  SURVEY TYPE
-// ═══════════════════════════════════════════════
-let currentSurveyType = 'RS';
-const surveyMeta = {
-  RS: { label: 'RS জরিপ | Revisional Survey', badge: 'badge-rs', full: 'Revisional Survey (RS)' },
-  CS: { label: 'CS জরিপ | Cadastral Survey', badge: 'badge-cs', full: 'Cadastral Survey (CS)' },
-  BS: { label: 'BS জরিপ | Bangladesh Survey', badge: 'badge-bs', full: 'Bangladesh Survey (BS)' },
-  SA: { label: 'SA জরিপ | State Acquisition Survey', badge: 'badge-sa', full: 'State Acquisition Survey (SA)' },
+const SURVEY_META={
+  RS:{label:"RS জরিপ | Revisional Survey",full:"Revisional Survey (RS)",bg:"#e8f4e8",color:"#1a6b1a",border:"#1a6b1a"},
+  CS:{label:"CS জরিপ | Cadastral Survey",full:"Cadastral Survey (CS)",bg:"#e8e8f8",color:"#1a1a8b",border:"#1a1a8b"},
+  BS:{label:"BS জরিপ | Bangladesh Survey",full:"Bangladesh Survey (BS)",bg:"#f8f0e8",color:"#8b4a1a",border:"#8b4a1a"},
+  SA:{label:"SA জরিপ | State Acquisition",full:"State Acquisition (SA)",bg:"#f8e8e8",color:"#8b1a1a",border:"#8b1a1a"},
 };
 
-function setSurveyType(type) {
-  currentSurveyType = type;
-  document.querySelectorAll('.tab-btn').forEach((b, i) => {
-    b.classList.toggle('active', ['RS','CS','BS','SA'][i] === type);
+// px per foot এবং scale label ও ratio
+// 1 মাইল = 5280 ফুট, 96 DPI
+// 16" = 1 মাইল → px/ft = 16/5280 * 96
+const SCALE_PRESETS={
+  "16_1mile": {px:(16/5280)*96, label:'১৬" = ১ মাইল',    ratio:'1:3,960',  barFt:100},
+  "32_1mile": {px:(32/5280)*96, label:'৩২" = ১ মাইল',    ratio:'1:1,980',  barFt:50},
+  "48_1mile": {px:(48/5280)*96, label:'৪৮" = ১ মাইল',    ratio:'1:1,320',  barFt:50},
+  "64_1mile": {px:(64/5280)*96, label:'৬৪" = ১ মাইল',    ratio:'1:990',    barFt:25},
+  "8_1mile":  {px:(8/5280)*96,  label:'৮" = ১ মাইল',     ratio:'1:7,920',  barFt:200},
+  "4_1mile":  {px:(4/5280)*96,  label:'৪" = ১ মাইল',     ratio:'1:15,840', barFt:500},
+  "2_1mile":  {px:(2/5280)*96,  label:'২" = ১ মাইল',     ratio:'1:31,680', barFt:1000},
+  "1_1mile":  {px:(1/5280)*96,  label:'১" = ১ মাইল',     ratio:'1:63,360', barFt:2000},
+  // চেইন: 1 চেইন = 66 ফুট
+  "4_1chain": {px:(4/66)*96,    label:'৪" = ১ চেইন',     ratio:'1:198',    barFt:20},
+  "2_1chain": {px:(2/66)*96,    label:'২" = ১ চেইন',     ratio:'1:396',    barFt:40},
+  "1_1chain": {px:(1/66)*96,    label:'১" = ১ চেইন',     ratio:'1:792',    barFt:66},
+  // মেট্রিক: 1 ফুট = 0.3048 মিটার, 96dpi → px/m = 96/0.0254 = 3779.5
+  "1_500":    {px:96/0.0254/500*0.3048,   label:'১:৫০০',    ratio:'1:500',    barFt:50},
+  "1_1000":   {px:96/0.0254/1000*0.3048,  label:'১:১০০০',   ratio:'1:1,000',  barFt:100},
+  "1_2000":   {px:96/0.0254/2000*0.3048,  label:'১:২০০০',   ratio:'1:2,000',  barFt:200},
+  "1_2500":   {px:96/0.0254/2500*0.3048,  label:'১:২৫০০',   ratio:'1:2,500',  barFt:200},
+  "1_5000":   {px:96/0.0254/5000*0.3048,  label:'১:৫০০০',   ratio:'1:5,000',  barFt:500},
+  "1_10000":  {px:96/0.0254/10000*0.3048, label:'১:১০,০০০', ratio:'1:10,000', barFt:1000},
+  "1_25000":  {px:96/0.0254/25000*0.3048, label:'১:২৫,০০০', ratio:'1:25,000', barFt:2000},
+  "1_50000":  {px:96/0.0254/50000*0.3048, label:'১:৫০,০০০', ratio:'1:50,000', barFt:5000},
+  "custom":   {px:0.29,                   label:'কাস্টম',    ratio:'—',        barFt:100},
+};
+
+const SHAPE_DEFAULTS={
+  quad:[{label:"উত্তর",ft:120,ang:270},{label:"পূর্ব",ft:100,ang:0},{label:"দক্ষিণ",ft:120,ang:90},{label:"পশ্চিম",ft:100,ang:180}],
+  tri:[{label:"বাহু ক",ft:150,ang:270},{label:"বাহু খ",ft:130,ang:60},{label:"বাহু গ",ft:110,ang:180}],
+  irr:[{label:"উত্তর",ft:100,ang:270},{label:"উত্তর-পূর্ব",ft:80,ang:330},{label:"পূর্ব",ft:90,ang:45},{label:"দক্ষিণ",ft:110,ang:120},{label:"পশ্চিম",ft:95,ang:200}],
+  lshape:[{label:"উত্তর-১",ft:80,ang:270},{label:"পূর্ব-১",ft:60,ang:0},{label:"দক্ষিণ-১",ft:40,ang:90},{label:"পূর্ব-২",ft:60,ang:0},{label:"দক্ষিণ-২",ft:40,ang:90},{label:"পশ্চিম",ft:120,ang:180}],
+};
+const DEFAULT_CHOU=[
+  {dir:"উত্তর",val:"রাস্তা / পাকা রাস্তা"},
+  {dir:"দক্ষিণ",val:"নিজ জমি / ফসলি জমি"},
+  {dir:"পূর্ব",val:"পার্শ্ববর্তী মালিকের জমি"},
+  {dir:"পশ্চিম",val:"সরকারি খাল / নদী"},
+];
+
+let _id=0,uid=()=>++_id;
+let surveyType="RS",zoom=SCALE_PRESETS["16_1mile"].px,sides=[],chous=[],mobileView="form";
+let currentScaleKey="16_1mile";
+
+function init(){
+  document.getElementById("cvDate").textContent=new Date().toLocaleDateString("bn-BD",{year:"numeric",month:"long",day:"numeric"});
+  applyScale("16_1mile");
+  loadShape("quad",null);
+  chous=DEFAULT_CHOU.map(c=>({...c,id:uid()}));
+  renderChous();
+  handleResize();
+}
+
+function handleResize(){
+  const mobile=window.innerWidth<=900;
+  if(!mobile){
+    document.getElementById("panelBody").classList.add("show");
+    document.getElementById("rightPreview").classList.add("show");
+  }
+  setTimeout(draw,50);
+}
+
+function toggleView(){
+  if(window.innerWidth>900) return;
+  const panel=document.getElementById("panelBody");
+  const preview=document.getElementById("rightPreview");
+  const btn=document.getElementById("mobileToggle");
+  if(mobileView==="form"){
+    panel.classList.remove("show");preview.classList.add("show");
+    btn.textContent="✏️ ফর্ম";mobileView="preview";
+    setTimeout(draw,80);
+  } else {
+    panel.classList.add("show");preview.classList.remove("show");
+    btn.textContent="👁 প্রিভিউ";mobileView="form";
+  }
+}
+
+function setSurvey(type,btn){
+  surveyType=type;
+  document.querySelectorAll(".tab-btn").forEach(b=>b.classList.remove("active"));
+  btn.classList.add("active");updatePreview();
+}
+
+function loadShape(sh,btn){
+  if(btn){document.querySelectorAll(".shape-btn").forEach(b=>b.classList.remove("active"));btn.classList.add("active");}
+  sides=SHAPE_DEFAULTS[sh].map(s=>({...s,id:uid(),links:+(s.ft/66*100).toFixed(3)}));
+  renderSides();draw();
+}
+
+function applyScale(key){
+  currentScaleKey=key;
+  const sc=SCALE_PRESETS[key]||SCALE_PRESETS.custom;
+  zoom=sc.px;
+  document.getElementById("zoomRange").value=zoom;
+  document.getElementById("zoomVal").textContent=zoom.toFixed(4);
+  document.getElementById("scaleInfo").textContent=sc.label+" | অনুপাত: "+sc.ratio;
+  // Update legend
+  document.getElementById("scaleLabelText").textContent=sc.label;
+  document.getElementById("scaleRatioText").textContent="অনুপাত: "+sc.ratio;
+  draw();
+}
+
+function setZoom(val){
+  zoom=val;currentScaleKey="custom";
+  document.getElementById("zoomVal").textContent=zoom.toFixed(4);
+  document.getElementById("scaleInfo").textContent="কাস্টম | px/ft: "+zoom.toFixed(4);
+  document.getElementById("scaleLabelText").textContent="কাস্টম স্কেল";
+  document.getElementById("scaleRatioText").textContent="অনুপাত: —";
+  draw();
+}
+
+function renderSides(){
+  const body=document.getElementById("sidesBody");body.innerHTML="";
+  sides.forEach((s,i)=>{
+    const d=document.createElement("div");d.className="side-row";
+    d.innerHTML=`<div class="row-num">${i+1}</div>
+      <input class="name-inp" value="${s.label}" oninput="updateSideProp(${s.id},'label',this.value)">
+      <input class="ft-inp" type="number" value="${s.ft}" oninput="updateSideFt(${s.id},this.value)">
+      <input class="lnk-inp" type="number" value="${s.links}" oninput="updateSideLink(${s.id},this.value)">
+      <input class="ang-inp" type="number" value="${s.ang}" oninput="updateSideProp(${s.id},'ang',+this.value);draw()">
+      <button class="del-btn" onclick="delSide(${s.id})">✕</button>`;
+    body.appendChild(d);
   });
-  updateUI();
+}
+function updateSideProp(id,key,val){const s=sides.find(x=>x.id===id);if(s)s[key]=val;}
+function updateSideFt(id,val){const s=sides.find(x=>x.id===id);if(s){s.ft=+val;s.links=+(+val/66*100).toFixed(3);renderSides();draw();}}
+function updateSideLink(id,val){const s=sides.find(x=>x.id===id);if(s){s.links=+val;s.ft=+(+val*66/100).toFixed(2);renderSides();draw();}}
+function delSide(id){sides=sides.filter(s=>s.id!==id);renderSides();draw();}
+function addSide(){sides.push({id:uid(),label:"নতুন বাহু",ft:0,links:0,ang:0});renderSides();draw();}
+
+function renderChous(){
+  const body=document.getElementById("chouBody");body.innerHTML="";
+  chous.forEach(c=>{
+    const d=document.createElement("div");d.className="chou-row";
+    d.innerHTML=`<input value="${c.dir}" oninput="updateChouProp(${c.id},'dir',this.value)">
+      <input value="${c.val}" oninput="updateChouProp(${c.id},'val',this.value)">
+      <button class="del-btn" onclick="delChou(${c.id})">✕</button>`;
+    body.appendChild(d);
+  });
+  updateChouPreview();
+}
+function updateChouProp(id,key,val){const c=chous.find(x=>x.id===id);if(c){c[key]=val;updateChouPreview();}}
+function delChou(id){chous=chous.filter(c=>c.id!==id);renderChous();}
+function addChou(){chous.push({id:uid(),dir:"দিক",val:"মালিকের নাম"});renderChous();}
+function updateChouPreview(){
+  document.getElementById("cvChouBody").innerHTML=chous.map((c,i)=>
+    `<tr><td style="background:${i%2?"#f5faf8":"#fff"}"><b>${c.dir}</b></td><td style="background:${i%2?"#f5faf8":"#fff"}">${c.val}</td></tr>`
+  ).join("");
 }
 
-// ═══════════════════════════════════════════════
-//  SCALE SYSTEM
-// ═══════════════════════════════════════════════
-// px/ft = (inchesPerMile / 5280) * 96  (96 DPI screen)
-const scalePresets = {
-  '16_1mile':  { px: (16/5280)*96, label: "১৬\" = ১ মাইল (RS/CS মৌজা)", barFt: 100 },
-  '32_1mile':  { px: (32/5280)*96, label: "৩২\" = ১ মাইল (বিস্তারিত)", barFt: 50  },
-  '8_1mile':   { px: (8/5280)*96,  label: "৮\" = ১ মাইল (থানা/উপজেলা)", barFt: 200 },
-  '4_1mile':   { px: (4/5280)*96,  label: "৪\" = ১ মাইল (জেলা)", barFt: 500 },
-  '1_500':     { px: (0.0394/0.5)*10, label: "১:৫০০ (মেট্রিক)", barFt: 50  },
-  '1_1000':    { px: (0.0394/1)*10,   label: "১:১০০০ (মেট্রিক)", barFt: 100 },
-  '1_2000':    { px: (0.0394/2)*10,   label: "১:২০০০ (মেট্রিক)", barFt: 200 },
-  '1_5000':    { px: (0.0394/5)*10,   label: "১:৫০০০ (মেট্রিক)", barFt: 500 },
-  'link':      { px: 0.96,            label: "১\" = ১ চেইন (লিংক)", barFt: 66  },
-  'custom':    { px: 3.44,            label: "কাস্টম", barFt: 100 },
-};
-let currentScale = scalePresets['16_1mile'];
+function draw(){
+  const canvas=document.getElementById("map-canvas");
+  const wrap=document.getElementById("mapWrap");
+  if(!canvas||!wrap) return;
+  const W=wrap.clientWidth||600;
+  const H=wrap.clientHeight||300;
+  if(W===0||H===0) return;
+  const dpr=window.devicePixelRatio||1;
+  canvas.width=W*dpr;canvas.height=H*dpr;
+  canvas.style.width=W+"px";canvas.style.height=H+"px";
+  const ctx=canvas.getContext("2d");
+  ctx.scale(dpr,dpr);
 
-function applyScalePreset() {
-  const sel = document.getElementById('scalePreset');
-  if (!sel) return;
-  const key = sel.value;
-  const preset = scalePresets[key] || scalePresets['16_1mile'];
-  currentScale = preset;
-  const displayPx = Math.max(preset.px * 3.0, 1);
-  const zoomEl = document.getElementById('zoom');
-  const zoomVal = document.getElementById('zoomVal');
-  const scaleInfo = document.getElementById('scaleInfo');
-  if (zoomEl) zoomEl.value = displayPx;
-  if (zoomVal) zoomVal.textContent = displayPx.toFixed(2);
-  if (scaleInfo) scaleInfo.textContent = `স্কেল: ${preset.label} | পিক্সেল/ফুট: ${displayPx.toFixed(3)}`;
-  draw();
-}
+  // Build points with real px/ft zoom
+  let pts=[{x:0,y:0}],cx=0,cy=0;
+  sides.forEach(s=>{
+    const rad=s.ang*Math.PI/180;
+    cx+=(s.ft||0)*Math.cos(rad)*zoom;
+    cy+=(s.ft||0)*Math.sin(rad)*zoom;
+    pts.push({x:cx,y:cy});
+  });
 
-function onZoom() {
-  const zoomEl = document.getElementById('zoom');
-  if (!zoomEl) return;
-  const val = parseFloat(zoomEl.value);
-  const zoomVal = document.getElementById('zoomVal');
-  if (zoomVal) zoomVal.textContent = val.toFixed(2);
-  const sel = document.getElementById('scalePreset');
-  if (sel) sel.value = 'custom';
-  currentScale = { ...scalePresets['custom'], px: val };
-  draw();
-}
+  const xs=pts.map(p=>p.x),ys=pts.map(p=>p.y);
+  const minX=Math.min(...xs),maxX=Math.max(...xs);
+  const minY=Math.min(...ys),maxY=Math.max(...ys);
+  const pw=maxX-minX||1,ph=maxY-minY||1;
 
-// ═══════════════════════════════════════════════
-//  SHAPE
-// ═══════════════════════════════════════════════
-let currentShape = 'quad';
-const shapeDefaults = {
-  quad: [
-    { label: 'উত্তর', ft: 120, ang: 270 },
-    { label: 'পূর্ব',  ft: 100, ang: 0   },
-    { label: 'দক্ষিণ', ft: 120, ang: 90  },
-    { label: 'পশ্চিম', ft: 100, ang: 180 },
-  ],
-  tri: [
-    { label: 'বাহু ক', ft: 150, ang: 270 },
-    { label: 'বাহু খ', ft: 130, ang: 60  },
-    { label: 'বাহু গ', ft: 110, ang: 180 },
-  ],
-  irr: [
-    { label: 'উত্তর',      ft: 100, ang: 270 },
-    { label: 'উত্তর-পূর্ব', ft: 80,  ang: 330 },
-    { label: 'পূর্ব',      ft: 90,  ang: 45  },
-    { label: 'দক্ষিণ',     ft: 110, ang: 120 },
-    { label: 'পশ্চিম',     ft: 95,  ang: 200 },
-  ],
-  lshape: [
-    { label: 'উত্তর-১',  ft: 80,  ang: 270 },
-    { label: 'পূর্ব-১',  ft: 60,  ang: 0   },
-    { label: 'দক্ষিণ-১', ft: 40,  ang: 90  },
-    { label: 'পূর্ব-২',  ft: 60,  ang: 0   },
-    { label: 'দক্ষিণ-২', ft: 40,  ang: 90  },
-    { label: 'পশ্চিম',   ft: 120, ang: 180 },
-  ],
-};
+  // Auto-fit: scale down if too big, but never scale up beyond real scale
+  const pad=56;
+  const fitScale=Math.min((W-pad*2)/pw,(H-pad*2)/ph,1);
+  const sc=zoom*fitScale;
 
-function setShape(shape) {
-  currentShape = shape;
-  document.querySelectorAll('.shape-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById('shp-' + shape).classList.add('active');
-  loadShapeDefaults(shape);
-}
+  // Rebuild with display scale
+  let pts2=[{x:0,y:0}];cx=0;cy=0;
+  sides.forEach(s=>{
+    const rad=s.ang*Math.PI/180;
+    cx+=(s.ft||0)*Math.cos(rad)*sc;
+    cy+=(s.ft||0)*Math.sin(rad)*sc;
+    pts2.push({x:cx,y:cy});
+  });
+  const xs2=pts2.map(p=>p.x),ys2=pts2.map(p=>p.y);
+  const minX2=Math.min(...xs2),maxX2=Math.max(...xs2);
+  const minY2=Math.min(...ys2),maxY2=Math.max(...ys2);
+  const ox=(W-(maxX2-minX2))/2-minX2;
+  const oy=(H-(maxY2-minY2))/2-minY2;
 
-function loadShapeDefaults(shape) {
-  document.getElementById('sideInputs').innerHTML = '';
-  shapeDefaults[shape].forEach(s => addSide(s.label, s.ft, 0, s.ang));
-}
-
-// ═══════════════════════════════════════════════
-//  SIDE INPUTS
-// ═══════════════════════════════════════════════
-let sideCount = 0;
-function addSide(label, ft, shataangsho, angle) {
-  sideCount++;
-  const container = document.getElementById('sideInputs');
-  const div = document.createElement('div');
-  div.className = 'side-row';
-  div.innerHTML = `
-    <div class="side-num">${sideCount}</div>
-    <input type="text" class="s-label" value="${label}" oninput="draw()" placeholder="দিক/নাম">
-    <input type="number" class="s-dist" value="${ft}" oninput="syncUnits(this)" step="0.1" placeholder="ফুট">
-    <input type="number" class="s-sha" value="${shataangsho}" oninput="syncFromSha(this)" step="0.001" placeholder="শতাংশ" style="background:#fffde8;">
-    <input type="number" class="s-ang" value="${angle}" oninput="draw()" step="1" placeholder="°" style="background:#f0f4ff;">
-    <button class="del-btn" onclick="this.parentElement.remove(); renumberSides(); draw();">✕</button>
-  `;
-  container.appendChild(div);
-  draw();
-}
-
-function syncUnits(ftInput) {
-  const row = ftInput.closest('.side-row');
-  const ft = parseFloat(ftInput.value) || 0;
-  // 1 শতাংশ = 435.6 sq ft. For linear: 1 chain = 66 ft, 1 link = 0.66 ft
-  // Linear: 100 links = 1 chain = 66 ft => 1 ft = 1.5152 link = 0.01515 chain
-  // শতাংশ (linear portion) is not standard but often used as "কাঠা" front dimension:
-  // We'll just show sq-ft / 435.6 as informational
-  row.querySelector('.s-sha').value = (ft / 66 * 100).toFixed(3); // links
-  draw();
-}
-
-function syncFromSha(shaInput) {
-  const row = shaInput.closest('.side-row');
-  const sha = parseFloat(shaInput.value) || 0;
-  row.querySelector('.s-dist').value = (sha * 66 / 100).toFixed(2);
-  draw();
-}
-
-function renumberSides() {
-  document.querySelectorAll('.side-num').forEach((el, i) => el.textContent = i + 1);
-  sideCount = document.querySelectorAll('.side-row').length;
-}
-
-// ═══════════════════════════════════════════════
-//  CHOU INPUTS
-// ═══════════════════════════════════════════════
-function addChou(dir, val) {
-  const container = document.getElementById('chouInputs');
-  const div = document.createElement('div');
-  div.className = 'chou-row';
-  div.innerHTML = `
-    <input type="text" class="c-dir" value="${dir}" oninput="updateUI()" placeholder="দিক">
-    <input type="text" class="c-val" value="${val}" oninput="updateUI()" placeholder="প্রতিবেশী/মালিক">
-    <button class="del-btn" onclick="this.parentElement.remove(); updateUI();">✕</button>
-  `;
-  container.appendChild(div);
-  updateUI();
-}
-
-// ═══════════════════════════════════════════════
-//  UPDATE UI (text fields only)
-// ═══════════════════════════════════════════════
-function safeSet(id, val, prop) {
-  const el = document.getElementById(id);
-  if (!el) return;
-  if (prop === 'innerHTML') el.innerHTML = val;
-  else el.textContent = val;
-}
-function safeGet(id) {
-  const el = document.getElementById(id);
-  return el ? el.value : '';
-}
-
-function updateUI() {
-  const m = surveyMeta[currentSurveyType];
-  const badge = document.getElementById('outBadge');
-  if (badge) { badge.textContent = m.label; badge.className = 'survey-badge ' + m.badge; }
-
-  safeSet('outTitle', safeGet('hTitle'));
-  safeSet('outSub', 'মোবাইল: ' + safeGet('hPhone') + ' | ' + safeGet('hReg') + ' | ' + safeGet('hLic'));
-  safeSet('outKhatian', safeGet('khatianNo'));
-  safeSet('outDag', safeGet('dagNo'));
-  safeSet('outSrvYear', safeGet('srvYear'));
-  safeSet('outDate', new Date().toLocaleDateString('bn-BD', { year:'numeric', month:'long', day:'numeric' }));
-  safeSet('outMouja', safeGet('moujaName'));
-  safeSet('outUpojela', safeGet('upojelaName'));
-  safeSet('outJela', safeGet('jelaName'));
-  safeSet('outBibhag', safeGet('bibhagName'));
-  safeSet('outOwner', safeGet('ownerDetails'));
-  safeSet('outSrvType', m.full);
-  safeSet('outFootnote',
-    `এই নকশা বাংলাদেশ ভূমি জরিপ অধিদপ্তরের নিয়মানুযায়ী প্রস্তুতকৃত। | <span>${m.full}</span> | মৌজা: ${safeGet('moujaName')}`,
-    'innerHTML');
-
-  // Chou table
-  const dirs = document.querySelectorAll('.c-dir');
-  const vals = document.querySelectorAll('.c-val');
-  let tbody = '';
-  for (let i = 0; i < dirs.length; i++) {
-    tbody += `<tr><td><b>${dirs[i].value}</b></td><td>${vals[i].value}</td></tr>`;
-  }
-  const chouTbl = document.getElementById('outChouTable');
-  if (chouTbl) {
-    const tb = chouTbl.querySelector('tbody');
-    if (tb) tb.innerHTML = tbody;
-  }
-}
-
-// ═══════════════════════════════════════════════
-//  DRAW CANVAS
-// ═══════════════════════════════════════════════
-function draw() {
-  const canvas = document.getElementById('noksha-canvas');
-  const wrap = document.getElementById('canvasWrap');
-  const W = wrap.clientWidth || 600;
-  const H = wrap.clientHeight || 420;
-  canvas.width = W * 2;   // 2x for retina/sharp
-  canvas.height = H * 2;
-  canvas.style.width = W + 'px';
-  canvas.style.height = H + 'px';
-
-  const ctx = canvas.getContext('2d');
-  ctx.scale(2, 2); // scale up for retina
-  const CW = W, CH = H;
-
-  const labels = document.querySelectorAll('.s-label');
-  const dists  = document.querySelectorAll('.s-dist');
-  const angles = document.querySelectorAll('.s-ang');
-
-  const scale = parseFloat(document.getElementById('zoom').value) || 3.44;
-
-  // Build polygon points using angles
-  let points = [{ x: 0, y: 0 }];
-  let cx = 0, cy = 0;
-  for (let i = 0; i < dists.length; i++) {
-    const d = parseFloat(dists[i].value) || 0;
-    const ang = (parseFloat(angles[i].value) || 0); // degrees, standard math
-    const rad = ang * Math.PI / 180;
-    cx += d * Math.cos(rad) * scale;
-    cy += d * Math.sin(rad) * scale;
-    points.push({ x: cx, y: cy });
-  }
-
-  const minX = Math.min(...points.map(p => p.x));
-  const maxX = Math.max(...points.map(p => p.x));
-  const minY = Math.min(...points.map(p => p.y));
-  const maxY = Math.max(...points.map(p => p.y));
-  const ox = (CW - (maxX - minX)) / 2 - minX;
-  const oy = (CH - (maxY - minY)) / 2 - minY;
-
-  ctx.clearRect(0, 0, CW, CH);
+  ctx.clearRect(0,0,W,H);
 
   // Grid
-  ctx.save();
-  ctx.strokeStyle = '#e0ede8';
-  ctx.lineWidth = 0.5;
-  const gridStep = 50 * scale;
-  for (let x = 0; x < CW; x += gridStep) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, CH); ctx.stroke(); }
-  for (let y = 0; y < CH; y += gridStep) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(CW, y); ctx.stroke(); }
+  ctx.save();ctx.strokeStyle="#e0ede8";ctx.lineWidth=0.5;
+  const gs=Math.max(30*sc,10);
+  for(let x=0;x<W;x+=gs){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();}
+  for(let y=0;y<H;y+=gs){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();}
   ctx.restore();
 
-  // Shape fill + stroke
+  if(pts2.length<2) return;
+
+  // Polygon
   ctx.beginPath();
-  ctx.moveTo(points[0].x + ox, points[0].y + oy);
-  for (let i = 1; i < points.length; i++) {
-    ctx.lineTo(points[i].x + ox, points[i].y + oy);
-  }
+  ctx.moveTo(pts2[0].x+ox,pts2[0].y+oy);
+  pts2.slice(1).forEach(p=>ctx.lineTo(p.x+ox,p.y+oy));
   ctx.closePath();
-  ctx.fillStyle = 'rgba(0,106,78,0.07)';
-  ctx.fill();
-  ctx.strokeStyle = '#006a4e';
-  ctx.lineWidth = 2.5;
-  ctx.stroke();
+  ctx.fillStyle="rgba(0,106,78,0.08)";ctx.fill();
+  ctx.strokeStyle="#006a4e";ctx.lineWidth=2;ctx.stroke();
 
-  // Side labels + dimension lines
-  for (let i = 0; i < dists.length; i++) {
-    const p1 = points[i];
-    const p2 = points[i + 1];
-    if (!p2) continue;
-    const ft = parseFloat(dists[i].value) || 0;
-    if (ft <= 0) continue;
-
-    const mx = (p1.x + p2.x) / 2 + ox;
-    const my = (p1.y + p2.y) / 2 + oy;
-    const ang = Math.atan2(p2.y - p1.y, p2.x - p1.x);
-
-    // Tick marks at ends
-    ctx.save();
-    ctx.strokeStyle = '#006a4e';
-    ctx.lineWidth = 1.5;
-    [p1, p2].forEach(p => {
-      const px = p.x + ox, py = p.y + oy;
-      ctx.beginPath();
-      ctx.moveTo(px - Math.sin(ang) * 5, py + Math.cos(ang) * 5);
-      ctx.lineTo(px + Math.sin(ang) * 5, py - Math.cos(ang) * 5);
-      ctx.stroke();
+  // Labels
+  sides.forEach((s,i)=>{
+    const p1=pts2[i],p2=pts2[i+1];
+    if(!p2||!s.ft) return;
+    const mx=(p1.x+p2.x)/2+ox,my=(p1.y+p2.y)/2+oy;
+    const ang=Math.atan2(p2.y-p1.y,p2.x-p1.x);
+    ctx.save();ctx.strokeStyle="#006a4e";ctx.lineWidth=1.2;
+    [p1,p2].forEach(p=>{
+      const px=p.x+ox,py=p.y+oy;
+      ctx.beginPath();ctx.moveTo(px-Math.sin(ang)*4,py+Math.cos(ang)*4);
+      ctx.lineTo(px+Math.sin(ang)*4,py-Math.cos(ang)*4);ctx.stroke();
     });
     ctx.restore();
-
-    // Label
-    ctx.save();
-    ctx.translate(mx, my);
-    ctx.rotate(ang);
-    // Flip if upside-down
-    if (ang > Math.PI / 2 || ang < -Math.PI / 2) ctx.rotate(Math.PI);
-    ctx.font = 'bold 11px Hind Siliguri, Arial';
-    ctx.fillStyle = '#003d2e';
-    ctx.textAlign = 'center';
-    const labelText = (labels[i] ? labels[i].value : '') + ' (' + ft.toLocaleString('bn-BD') + '′)';
-    ctx.fillText(labelText, 0, -6);
+    ctx.save();ctx.translate(mx,my);ctx.rotate(ang);
+    if(ang>Math.PI/2||ang<-Math.PI/2) ctx.rotate(Math.PI);
+    ctx.font="bold 11px Arial";ctx.fillStyle="#003d2e";ctx.textAlign="center";
+    ctx.fillText(`${s.label} (${s.ft}ft)`,0,-6);
     ctx.restore();
+    ctx.beginPath();ctx.arc(p2.x+ox,p2.y+oy,3,0,Math.PI*2);
+    ctx.fillStyle="#006a4e";ctx.fill();
+  });
 
-    // Corner dot
-    ctx.beginPath();
-    ctx.arc(p2.x + ox, p2.y + oy, 3.5, 0, Math.PI * 2);
-    ctx.fillStyle = '#006a4e';
-    ctx.fill();
-  }
+  // Area
+  let a=0;
+  for(let i=0;i<pts2.length-1;i++) a+=pts2[i].x*pts2[i+1].y-pts2[i+1].x*pts2[i].y;
+  const ft2=Math.abs(a)/2/(sc*sc);
+  document.getElementById("aFt2").textContent=ft2.toFixed(2);
+  document.getElementById("aSqm").textContent=(ft2*0.0929).toFixed(2);
+  document.getElementById("aSha").textContent=(ft2/435.6).toFixed(4);
+  document.getElementById("aDec").textContent=(ft2/435.6).toFixed(4);
+  document.getElementById("aKatha").textContent=(ft2/720).toFixed(3);
+  document.getElementById("aBigha").textContent=(ft2/14400).toFixed(4);
 
-  // Area calculation
-  // Shoelace theorem
-  let area = 0;
-  for (let i = 0; i < points.length - 1; i++) {
-    area += points[i].x * points[i + 1].y - points[i + 1].x * points[i].y;
-  }
-  area = Math.abs(area) / 2;
-  const areaFt2 = area / (scale * scale);
-
-  // Bengali units
-  const shataangsho = areaFt2 / 435.6;   // 1 শতাংশ = 435.6 sq ft
-  const katha = areaFt2 / 720;           // 1 কাঠা = 720 sq ft (Dhaka standard)
-  const bigha = katha / 20;              // 1 বিঘা = 20 কাঠা
-  const decimal_ = areaFt2 / 435.6;     // same as শতাংশ in Bangladesh
-  const sqm = areaFt2 * 0.0929;
-
-  document.getElementById('outCalc').innerHTML =
-    `<div class="big">ক্ষেত্রফল:</div>` +
-    `<div>📐 <b>${areaFt2.toFixed(2)}</b> বর্গফুট &nbsp;|&nbsp; <b>${sqm.toFixed(2)}</b> বর্গমিটার</div>` +
-    `<div>🌾 <b>${shataangsho.toFixed(4)}</b> শতাংশ (ডেসিমেল) &nbsp;|&nbsp; <b>${decimal_.toFixed(4)}</b> ডেসিমেল</div>` +
-    `<div>🏡 <b>${katha.toFixed(3)}</b> কাঠা &nbsp;|&nbsp; <b>${bigha.toFixed(4)}</b> বিঘা</div>`;
-
-  // Scale bar update
-  const barFt = currentScale.barFt || 100;
-  const barPx = barFt * scale;
-  document.getElementById('scaleBarDiv').style.width = Math.min(barPx, 120) + 'px';
-  document.getElementById('scaleBarText').textContent = barFt + ' ফুট';
-  document.getElementById('outScaleNote').textContent = 'স্কেল: ' + currentScale.label;
-
-  updateUI();
+  // Scale bar — sc px = 1 ft display এ
+  const scPreset=SCALE_PRESETS[currentScaleKey]||SCALE_PRESETS.custom;
+  const barFt=scPreset.barFt;
+  const barPx=Math.min(Math.max(barFt*sc,20),160);
+  document.getElementById("scaleBarStrip").style.width=barPx+"px";
+  document.getElementById("scaleBarLabel").textContent=`0 ━━━ ${barFt} ফুট`;
 }
 
-// ═══════════════════════════════════════════════
-//  RESET
-// ═══════════════════════════════════════════════
-function resetAll() {
-  if (!confirm('সব ডেটা রিসেট করবেন?')) return;
-  document.getElementById('sideInputs').innerHTML = '';
-  document.getElementById('chouInputs').innerHTML = '';
-  sideCount = 0;
-  init();
+function updatePreview(){
+  const g=id=>document.getElementById(id)?.value||"";
+  const m=SURVEY_META[surveyType];
+  const badge=document.getElementById("surveyBadge");
+  badge.textContent=m.label;badge.style.background=m.bg;badge.style.color=m.color;badge.style.border=`1.5px solid ${m.border}`;
+  document.getElementById("cvTitle").textContent=g("hTitle");
+  document.getElementById("cvSub").textContent=`মোবাইল: ${g("hPhone")} | ${g("hReg")} | ${g("hLic")}`;
+  document.getElementById("cvKhatian").textContent=g("khatianNo");
+  document.getElementById("cvDag").textContent=g("dagNo");
+  document.getElementById("cvYear").textContent=g("srvYear");
+  document.getElementById("cvOwner").textContent=g("ownerDetails");
+  document.getElementById("cvLocation").innerHTML=`<span>মৌজা: <b>${g("moujaName")}</b></span><span>| উপজেলা: <b>${g("upojelaName")}</b></span><span>| জেলা: <b>${g("jelaName")}</b></span><span>| বিভাগ: <b>${g("bibhagName")}</b></span>`;
+  document.getElementById("cvFooter").textContent=`এই নকশা বাংলাদেশ ভূমি জরিপ অধিদপ্তরের নিয়মানুযায়ী প্রস্তুতকৃত। | ${m.full} | মৌজা: ${g("moujaName")}`;
+  updateChouPreview();draw();
 }
 
-// ═══════════════════════════════════════════════
-//  INIT
-// ═══════════════════════════════════════════════
-function init() {
-  // Default: 16" = 1 mile
-  document.getElementById('scalePreset').value = '16_1mile';
-  applyScalePreset();
-
-  loadShapeDefaults('quad');
-
-  addChou('উত্তর', 'রাস্তা / পাকা রাস্তা');
-  addChou('দক্ষিণ', 'নিজ জমি / ফসলি জমি');
-  addChou('পূর্ব', 'পার্শ্ববর্তী মালিকের জমি');
-  addChou('পশ্চিম', 'সরকারি খাল / নদী');
-
-  updateUI();
+async function generatePDF(){
+  const btn=document.getElementById("pdfBtn");
+  btn.disabled=true;btn.textContent="⏳ PDF তৈরি হচ্ছে...";
+  try{
+    const el=document.getElementById("a4Doc");
+    const rp=document.getElementById("rightPreview");
+    const wasHidden=window.innerWidth<=900&&mobileView!=="preview";
+    if(wasHidden){rp.style.cssText="display:flex!important;visibility:hidden;position:fixed;top:0;left:0;width:800px;z-index:-1";}
+    await new Promise(r=>setTimeout(r,150));
+    draw();
+    await new Promise(r=>setTimeout(r,150));
+    const cvs=await html2canvas(el,{scale:2,useCORS:true,backgroundColor:"#ffffff",logging:false,width:el.scrollWidth,height:el.scrollHeight});
+    if(wasHidden) rp.style.cssText="";
+    const imgData=cvs.toDataURL("image/jpeg",0.95);
+    const {jsPDF}=window.jspdf;
+    const pdf=new jsPDF({orientation:"portrait",unit:"mm",format:"a4"});
+    const pw=pdf.internal.pageSize.getWidth();
+    const ph=pdf.internal.pageSize.getHeight();
+    const mg=5,availW=pw-mg*2;
+    const ratio=cvs.height/cvs.width;
+    const imgH=availW*ratio;
+    if(imgH<=ph-mg*2){
+      pdf.addImage(imgData,"JPEG",mg,mg,availW,imgH);
+    } else {
+      let y=0;const pageH=ph-mg*2;
+      while(y<imgH){if(y>0)pdf.addPage();pdf.addImage(imgData,"JPEG",mg,mg-y,availW,imgH);y+=pageH;}
+    }
+    pdf.save("ভূমি-নকশা.pdf");
+  }catch(e){console.error(e);alert("ব্রাউজার প্রিন্ট (Ctrl+P) ব্যবহার করুন।");}
+  btn.disabled=false;btn.textContent="🖨️ প্রিন্ট / PDF";
 }
 
-window.onload = init;
-window.addEventListener('resize', draw);
+function resetAll(){
+  if(!confirm("সব রিসেট করবেন?")) return;
+  document.querySelectorAll(".shape-btn").forEach((b,i)=>b.classList.toggle("active",i===0));
+  loadShape("quad",null);
+  chous=DEFAULT_CHOU.map(c=>({...c,id:uid()}));
+  renderChous();
+  document.getElementById("scaleKey").value="16_1mile";
+  applyScale("16_1mile");
+}
+
+window.addEventListener("resize",()=>{handleResize();});
+init();
 </script>
 </body>
 </html>
