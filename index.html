@@ -224,8 +224,13 @@ input:focus, select:focus, textarea:focus {
 
 /* Print */
 @media print {
-  /* Sidebar hide kora */
-  .control-panel, .panel-header, .btn-primary { 
+  @page { 
+    size: A4; 
+    margin: 0; 
+  }
+  
+  /* Sidebar, Header ar Buttons hide kora */
+  .control-panel, .panel-header, .btn, .btn-draw, .btn-print, .btn-add { 
     display: none !important; 
   }
 
@@ -234,6 +239,7 @@ input:focus, select:focus, textarea:focus {
     margin: 0 !important;
     padding: 0 !important;
     display: block !important;
+    width: 100% !important;
   }
 
   /* 1 Page-e fit korar main magic */
@@ -241,24 +247,27 @@ input:focus, select:focus, textarea:focus {
     width: 210mm !important;
     height: 297mm !important;
     margin: 0 auto !important;
-    padding: 8mm !important; /* Margin ektu komano hoyeche */
+    padding: 8mm !important; 
     box-shadow: none !important;
     border: none !important;
     page-break-after: avoid;
-    transform: scale(0.95); /* Pura content-ke 5% choto korbe jate 1 page-e dhuke */
+    /* Pura content-ke halka choto korbe jate 1 page-e dhuke */
+    transform: scale(0.95); 
     transform-origin: top center;
   }
 
-  /* Extra gap ba margin muche deya */
-  body {
-    background: white !important;
-    margin: 0 !important;
-    padding: 0 !important;
+  /* Noksha canvas-er height print-er jonno fixed kora */
+  .canvas-wrap {
+    height: 420px !important;
+    max-height: 420px !important;
+    overflow: hidden !important;
   }
 
-  /* Canvas height ektu control kora jate space bache */
-  .canvas-wrap {
-    max-height: 380px !important;
+  /* Background graphics on rakhar jonno */
+  body {
+    background: white !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
   }
 }
 </style>
