@@ -46,8 +46,11 @@ body{font-family:'Hind Siliguri','Noto Sans Bengali','Segoe UI',Arial,sans-serif
 .draw-btn{width:100%;padding:10px;background:#006a4e;color:#fff;border:none;border-radius:6px;cursor:pointer;font-weight:700;font-size:13px;margin-top:8px;font-family:inherit}
 .print-btn{width:100%;padding:11px;background:#1a1a1a;color:#fff;border:none;border-radius:6px;cursor:pointer;font-weight:700;font-size:13px;margin-top:6px;font-family:inherit}
 .print-btn:disabled{background:#777;cursor:not-allowed}
+.whatsapp-btn{width:100%;padding:11px;background:#25D366;color:#fff;border:none;border-radius:6px;cursor:pointer;font-weight:700;font-size:13px;margin-top:6px;font-family:inherit}
 .reset-btn{width:100%;padding:7px;background:#fff;color:#999;border:1px solid #ddd;border-radius:6px;cursor:pointer;font-size:11px;margin-top:4px;font-family:inherit}
 .surveyor-box{background:#fff8e8;border:1px solid #f0d070;border-radius:6px;padding:10px;margin-bottom:8px}
+.dag-extra-row{display:grid;grid-template-columns:1fr 28px;gap:4px;margin-bottom:5px;align-items:center}
+.dag-extra-row input{width:100%;padding:5px 6px;border:1px solid #f0d070;border-radius:5px;font-family:inherit;font-size:11px;outline:none;color:#222}
 .right-preview{flex:1;padding:24px;display:flex;justify-content:center;align-items:flex-start;overflow-x:auto}
 .a4{width:210mm;min-height:297mm;background:#fff;padding:8mm 10mm;box-shadow:0 4px 30px rgba(0,0,0,.18);display:flex;flex-direction:column}
 .cert-header{text-align:center;padding-bottom:8px;margin-bottom:8px;border-bottom:3px double #006a4e}
@@ -59,11 +62,14 @@ body{font-family:'Hind Siliguri','Noto Sans Bengali','Segoe UI',Arial,sans-serif
 .cert-meta-cell:last-child{border-right:none}
 .cert-meta-cell .mlabel{color:#006a4e;font-size:9px;display:block}
 .cert-meta-cell .mval{color:#222;font-size:10px;font-weight:700}
-.dag-row{display:grid;grid-template-columns:repeat(4,1fr);font-size:10px;margin-bottom:6px;background:#fff8e8;border:1px solid #f0d070;border-radius:4px;overflow:hidden}
+.dag-row{display:grid;grid-template-columns:repeat(4,1fr);font-size:10px;margin-bottom:4px;background:#fff8e8;border:1px solid #f0d070;border-radius:4px;overflow:hidden}
 .dag-cell{padding:5px 7px;border-right:1px solid #f0d070}
 .dag-cell:last-child{border-right:none}
 .dag-cell .dlabel{color:#b8860b;font-size:9px;display:block}
 .dag-cell .dval{color:#222;font-size:10px;font-weight:700}
+.extra-dag-table{width:100%;border-collapse:collapse;font-size:10px;margin-bottom:6px}
+.extra-dag-table td{border:1px solid #f0d070;padding:4px 7px;background:#fffde8}
+.extra-dag-table td:first-child{color:#b8860b;font-weight:700;white-space:nowrap}
 .cert-location{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:6px;padding:4px 8px;background:#006a4e;border-radius:4px}
 .cert-location span{color:#fff;font-size:10px;font-weight:700}
 .cert-location span b{color:#b8ffdf}
@@ -132,7 +138,6 @@ input[type=number]{-moz-appearance:textfield}
   </div>
   <div class="panel-body show" id="panelBody">
 
-    <!-- সার্ভেয়ারের তথ্য -->
     <div class="sec-title">👤 সার্ভেয়ারের তথ্য</div>
     <div class="surveyor-box">
       <div class="field"><label>সার্ভেয়ারের নাম</label><input id="surveyorName" value="মো: আব্দুল করিম" oninput="updatePreview()"></div>
@@ -142,22 +147,27 @@ input[type=number]{-moz-appearance:textfield}
       </div>
     </div>
 
-
-
-    <!-- জমির রেকর্ড -->
     <div class="sec-title">📄 জমির রেকর্ড তথ্য</div>
     <div class="row2">
       <div class="field"><label>খতিয়ান নং</label><input id="khatianNo" value="২৪৫" oninput="updatePreview()"></div>
       <div class="field"><label>জরিপ বর্ষ</label><input id="srvYear" value="২০২৪" oninput="updatePreview()"></div>
     </div>
-    <!-- CS SA RS BS দাগ নং -->
-    <div class="sec-title" style="color:#b8860b;border-bottom-color:#f0d070">📌 দাগ নং (আলাদা আলাদা)</div>
+
+    <div class="sec-title" style="color:#b8860b;border-bottom-color:#f0d070">📌 দাগ নং</div>
     <div class="row4">
-      <div class="field"><label>CS দাগ</label><input id="dagCS" value="" placeholder="CS" oninput="updatePreview()"></div>
-      <div class="field"><label>SA দাগ</label><input id="dagSA" value="" placeholder="SA" oninput="updatePreview()"></div>
+      <div class="field"><label>CS দাগ</label><input id="dagCS" placeholder="CS" oninput="updatePreview()"></div>
+      <div class="field"><label>SA দাগ</label><input id="dagSA" placeholder="SA" oninput="updatePreview()"></div>
       <div class="field"><label>RS দাগ</label><input id="dagRS" value="১০৫" placeholder="RS" oninput="updatePreview()"></div>
       <div class="field"><label>BS দাগ</label><input id="dagBS" value="২৬২৯৪" placeholder="BS" oninput="updatePreview()"></div>
     </div>
+
+    <!-- অতিরিক্ত দাগ নম্বর -->
+    <div style="margin-bottom:6px">
+      <div style="font-size:10px;color:#b8860b;font-weight:700;margin-bottom:4px">+ অতিরিক্ত দাগ নম্বর (২য়, ৩য় দাগ)</div>
+      <div id="extraDagBody"></div>
+      <button class="add-btn" style="border-color:#f0d070;color:#b8860b;background:#fffde8" onclick="addExtraDag()">+ আরো দাগ যোগ করুন</button>
+    </div>
+
     <div class="row3">
       <div class="field"><label>মৌজা</label><input id="moujaName" value="চকবাজার" oninput="updatePreview()"></div>
       <div class="field"><label>উপজেলা</label><input id="upojelaName" value="কোতোয়ালী" oninput="updatePreview()"></div>
@@ -168,7 +178,6 @@ input[type=number]{-moz-appearance:textfield}
       <textarea id="ownerDetails" rows="2" oninput="updatePreview()">মালিক: মো: আব্দুল করিম, পিতা: মৃত রহিম উদ্দিন, গ্রাম: চকবাজার।</textarea>
     </div>
 
-    <!-- স্কেল -->
     <div class="sec-title">📐 স্কেল</div>
     <div class="scale-box">
       <div class="field" style="margin-bottom:6px">
@@ -206,7 +215,6 @@ input[type=number]{-moz-appearance:textfield}
       <div class="scale-info" id="scaleInfo">১৬" = ১ মাইল | অনুপাত: 1:3,960</div>
     </div>
 
-    <!-- আকৃতি -->
     <div class="sec-title">🔷 জমির আকৃতি</div>
     <div class="shape-grid">
       <button class="shape-btn active" onclick="loadShape('quad',this)"><span class="icon">▭</span>চতুর্ভুজ</button>
@@ -215,80 +223,51 @@ input[type=number]{-moz-appearance:textfield}
       <button class="shape-btn" onclick="loadShape('lshape',this)"><span class="icon">⌐</span>L-আকৃতি</button>
     </div>
 
-    <!-- বাহু -->
     <div class="sec-title">📏 বাহুর মাপ</div>
     <div class="sides-header"><span>#</span><span>নাম</span><span>ফুট★</span><span>লিংক</span><span>কোণ°</span><span></span></div>
     <div id="sidesBody"></div>
     <button class="add-btn" onclick="addSide()">+ বাহু যোগ করুন</button>
 
-    <!-- চৌহদ্দি -->
     <div class="sec-title">🧭 চৌহদ্দি</div>
     <div class="chou-header"><span>দিক</span><span>সীমান্তবর্তী</span><span></span></div>
     <div id="chouBody"></div>
     <button class="add-btn" onclick="addChou()">+ চৌহদ্দি যোগ করুন</button>
-     
-    <!-- AI Settings -->
-<div class="sec-title">🤖 AI সেটিংস</div>
-<div class="surveyor-box">
-  <div class="field">
-    <label>Anthropic API Key</label>
-    <input type="password" id="apiKey" placeholder="sk-ant-..." 
-      oninput="localStorage.setItem('anthro_key',this.value)"
-      style="font-family:monospace">
-  </div>
-  <button class="draw-btn" style="margin-top:4px" onclick="generateAIPlots()">
-    🤖 AI দিয়ে চারপাশ আঁকো
-  </button>
-  <div id="aiStatus" style="font-size:10px;color:#006a4e;margin-top:4px"></div>
-</div>
 
-    <!-- কার্যক্রম -->
     <div class="sec-title">⚙️ কার্যক্রম</div>
     <button class="draw-btn" onclick="draw()">🔄 নকশা রিফ্রেশ</button>
-    <button class="print-btn" id="pdfBtn" onclick="generatePDF()">🖨️ প্রিন্ট / PDF</button>
+    <button class="print-btn" id="pdfBtn" onclick="generatePDF()">🖨️ PDF ডাউনলোড</button>
+    <button class="whatsapp-btn" id="waBtn" onclick="shareWhatsApp()">📲 WhatsApp এ পাঠান</button>
     <button class="reset-btn" onclick="resetAll()">↩ রিসেট</button>
   </div>
 </div>
 
-<!-- RIGHT PREVIEW -->
 <div class="right-preview show" id="rightPreview">
   <div class="a4" id="a4Doc">
-
-    <!-- Header -->
     <div class="cert-header">
       <div class="cert-org-name" id="cvTitle">ডিজিটাল ভূমি জরিপ ও নকশা কেন্দ্র</div>
-      <div class="cert-org-sub" id="cvSub">মোবাইল: +৮৮০-১৭০০-০০০০০ | REG-২০২৬ | LIC-DHAKA</div>
-      <div class="cert-surveyor-info" id="cvSurveyorInfo">সার্ভেয়ার: মো: আব্দুল হামিদ | রেজি: ০৩৭৩০০৯ | মোবাইল: ০১৯১৩-০৮৩২৬৫</div>
+      <div class="cert-surveyor-info" id="cvSurveyorInfo">সার্ভেয়ার: মো: আব্দুল করিম | রেজি: ০৩৭৩০০৯ | মোবাইল: ০১৯১৩-০৮৩২৬৫</div>
     </div>
-
-    <!-- Meta -->
     <div class="cert-meta-row">
       <div class="cert-meta-cell"><span class="mlabel">খতিয়ান নং</span><span class="mval" id="cvKhatian">২৪৫</span></div>
       <div class="cert-meta-cell"><span class="mlabel">জরিপ বর্ষ</span><span class="mval" id="cvYear">২০২৪</span></div>
       <div class="cert-meta-cell"><span class="mlabel">স্কেল</span><span class="mval" id="cvScale">১৬" = ১ মাইল</span></div>
       <div class="cert-meta-cell"><span class="mlabel">তারিখ</span><span class="mval" id="cvDate"></span></div>
     </div>
-
-    <!-- দাগ নং row -->
     <div class="dag-row">
-      <div class="dag-cell"><span class="dlabel">CS দাগ নং</span><span class="dval" id="cvDagCS">—</span></div>
-      <div class="dag-cell"><span class="dlabel">SA দাগ নং</span><span class="dval" id="cvDagSA">—</span></div>
-      <div class="dag-cell"><span class="dlabel">RS দাগ নং</span><span class="dval" id="cvDagRS">১০৫</span></div>
-      <div class="dag-cell"><span class="dlabel">BS দাগ নং</span><span class="dval" id="cvDagBS">২৬২৯৪</span></div>
+      <div class="dag-cell"><span class="dlabel">CS দাগ</span><span class="dval" id="cvDagCS">—</span></div>
+      <div class="dag-cell"><span class="dlabel">SA দাগ</span><span class="dval" id="cvDagSA">—</span></div>
+      <div class="dag-cell"><span class="dlabel">RS দাগ</span><span class="dval" id="cvDagRS">১০৫</span></div>
+      <div class="dag-cell"><span class="dlabel">BS দাগ</span><span class="dval" id="cvDagBS">২৬২৯৪</span></div>
     </div>
-
-    <!-- Location -->
+    <!-- অতিরিক্ত দাগ -->
+    <div id="cvExtraDagArea"></div>
     <div class="cert-location" id="cvLocation">
       <span>মৌজা: <b>চকবাজার</b></span>
       <span>| উপজেলা: <b>কোতোয়ালী</b></span>
       <span>| জেলা: <b>ঢাকা</b></span>
       <span>| বিভাগ: <b>ঢাকা বিভাগ</b></span>
     </div>
-
-    <!-- Owner -->
-    <div class="cert-owner" id="cvOwner">মালিক: মো: আব্দুল , পিতা: মৃত রহিম উদ্দিন, গ্রাম: চকবাজার।</div>
-
-    <!-- Map Canvas -->
+    <div class="cert-owner" id="cvOwner">মালিক: মো: আব্দুল করিম, পিতা: মৃত রহিম উদ্দিন, গ্রাম: চকবাজার।</div>
     <div class="cert-canvas-wrap" id="mapWrap">
       <canvas id="map-canvas"></canvas>
       <div class="north-tag">N ↑</div>
@@ -311,8 +290,6 @@ input[type=number]{-moz-appearance:textfield}
         <div class="print-warning">⚠ Print: 100% Actual Size</div>
       </div>
     </div>
-
-    <!-- Bottom -->
     <div class="cert-bottom">
       <div>
         <div style="font-size:12px;color:#006a4e;font-weight:700;margin-bottom:5px">চৌহদ্দি ও সীমানা:</div>
@@ -333,7 +310,6 @@ input[type=number]{-moz-appearance:textfield}
         <div class="sig-line">অনুমোদনকারী কর্মকর্তার স্বাক্ষর</div>
       </div>
     </div>
-
     <div class="cert-footer" id="cvFooter">এই নকশা বাংলাদেশ ভূমি জরিপ অধিদপ্তরের নিয়মানুযায়ী প্রস্তুতকৃত।</div>
   </div>
 </div>
@@ -341,29 +317,28 @@ input[type=number]{-moz-appearance:textfield}
 </div>
 <script>
 const SCALE_PRESETS={
-  "16_1mile": {px:(16/5280)*96, label:'১৬" = ১ মাইল',    ratio:'1:3,960',  barFt:100},
-  "32_1mile": {px:(32/5280)*96, label:'৩২" = ১ মাইল',    ratio:'1:1,980',  barFt:50},
-  "48_1mile": {px:(48/5280)*96, label:'৪৮" = ১ মাইল',    ratio:'1:1,320',  barFt:50},
-  "64_1mile": {px:(64/5280)*96, label:'৬৪" = ১ মাইল',    ratio:'1:990',    barFt:25},
-  "80_1mile": {px:(80/5280)*96, label:'৮০" = ১ মাইল',    ratio:'1:792',    barFt:25},
-  "160_1mile":{px:(160/5280)*96,label:'১৬০" = ১ মাইল',   ratio:'1:396',    barFt:10},
-  "8_1mile":  {px:(8/5280)*96,  label:'৮" = ১ মাইল',     ratio:'1:7,920',  barFt:200},
-  "4_1mile":  {px:(4/5280)*96,  label:'৪" = ১ মাইল',     ratio:'1:15,840', barFt:500},
-  "2_1mile":  {px:(2/5280)*96,  label:'২" = ১ মাইল',     ratio:'1:31,680', barFt:1000},
-  "1_1mile":  {px:(1/5280)*96,  label:'১" = ১ মাইল',     ratio:'1:63,360', barFt:2000},
-  "4_1chain": {px:(4/66)*96,    label:'৪" = ১ চেইন',     ratio:'1:198',    barFt:20},
-  "2_1chain": {px:(2/66)*96,    label:'২" = ১ চেইন',     ratio:'1:396',    barFt:40},
-  "1_1chain": {px:(1/66)*96,    label:'১" = ১ চেইন',     ratio:'1:792',    barFt:66},
-  "1_500":    {px:96/0.0254/500*0.3048,    label:'১:৫০০',    ratio:'1:500',    barFt:50},
-  "1_1000":   {px:96/0.0254/1000*0.3048,   label:'১:১০০০',   ratio:'1:1,000',  barFt:100},
-  "1_2000":   {px:96/0.0254/2000*0.3048,   label:'১:২০০০',   ratio:'1:2,000',  barFt:200},
-  "1_2500":   {px:96/0.0254/2500*0.3048,   label:'১:২৫০০',   ratio:'1:2,500',  barFt:200},
-  "1_5000":   {px:96/0.0254/5000*0.3048,   label:'১:৫০০০',   ratio:'1:5,000',  barFt:500},
-  "1_10000":  {px:96/0.0254/10000*0.3048,  label:'১:১০,০০০', ratio:'1:10,000', barFt:1000},
-  "1_25000":  {px:96/0.0254/25000*0.3048,  label:'১:২৫,০০০', ratio:'1:25,000', barFt:2000},
-  "1_50000":  {px:96/0.0254/50000*0.3048,  label:'১:৫০,০০০', ratio:'1:50,000', barFt:5000},
+  "16_1mile":{px:(16/5280)*96,label:'১৬" = ১ মাইল',ratio:'1:3,960',barFt:100},
+  "32_1mile":{px:(32/5280)*96,label:'৩২" = ১ মাইল',ratio:'1:1,980',barFt:50},
+  "48_1mile":{px:(48/5280)*96,label:'৪৮" = ১ মাইল',ratio:'1:1,320',barFt:50},
+  "64_1mile":{px:(64/5280)*96,label:'৬৪" = ১ মাইল',ratio:'1:990',barFt:25},
+  "80_1mile":{px:(80/5280)*96,label:'৮০" = ১ মাইল',ratio:'1:792',barFt:25},
+  "160_1mile":{px:(160/5280)*96,label:'১৬০" = ১ মাইল',ratio:'1:396',barFt:10},
+  "8_1mile":{px:(8/5280)*96,label:'৮" = ১ মাইল',ratio:'1:7,920',barFt:200},
+  "4_1mile":{px:(4/5280)*96,label:'৪" = ১ মাইল',ratio:'1:15,840',barFt:500},
+  "2_1mile":{px:(2/5280)*96,label:'২" = ১ মাইল',ratio:'1:31,680',barFt:1000},
+  "1_1mile":{px:(1/5280)*96,label:'১" = ১ মাইল',ratio:'1:63,360',barFt:2000},
+  "4_1chain":{px:(4/66)*96,label:'৪" = ১ চেইন',ratio:'1:198',barFt:20},
+  "2_1chain":{px:(2/66)*96,label:'২" = ১ চেইন',ratio:'1:396',barFt:40},
+  "1_1chain":{px:(1/66)*96,label:'১" = ১ চেইন',ratio:'1:792',barFt:66},
+  "1_500":{px:96/0.0254/500*0.3048,label:'১:৫০০',ratio:'1:500',barFt:50},
+  "1_1000":{px:96/0.0254/1000*0.3048,label:'১:১০০০',ratio:'1:1,000',barFt:100},
+  "1_2000":{px:96/0.0254/2000*0.3048,label:'১:২০০০',ratio:'1:2,000',barFt:200},
+  "1_2500":{px:96/0.0254/2500*0.3048,label:'১:২৫০০',ratio:'1:2,500',barFt:200},
+  "1_5000":{px:96/0.0254/5000*0.3048,label:'১:৫০০০',ratio:'1:5,000',barFt:500},
+  "1_10000":{px:96/0.0254/10000*0.3048,label:'১:১০,০০০',ratio:'1:10,000',barFt:1000},
+  "1_25000":{px:96/0.0254/25000*0.3048,label:'১:২৫,০০০',ratio:'1:25,000',barFt:2000},
+  "1_50000":{px:96/0.0254/50000*0.3048,label:'১:৫০,০০০',ratio:'1:50,000',barFt:5000},
 };
-
 const SHAPE_DEFAULTS={
   quad:[{label:"উত্তর",ft:120,ang:270},{label:"পূর্ব",ft:100,ang:0},{label:"দক্ষিণ",ft:120,ang:90},{label:"পশ্চিম",ft:100,ang:180}],
   tri:[{label:"বাহু ক",ft:150,ang:270},{label:"বাহু খ",ft:130,ang:60},{label:"বাহু গ",ft:110,ang:180}],
@@ -378,7 +353,7 @@ const DEFAULT_CHOU=[
 ];
 
 let _id=0,uid=()=>++_id;
-let zoom=SCALE_PRESETS["16_1mile"].px,sides=[],chous=[],mobileView="form",currentScaleKey="16_1mile";
+let zoom=SCALE_PRESETS["16_1mile"].px,sides=[],chous=[],extraDags=[],mobileView="form",currentScaleKey="16_1mile";
 
 function init(){
   document.getElementById("cvDate").textContent=new Date().toLocaleDateString("bn-BD",{year:"numeric",month:"long",day:"numeric"});
@@ -467,7 +442,28 @@ function updateChouPreview(){
   ).join("");
 }
 
-// চৌহদ্দি matching — কোন দিকের কোন বাহু
+// ── অতিরিক্ত দাগ ──
+function renderExtraDags(){
+  const body=document.getElementById("extraDagBody");body.innerHTML="";
+  extraDags.forEach(d=>{
+    const div=document.createElement("div");div.className="dag-extra-row";
+    div.innerHTML=`<input placeholder="যেমন: RS-২য় দাগ: ১০৬" value="${d.val}" oninput="updateExtraDag(${d.id},this.value)">
+      <button class="del-btn" onclick="delExtraDag(${d.id})">✕</button>`;
+    body.appendChild(div);
+  });
+  updateExtraDagPreview();
+}
+function addExtraDag(){extraDags.push({id:uid(),val:""});renderExtraDags();}
+function delExtraDag(id){extraDags=extraDags.filter(d=>d.id!==id);renderExtraDags();}
+function updateExtraDag(id,val){const d=extraDags.find(x=>x.id===id);if(d){d.val=val;updateExtraDagPreview();}}
+function updateExtraDagPreview(){
+  const area=document.getElementById("cvExtraDagArea");
+  if(extraDags.length===0){area.innerHTML="";return;}
+  area.innerHTML=`<table class="extra-dag-table"><tbody>`+
+    extraDags.map(d=>`<tr><td>অতিরিক্ত দাগ:</td><td>${d.val}</td></tr>`).join("")+
+    `</tbody></table>`;
+}
+
 function getChouForSide(sideLabel){
   const label=sideLabel.toLowerCase();
   for(const c of chous){
@@ -478,6 +474,15 @@ function getChouForSide(sideLabel){
     if(label.includes('পশ্চিম')&&dir.includes('পশ্চিম')) return c.val;
   }
   return null;
+}
+
+function isInsidePolygon(px,py,pts){
+  let inside=false;const n=pts.length-1;
+  for(let i=0,j=n-1;i<n;j=i++){
+    const xi=pts[i].x,yi=pts[i].y,xj=pts[j].x,yj=pts[j].y;
+    if(((yi>py)!==(yj>py))&&(px<(xj-xi)*(py-yi)/(yj-yi)+xi)) inside=!inside;
+  }
+  return inside;
 }
 
 function draw(){
@@ -493,7 +498,6 @@ function draw(){
   const ctx=canvas.getContext("2d");
   ctx.scale(dpr,dpr);
 
-  // Build pts
   let pts=[{x:0,y:0}],cx=0,cy=0;
   sides.forEach(s=>{
     const rad=s.ang*Math.PI/180;
@@ -501,13 +505,10 @@ function draw(){
     cy+=(s.ft||0)*Math.sin(rad)*zoom;
     pts.push({x:cx,y:cy});
   });
-
   const xs=pts.map(p=>p.x),ys=pts.map(p=>p.y);
   const minX=Math.min(...xs),maxX=Math.max(...xs);
   const minY=Math.min(...ys),maxY=Math.max(...ys);
   const pw=maxX-minX||1,ph=maxY-minY||1;
-
-  // Auto-fit
   const pad=64;
   const fitScale=Math.min((W-pad*2)/pw,(H-pad*2)/ph,1);
   const sc=zoom*fitScale;
@@ -544,12 +545,10 @@ function draw(){
   ctx.fillStyle="rgba(0,106,78,0.07)";ctx.fill();
   ctx.strokeStyle="#006a4e";ctx.lineWidth=2;ctx.stroke();
 
-  // ── কর্ণ রেখা (diagonal) ──
+  // কর্ণ রেখা
   if(pts2.length>=4){
-    ctx.save();
-    ctx.strokeStyle="#006a4e";ctx.lineWidth=1;
+    ctx.save();ctx.strokeStyle="#006a4e";ctx.lineWidth=1;
     ctx.setLineDash([7,4]);ctx.globalAlpha=0.4;
-    // first to last-1, second to second-last
     ctx.beginPath();
     ctx.moveTo(pts2[0].x+ox,pts2[0].y+oy);
     ctx.lineTo(pts2[Math.floor((pts2.length-1)/2)].x+ox,pts2[Math.floor((pts2.length-1)/2)].y+oy);
@@ -561,31 +560,29 @@ function draw(){
     ctx.restore();
   }
 
-  // ── ভেতরে দাগ নং + ক্ষেত্রফল ──
-  // Center of polygon
-  const cxPoly=pts2.slice(0,-1).reduce((s,p)=>s+p.x,0)/Math.max(pts2.length-1,1)+ox;
-  const cyPoly=pts2.slice(0,-1).reduce((s,p)=>s+p.y,0)/Math.max(pts2.length-1,1)+oy;
+  // Center
+  const cxP=pts2.slice(0,-1).reduce((s,p)=>s+p.x,0)/Math.max(pts2.length-1,1)+ox;
+  const cyP=pts2.slice(0,-1).reduce((s,p)=>s+p.y,0)/Math.max(pts2.length-1,1)+oy;
 
-  // Area calc
+  // Area
   let a=0;
   for(let i=0;i<pts2.length-1;i++) a+=pts2[i].x*pts2[i+1].y-pts2[i+1].x*pts2[i].y;
   const ft2=Math.abs(a)/2/(sc*sc);
 
-  // Dag no inside
+  // Inside: দাগ নং + ক্ষেত্রফল
   const rsdag=document.getElementById("dagRS").value;
   const bsdag=document.getElementById("dagBS").value;
   if(rsdag||bsdag){
     ctx.save();ctx.textAlign="center";ctx.globalAlpha=0.45;
     ctx.font="bold 13px Arial";ctx.fillStyle="#006a4e";
     const dagText=(rsdag?"RS: "+rsdag:"")+(rsdag&&bsdag?" | ":"")+(bsdag?"BS: "+bsdag:"");
-    ctx.fillText(dagText,cxPoly,cyPoly-10);
+    ctx.fillText(dagText,cxP,cyP-10);
     ctx.font="11px Arial";
-    ctx.fillText(ft2.toFixed(1)+" বর্গফুট",cxPoly,cyPoly+8);
-    ctx.fillText((ft2/435.6).toFixed(3)+" শতাংশ",cxPoly,cyPoly+22);
+    ctx.fillText(ft2.toFixed(1)+" বর্গফুট",cxP,cyP+8);
+    ctx.fillText((ft2/435.6).toFixed(3)+" শতাংশ",cxP,cyP+22);
     ctx.restore();
   }
 
-  // Area display
   document.getElementById("aFt2").textContent=ft2.toFixed(2);
   document.getElementById("aSqm").textContent=(ft2*0.0929).toFixed(2);
   document.getElementById("aSha").textContent=(ft2/435.6).toFixed(4);
@@ -593,24 +590,19 @@ function draw(){
   document.getElementById("aKatha").textContent=(ft2/720).toFixed(3);
   document.getElementById("aBigha").textContent=(ft2/14400).toFixed(4);
 
- // AI plots
-  drawAIPlots(ctx, pts2, ox, oy, sc, W, H);
- 
-  // ── Corner dots ──
+  // Corner dots
   pts2.slice(0,-1).forEach(p=>{
     ctx.beginPath();ctx.arc(p.x+ox,p.y+oy,4,0,Math.PI*2);
     ctx.fillStyle="#006a4e";ctx.fill();
   });
 
-  // ── Side labels + চৌহদ্দি outside ──
+  // Side labels + চৌহদ্দি outside
   sides.forEach((s,i)=>{
     const p1=pts2[i],p2=pts2[i+1];
     if(!p2||!s.ft) return;
     const mx=(p1.x+p2.x)/2+ox;
     const my=(p1.y+p2.y)/2+oy;
     const ang=Math.atan2(p2.y-p1.y,p2.x-p1.x);
-
-    // Tick marks
     ctx.save();ctx.strokeStyle="#006a4e";ctx.lineWidth=1.5;
     [p1,p2].forEach(p=>{
       const px=p.x+ox,py=p.y+oy;
@@ -621,19 +613,15 @@ function draw(){
     });
     ctx.restore();
 
-    // Inward perpendicular check
     const perpX=-Math.sin(ang);
     const perpY=Math.cos(ang);
-    // Check if inward or outward
     const testX=mx+perpX*20;
     const testY=my+perpY*20;
     const inward=isInsidePolygon(testX-ox,testY-oy,pts2);
     const outMult=inward?-1:1;
 
-    // Label ON line (direction name + feet)
     ctx.save();
-    ctx.translate(mx,my);
-    ctx.rotate(ang);
+    ctx.translate(mx,my);ctx.rotate(ang);
     if(ang>Math.PI/2||ang<-Math.PI/2) ctx.rotate(Math.PI);
     ctx.font="bold 10px Arial";
     const w1=ctx.measureText(s.label).width;
@@ -643,33 +631,23 @@ function draw(){
     ctx.fillStyle="rgba(255,255,255,0.88)";
     ctx.fillRect(-bw/2,-20,bw,22);
     ctx.fillStyle="#003d2e";ctx.textAlign="center";
-    ctx.font="bold 10px Arial";
-    ctx.fillText(s.label,0,-10);
-    ctx.fillStyle="#c0392b";
-    ctx.font="bold 11px Arial";
+    ctx.font="bold 10px Arial";ctx.fillText(s.label,0,-10);
+    ctx.fillStyle="#c0392b";ctx.font="bold 11px Arial";
     ctx.fillText(s.ft+' ফুট',0,0);
     ctx.restore();
 
-    // চৌহদ্দি OUTSIDE বাহুর পাশে
     const chouVal=getChouForSide(s.label);
     if(chouVal){
-      const offDist=28;
-      const lx=mx+perpX*outMult*offDist;
-      const ly=my+perpY*outMult*offDist;
+      const lx=mx+perpX*outMult*30;
+      const ly=my+perpY*outMult*30;
       ctx.save();
-      ctx.translate(lx,ly);
-      ctx.rotate(ang);
+      ctx.translate(lx,ly);ctx.rotate(ang);
       if(ang>Math.PI/2||ang<-Math.PI/2) ctx.rotate(Math.PI);
-      ctx.font="10px Arial";
-      ctx.fillStyle="#555";
-      ctx.textAlign="center";
-      // Background
+      ctx.font="italic 9px Arial";ctx.textAlign="center";
       const cw=ctx.measureText(chouVal).width+8;
       ctx.fillStyle="rgba(255,255,220,0.85)";
       ctx.fillRect(-cw/2,-11,cw,14);
-      ctx.fillStyle="#555";
-      ctx.font="italic 9px Arial";
-      ctx.fillText(chouVal,0,0);
+      ctx.fillStyle="#555";ctx.fillText(chouVal,0,0);
       ctx.restore();
     }
   });
@@ -678,29 +656,14 @@ function draw(){
   const scPreset=SCALE_PRESETS[currentScaleKey];
   const barFt=scPreset.barFt;
   const barPx=Math.min(Math.max(barFt*sc,30),160);
-  const strip=document.getElementById("scaleBarStrip");
-  const ticks=document.getElementById("scaleTicksEl");
-  strip.style.width=barPx+"px";
-  ticks.style.width=barPx+"px";
+  document.getElementById("scaleBarStrip").style.width=barPx+"px";
+  document.getElementById("scaleTicksEl").style.width=barPx+"px";
   document.getElementById("scaleTickMid").textContent=Math.round(barFt/2);
   document.getElementById("scaleTickEnd").textContent=barFt;
 }
 
-// Point in polygon check
-function isInsidePolygon(px,py,pts){
-  let inside=false;
-  const n=pts.length-1;
-  for(let i=0,j=n-1;i<n;j=i++){
-    const xi=pts[i].x,yi=pts[i].y,xj=pts[j].x,yj=pts[j].y;
-    if(((yi>py)!==(yj>py))&&(px<(xj-xi)*(py-yi)/(yj-yi)+xi)) inside=!inside;
-  }
-  return inside;
-}
-
 function updatePreview(){
   const g=id=>document.getElementById(id)?.value||"";
-  document.getElementById("cvTitle").textContent=g("hTitle");
-  document.getElementById("cvSub").textContent=`মোবাইল: ${g("hPhone")} | ${g("hReg")} | ${g("hLic")}`;
   document.getElementById("cvSurveyorInfo").textContent=`সার্ভেয়ার: ${g("surveyorName")} | রেজি: ${g("surveyorReg")} | মোবাইল: ${g("surveyorPhone")}`;
   document.getElementById("cvSigLine").innerHTML=`সার্ভেয়ার: ${g("surveyorName")}<br>রেজি: ${g("surveyorReg")}`;
   document.getElementById("cvKhatian").textContent=g("khatianNo")||"—";
@@ -712,12 +675,15 @@ function updatePreview(){
   document.getElementById("cvDagBS").textContent=g("dagBS")||"—";
   document.getElementById("cvLocation").innerHTML=`<span>মৌজা: <b>${g("moujaName")}</b></span><span>| উপজেলা: <b>${g("upojelaName")}</b></span><span>| জেলা: <b>${g("jelaName")}</b></span><span>| বিভাগ: <b>${g("bibhagName")}</b></span>`;
   document.getElementById("cvFooter").textContent=`এই নকশা বাংলাদেশ ভূমি জরিপ অধিদপ্তরের নিয়মানুযায়ী প্রস্তুতকৃত। | মৌজা: ${g("moujaName")}`;
-  updateChouPreview();draw();
+  updateChouPreview();
+  updateExtraDagPreview();
+  draw();
 }
 
+// ── PDF ──
 async function generatePDF(){
   const btn=document.getElementById("pdfBtn");
-  btn.disabled=true;btn.textContent="⏳ PDF তৈরি হচ্ছে...";
+  btn.disabled=true;btn.textContent="⏳ তৈরি হচ্ছে...";
   try{
     const el=document.getElementById("a4Doc");
     const rp=document.getElementById("rightPreview");
@@ -735,7 +701,53 @@ async function generatePDF(){
     else{let y=0;const ph2=ph-mg*2;while(y<imgH){if(y>0)pdf.addPage();pdf.addImage(imgData,"JPEG",mg,mg-y,availW,imgH);y+=ph2;}}
     pdf.save("ভূমি-নকশা.pdf");
   }catch(e){console.error(e);alert("ব্রাউজার প্রিন্ট (Ctrl+P) ব্যবহার করুন।");}
-  btn.disabled=false;btn.textContent="🖨️ প্রিন্ট / PDF";
+  btn.disabled=false;btn.textContent="🖨️ PDF ডাউনলোড";
+}
+
+// ── WhatsApp Share ──
+async function shareWhatsApp(){
+  const btn=document.getElementById("waBtn");
+  btn.disabled=true;btn.textContent="⏳ তৈরি হচ্ছে...";
+  try{
+    const el=document.getElementById("a4Doc");
+    const rp=document.getElementById("rightPreview");
+    const wasHidden=window.innerWidth<=900&&mobileView!=="preview";
+    if(wasHidden){rp.style.cssText="display:flex!important;visibility:hidden;position:fixed;top:0;left:0;width:800px;z-index:-1";}
+    await new Promise(r=>setTimeout(r,150));draw();await new Promise(r=>setTimeout(r,150));
+    const cvs=await html2canvas(el,{scale:1.5,useCORS:true,backgroundColor:"#ffffff",logging:false});
+    if(wasHidden) rp.style.cssText="";
+
+    // Image blob বানাও
+    cvs.toBlob(async(blob)=>{
+      // Info text
+      const g=id=>document.getElementById(id)?.value||"";
+      const msg=`🗺 ভূমি জরিপ নকশা\n👤 মালিক: ${g("ownerDetails").substring(0,50)}\n📍 মৌজা: ${g("moujaName")}, ${g("jelaName")}\n📌 RS দাগ: ${g("dagRS")} | BS দাগ: ${g("dagBS")}\n📐 স্কেল: ${document.getElementById("cvScale").textContent}`;
+
+      // Web Share API চেক করো
+      if(navigator.share&&navigator.canShare&&navigator.canShare({files:[new File([blob],"noksha.jpg",{type:"image/jpeg"})]})){
+        const file=new File([blob],"ভূমি-নকশা.jpg",{type:"image/jpeg"});
+        await navigator.share({
+          title:"ভূমি জরিপ নকশা",
+          text:msg,
+          files:[file]
+        });
+      } else {
+        // Fallback: WhatsApp URL
+        const encoded=encodeURIComponent(msg);
+        window.open(`https://wa.me/?text=${encoded}`,"_blank");
+        // Image download
+        const url=URL.createObjectURL(blob);
+        const a=document.createElement("a");
+        a.href=url;a.download="ভূমি-নকশা.jpg";a.click();
+        URL.revokeObjectURL(url);
+        alert("নকশার image download হয়েছে। WhatsApp এ manually attach করুন।");
+      }
+    },"image/jpeg",0.9);
+  }catch(e){
+    console.error(e);
+    alert("WhatsApp share করতে পারেনি। PDF download করুন।");
+  }
+  btn.disabled=false;btn.textContent="📲 WhatsApp এ পাঠান";
 }
 
 function resetAll(){
@@ -743,211 +755,12 @@ function resetAll(){
   document.querySelectorAll(".shape-btn").forEach((b,i)=>b.classList.toggle("active",i===0));
   loadShape("quad",null);
   chous=DEFAULT_CHOU.map(c=>({...c,id:uid()}));renderChous();
+  extraDags=[];renderExtraDags();
   document.getElementById("scaleKey").value="16_1mile";applyScale("16_1mile");
 }
 
 window.addEventListener("resize",handleResize);
 init();
-
-// ── AI PLOT GENERATION ──
-let aiPlots = [];
-
-async function generateAIPlots(){
-  const keyInput = document.getElementById("apiKey");
-const key = (keyInput ? keyInput.value.trim() : "") || localStorage.getItem("anthro_key","").trim();
-if(!key || !key.startsWith("sk-ant-")){ 
-  status.textContent="❌ সঠিক API Key দিন (sk-ant- দিয়ে শুরু হবে)"; 
-  return; 
-}
-  if(!key){ alert("API Key দিন!"); return; }
-
-  const status = document.getElementById("aiStatus");
-  status.textContent = "⏳ AI চিন্তা করছে...";
-
-  // চৌহদ্দির তথ্য collect করো
-  const chouText = chous.map(c => `${c.dir}: ${c.val}`).join(", ");
-
-  const prompt = `তুমি একজন বাংলাদেশী ভূমি জরিপ বিশেষজ্ঞ। নিচের চৌহদ্দি তথ্য দেখে প্রতিটা দিকের জন্য একটা JSON array দাও।
-
-চৌহদ্দি: ${chouText}
-
-প্রতিটা item এ থাকবে:
-- dir: দিক (উত্তর/দক্ষিণ/পূর্ব/পশ্চিম)
-- type: রাস্তা/খাল/নদী/জমি/বাড়ি/দালান/বাগান/পুকুর
-- color: hex color code
-- pattern: solid/striped/wavy/dotted
-- label: সংক্ষিপ্ত বাংলা label
-
-শুধু JSON array দাও, অন্য কিছু না।
-
-উদাহরণ:
-[{"dir":"উত্তর","type":"রাস্তা","color":"#888888","pattern":"striped","label":"পাকা রাস্তা"},{"dir":"দক্ষিণ","type":"জমি","color":"#90EE90","pattern":"solid","label":"ফসলি জমি"}]`;
-
-  try{
-    const res = await fetch("https://api.anthropic.com/v1/messages",{
-      method:"POST",
-      headers:{
-        "Content-Type":"application/json",
-        "x-api-key": key,
-        "anthropic-version":"2023-06-01",
-        "anthropic-dangerous-direct-browser-access":"true"
-      },
-      body: JSON.stringify({
-        model:"claude-haiku-4-5-20251001",
-        max_tokens:500,
-        messages:[{role:"user",content:prompt}]
-      })
-    });
-
-    const data = await res.json();
-    if(data.error){ status.textContent="❌ "+data.error.message; return; }
-
-    const text = data.content[0].text.trim();
-    // JSON parse
-    const jsonMatch = text.match(/\[[\s\S]*\]/);
-    if(!jsonMatch){ status.textContent="❌ AI response বুঝতে পারিনি"; return; }
-
-    aiPlots = JSON.parse(jsonMatch[0]);
-    status.textContent = "✅ "+aiPlots.length+"টা plot তৈরি হয়েছে!";
-    draw();
-
-  }catch(e){
-    console.error(e);
-    status.textContent="❌ Error: "+e.message;
-  }
-}
-
-// ── DRAW AI PLOTS (draw() function এর ভেতরে call হবে) ──
-function drawAIPlots(ctx, pts2, ox, oy, sc, W, H){
-  if(!aiPlots||aiPlots.length===0) return;
-
-  // Bounding box of main polygon
-  const xs=pts2.map(p=>p.x+ox), ys=pts2.map(p=>p.y+oy);
-  const minX=Math.min(...xs), maxX=Math.max(...xs);
-  const minY=Math.min(...ys), maxY=Math.max(...ys);
-  const pw=maxX-minX, ph=maxY-minY;
-  const plotW=Math.min(pw*0.15, 60);
-  const plotH=Math.min(ph*0.15, 60);
-
-  aiPlots.forEach(plot=>{
-    let rx,ry,rw,rh;
-    const dir=plot.dir;
-
-    if(dir.includes("উত্তর")){
-      rx=minX; ry=minY-plotH; rw=pw; rh=plotH;
-    } else if(dir.includes("দক্ষিণ")){
-      rx=minX; ry=maxY; rw=pw; rh=plotH;
-    } else if(dir.includes("পূর্ব")){
-      rx=maxX; ry=minY; rw=plotW; rh=ph;
-    } else if(dir.includes("পশ্চিম")){
-      rx=minX-plotW; ry=minY; rw=plotW; rh=ph;
-    } else return;
-
-    ctx.save();
-
-    // Fill based on type
-    const col=plot.color||"#cccccc";
-
-    if(plot.pattern==="wavy"||plot.type.includes("খাল")||plot.type.includes("নদী")){
-      // Water — blue wavy
-      ctx.fillStyle="rgba(100,180,255,0.35)";
-      ctx.fillRect(rx,ry,rw,rh);
-      ctx.strokeStyle="#4499cc";ctx.lineWidth=1;
-      // wavy lines
-      ctx.beginPath();
-      const step=8;
-      if(rw>rh){
-        for(let y2=ry+step;y2<ry+rh;y2+=step){
-          ctx.moveTo(rx,y2);
-          for(let x2=rx;x2<rx+rw;x2+=10){
-            ctx.quadraticCurveTo(x2+5,y2-3,x2+10,y2);
-          }
-        }
-      } else {
-        for(let x2=rx+step;x2<rx+rw;x2+=step){
-          ctx.moveTo(x2,ry);
-          for(let y2=ry;y2<ry+rh;y2+=10){
-            ctx.quadraticCurveTo(x2+3,y2+5,x2,y2+10);
-          }
-        }
-      }
-      ctx.stroke();
-
-    } else if(plot.pattern==="striped"||plot.type.includes("রাস্তা")){
-      // Road — gray striped
-      ctx.fillStyle="rgba(160,160,160,0.4)";
-      ctx.fillRect(rx,ry,rw,rh);
-      ctx.strokeStyle="#999";ctx.lineWidth=0.5;
-      const gap=8;
-      if(rw>rh){
-        for(let x2=rx;x2<rx+rw;x2+=gap){
-          ctx.beginPath();ctx.moveTo(x2,ry);ctx.lineTo(x2,ry+rh);ctx.stroke();
-        }
-      } else {
-        for(let y2=ry;y2<ry+rh;y2+=gap){
-          ctx.beginPath();ctx.moveTo(rx,y2);ctx.lineTo(rx+rw,y2);ctx.stroke();
-        }
-      }
-      // Center line
-      ctx.strokeStyle="#fff";ctx.lineWidth=1.5;ctx.setLineDash([8,4]);
-      ctx.beginPath();
-      if(rw>rh){ctx.moveTo(rx,ry+rh/2);ctx.lineTo(rx+rw,ry+rh/2);}
-      else{ctx.moveTo(rx+rw/2,ry);ctx.lineTo(rx+rw/2,ry+rh);}
-      ctx.stroke();ctx.setLineDash([]);
-
-    } else if(plot.type.includes("বাড়ি")||plot.type.includes("দালান")){
-      // Building — gray solid
-      ctx.fillStyle="rgba(180,180,180,0.4)";
-      ctx.fillRect(rx,ry,rw,rh);
-      ctx.strokeStyle="#666";ctx.lineWidth=1;
-      ctx.strokeRect(rx,ry,rw,rh);
-      // X inside
-      ctx.beginPath();ctx.moveTo(rx,ry);ctx.lineTo(rx+rw,ry+rh);
-      ctx.moveTo(rx+rw,ry);ctx.lineTo(rx,ry+rh);ctx.stroke();
-
-    } else if(plot.type.includes("পুকুর")){
-      // Pond — blue ellipse
-      ctx.fillStyle="rgba(100,180,255,0.4)";
-      ctx.beginPath();
-      ctx.ellipse(rx+rw/2,ry+rh/2,rw/2,rh/2,0,0,Math.PI*2);
-      ctx.fill();ctx.strokeStyle="#4499cc";ctx.lineWidth=1;ctx.stroke();
-
-    } else {
-      // Default — green land
-      ctx.fillStyle="rgba(144,238,144,0.35)";
-      ctx.fillRect(rx,ry,rw,rh);
-      ctx.strokeStyle="#4a8";ctx.lineWidth=0.8;
-      // Crop lines
-      const gap2=10;
-      if(rw>rh){
-        for(let y2=ry+gap2;y2<ry+rh;y2+=gap2){
-          ctx.beginPath();ctx.moveTo(rx,y2);ctx.lineTo(rx+rw,y2);ctx.stroke();
-        }
-      } else {
-        for(let x2=rx+gap2;x2<rx+rw;x2+=gap2){
-          ctx.beginPath();ctx.moveTo(x2,ry);ctx.lineTo(x2,ry+rh);ctx.stroke();
-        }
-      }
-    }
-
-    // Border
-    ctx.strokeStyle=col;ctx.lineWidth=1.5;ctx.setLineDash([4,3]);
-    ctx.strokeRect(rx,ry,rw,rh);
-    ctx.setLineDash([]);
-
-    // Label
-    ctx.fillStyle="#333";ctx.font="bold 9px Arial";ctx.textAlign="center";
-    ctx.textBaseline="middle";
-    const lx=rx+rw/2, ly=ry+rh/2;
-    ctx.fillStyle="rgba(255,255,255,0.7)";
-    const tw=ctx.measureText(plot.label).width+6;
-    ctx.fillRect(lx-tw/2,ly-8,tw,14);
-    ctx.fillStyle="#333";
-    ctx.fillText(plot.label,lx,ly);
-
-    ctx.restore();
-  });
-}
 </script>
 </body>
 </html>
