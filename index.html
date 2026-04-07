@@ -21,15 +21,12 @@ body{font-family:'Hind Siliguri','Noto Sans Bengali','Segoe UI',Arial,sans-serif
 .field input,.field select,.field textarea{width:100%;padding:6px 8px;border:1px solid #d0dbd6;border-radius:5px;font-family:inherit;font-size:12px;background:#fff;color:#222;outline:none;transition:border-color .2s}
 .field input:focus,.field select:focus,.field textarea:focus{border-color:#006a4e}
 .field textarea{resize:vertical}
-.tabs{display:flex;gap:6px;margin-bottom:12px}
-.tab-btn{flex:1;padding:7px 0;border:2px solid #ddd;border-radius:6px;background:#f5f5f5;color:#777;cursor:pointer;font-weight:700;font-size:12px;font-family:inherit;transition:all .2s}
-.tab-btn.active{border-color:#006a4e;background:#006a4e;color:#fff}
 .shape-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:10px}
 .shape-btn{padding:7px 4px;border:2px solid #ddd;border-radius:6px;background:#f9f9f9;color:#555;cursor:pointer;font-weight:600;font-size:11px;text-align:center;font-family:inherit;transition:all .2s}
 .shape-btn.active{border-color:#006a4e;background:#e8f4f0;color:#006a4e}
 .shape-btn .icon{font-size:18px;display:block;margin-bottom:3px}
 .scale-box{background:#e8f4f0;border:1px solid #b5d9ce;border-radius:6px;padding:10px;margin-bottom:8px}
-.scale-info{font-size:10px;color:#558878;margin-top:5px}
+.scale-info{font-size:10px;color:#558878;margin-top:5px;font-weight:600}
 .sides-header{display:grid;grid-template-columns:26px 1.4fr 0.8fr 0.8fr 0.8fr 28px;gap:4px;font-size:9px;font-weight:700;color:#888;text-align:center;margin-bottom:4px}
 .side-row{display:grid;grid-template-columns:26px 1.4fr 0.8fr 0.8fr 0.8fr 28px;gap:4px;margin-bottom:5px;align-items:center}
 .row-num{width:26px;height:26px;background:#006a4e;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700}
@@ -52,7 +49,6 @@ body{font-family:'Hind Siliguri','Noto Sans Bengali','Segoe UI',Arial,sans-serif
 .right-preview{flex:1;padding:24px;display:flex;justify-content:center;align-items:flex-start;overflow-x:auto}
 .a4{width:210mm;min-height:297mm;background:#fff;padding:8mm 10mm;box-shadow:0 4px 30px rgba(0,0,0,.18);display:flex;flex-direction:column}
 .cert-header{text-align:center;padding-bottom:8px;margin-bottom:8px;border-bottom:3px double #006a4e}
-.survey-badge{display:inline-block;padding:2px 10px;border-radius:3px;font-size:10px;font-weight:700;letter-spacing:1px;margin-bottom:4px}
 .cert-org-name{font-family:serif;color:#006a4e;font-size:20px;font-weight:700;margin-bottom:2px}
 .cert-org-sub{font-size:10px;color:#555;font-weight:600}
 .cert-meta-row{display:grid;grid-template-columns:repeat(4,1fr);font-size:10px;margin-bottom:6px;background:#f5faf8;border:1px solid #d0e8df;border-radius:4px;overflow:hidden}
@@ -67,16 +63,15 @@ body{font-family:'Hind Siliguri','Noto Sans Bengali','Segoe UI',Arial,sans-serif
 .cert-canvas-wrap{flex-grow:1;border:1.5px solid #333;background:#fff;position:relative;overflow:hidden;min-height:280px}
 #map-canvas{position:absolute;top:0;left:0;width:100%;height:100%}
 .north-tag{position:absolute;top:8px;right:10px;background:#fff;border:1.5px solid #006a4e;color:#006a4e;font-weight:900;font-size:12px;padding:2px 6px;border-radius:3px;z-index:2}
-
-/* ── SCALE LEGEND BOX (print এ দেখাবে) ── */
-.scale-legend{position:absolute;bottom:8px;left:10px;background:rgba(255,255,255,.95);padding:6px 8px;border:1px solid #333;font-size:9px;color:#222;z-index:2;min-width:140px}
-.scale-legend-title{font-weight:700;font-size:9px;color:#006a4e;margin-bottom:3px;border-bottom:1px solid #ccc;padding-bottom:2px}
-.scale-bar-row{display:flex;align-items:center;gap:4px;margin-bottom:2px}
-.scale-bar-strip{height:7px;border:1px solid #000;flex-shrink:0}
-.scale-bar-half{display:inline-block;height:100%}
-.scale-text{font-size:9px;color:#222;margin-bottom:1px}
-.scale-ratio{font-size:8px;color:#555;font-style:italic}
-
+.scale-legend{position:absolute;bottom:8px;left:10px;background:rgba(255,255,255,.97);padding:6px 8px;border:1.5px solid #333;font-size:9px;color:#222;z-index:2;min-width:160px}
+.scale-legend-title{font-weight:700;font-size:9px;color:#006a4e;margin-bottom:4px;border-bottom:1px solid #ccc;padding-bottom:2px}
+.scale-bar-wrap{display:flex;align-items:center;margin-bottom:3px}
+.scale-bar-strip{height:8px;border:1.5px solid #000;display:flex;overflow:hidden;flex-shrink:0}
+.scale-bar-black{background:#000;height:100%}
+.scale-bar-white{background:#fff;height:100%}
+.scale-ticks{display:flex;justify-content:space-between;font-size:7px;color:#333;margin-bottom:2px}
+.scale-label-main{font-weight:700;font-size:9px;color:#006a4e}
+.scale-label-ratio{font-size:8px;color:#555;font-style:italic}
 .cert-bottom{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px;border-top:2px solid #006a4e;padding-top:8px}
 .chou-table{width:100%;border-collapse:collapse;font-size:11px}
 .chou-table th{background:#006a4e;color:#fff;padding:4px 6px;font-size:10px;text-align:left}
@@ -88,7 +83,6 @@ body{font-family:'Hind Siliguri','Noto Sans Bengali','Segoe UI',Arial,sans-serif
 .sig-line{border-top:1.5px solid #333;padding-top:4px;font-size:10px;color:#555;font-weight:600;margin-top:30px}
 .cert-footer{font-size:9px;color:#999;text-align:center;margin-top:6px;border-top:1px solid #eee;padding-top:4px}
 .mobile-toggle{display:none;margin-left:auto;background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.5);color:#fff;border-radius:5px;padding:5px 12px;cursor:pointer;font-size:12px;font-family:inherit;font-weight:700;white-space:nowrap}
-
 @media(max-width:900px){
   .app-wrap{flex-direction:column}
   .left-panel{width:100%;min-width:unset;height:auto;position:relative;box-shadow:none;border-bottom:3px solid #006a4e}
@@ -106,7 +100,6 @@ body{font-family:'Hind Siliguri','Noto Sans Bengali','Segoe UI',Arial,sans-serif
   .row3{grid-template-columns:1fr 1fr}
   .shape-grid{grid-template-columns:repeat(2,1fr)}
 }
-
 @media print{
   *{margin:0;padding:0;box-sizing:border-box}
   body{background:#fff}
@@ -125,17 +118,10 @@ input[type=number]{-moz-appearance:textfield}
 
 <div class="left-panel">
   <div class="panel-head">
-    🗺 বাংলাদেশ ভূমি জরিপ — নকশা
+    🗺 বাংলাদেশ ভূমি জরিপ — নকশা কনফিগারেশন
     <button class="mobile-toggle" id="mobileToggle" onclick="toggleView()">👁 প্রিভিউ</button>
   </div>
   <div class="panel-body show" id="panelBody">
-    <div class="sec-title">📋 জরিপের ধরন</div>
-    <div class="tabs">
-      <button class="tab-btn active" onclick="setSurvey('RS',this)">RS জরিপ</button>
-      <button class="tab-btn" onclick="setSurvey('CS',this)">CS জরিপ</button>
-      <button class="tab-btn" onclick="setSurvey('BS',this)">BS জরিপ</button>
-      <button class="tab-btn" onclick="setSurvey('SA',this)">SA জরিপ</button>
-    </div>
 
     <div class="sec-title">🏛 প্রতিষ্ঠানের তথ্য</div>
     <div class="field"><label>প্রতিষ্ঠানের নাম</label><input id="hTitle" value="ডিজিটাল ভূমি জরিপ ও নকশা কেন্দ্র" oninput="updatePreview()"></div>
@@ -163,16 +149,18 @@ input[type=number]{-moz-appearance:textfield}
       <textarea id="ownerDetails" rows="2" oninput="updatePreview()">মালিক: মো: আব্দুল করিম, পিতা: মৃত রহিম উদ্দিন, গ্রাম: চকবাজার।</textarea>
     </div>
 
-    <div class="sec-title">📐 স্কেল সিস্টেম</div>
+    <div class="sec-title">📐 স্কেল</div>
     <div class="scale-box">
       <div class="field" style="margin-bottom:6px">
-        <label style="color:#006a4e">প্রিসেট স্কেল</label>
+        <label style="color:#006a4e">স্কেল সিলেক্ট করুন</label>
         <select id="scaleKey" onchange="applyScale(this.value)">
           <optgroup label="ইঞ্চি-মাইল (সরকারি)">
             <option value="16_1mile" selected>16" = 1 মাইল — RS/CS মৌজা</option>
             <option value="32_1mile">32" = 1 মাইল — শহর বিস্তারিত</option>
             <option value="48_1mile">48" = 1 মাইল — বড় নকশা</option>
             <option value="64_1mile">64" = 1 মাইল — অতি বিস্তারিত</option>
+            <option value="89_1mile">89" = 1 মাইল — বিশেষ বড়</option>
+            <option value="160_1mile">160" = 1 মাইল — সর্বোচ্চ বিস্তারিত</option>
             <option value="8_1mile">8" = 1 মাইল — থানা/উপজেলা</option>
             <option value="4_1mile">4" = 1 মাইল — জেলা</option>
             <option value="2_1mile">2" = 1 মাইল — বিভাগ</option>
@@ -193,15 +181,9 @@ input[type=number]{-moz-appearance:textfield}
             <option value="1_25000">1:25000 — জেলা</option>
             <option value="1_50000">1:50000 — বিভাগ</option>
           </optgroup>
-          <option value="custom">কাস্টম</option>
         </select>
       </div>
-      <div class="scale-info" id="scaleInfo"></div>
-    </div>
-    <div class="field">
-      <label>ফাইন-টিউন: <span id="zoomVal">0</span> px/ft</label>
-      <input type="range" id="zoomRange" min="0.01" max="200" step="0.01" style="width:100%"
-        oninput="setZoom(+this.value);document.getElementById('scaleKey').value='custom'">
+      <div class="scale-info" id="scaleInfo">১৬" = ১ মাইল | অনুপাত: 1:3,960</div>
     </div>
 
     <div class="sec-title">🔷 জমির আকৃতি</div>
@@ -232,7 +214,6 @@ input[type=number]{-moz-appearance:textfield}
 <div class="right-preview show" id="rightPreview">
   <div class="a4" id="a4Doc">
     <div class="cert-header">
-      <span class="survey-badge" id="surveyBadge" style="border:1.5px solid #1a6b1a;background:#e8f4e8;color:#1a6b1a">RS জরিপ | Revisional Survey</span>
       <div class="cert-org-name" id="cvTitle">ডিজিটাল ভূমি জরিপ ও নকশা কেন্দ্র</div>
       <div class="cert-org-sub" id="cvSub">মোবাইল: +৮৮০-১৭০০-০০০০০ | REG-২০২৬ | LIC-DHAKA</div>
     </div>
@@ -249,18 +230,22 @@ input[type=number]{-moz-appearance:textfield}
     <div class="cert-canvas-wrap" id="mapWrap">
       <canvas id="map-canvas"></canvas>
       <div class="north-tag">N ↑</div>
-      <!-- SCALE LEGEND — সবসময় দেখাবে, print এও থাকবে -->
       <div class="scale-legend" id="scaleLegend">
-        <div class="scale-legend-title">📏 স্কেল</div>
-        <div class="scale-bar-row">
-          <div class="scale-bar-strip" id="scaleBarStrip" style="width:80px">
-            <span class="scale-bar-half" style="width:50%;background:#000;display:inline-block"></span>
-            <span class="scale-bar-half" style="width:50%;background:#fff;display:inline-block"></span>
+        <div class="scale-legend-title">📏 স্কেল / Scale</div>
+        <div class="scale-bar-wrap">
+          <div class="scale-bar-strip" id="scaleBarStrip" style="width:100px">
+            <div class="scale-bar-black" style="width:25%"></div>
+            <div class="scale-bar-white" style="width:25%"></div>
+            <div class="scale-bar-black" style="width:25%"></div>
+            <div class="scale-bar-white" style="width:25%"></div>
           </div>
         </div>
-        <div class="scale-text" id="scaleBarLabel">0 ━━━ 100 ফুট</div>
-        <div class="scale-text" id="scaleLabelText" style="font-weight:700;color:#006a4e">16" = 1 মাইল</div>
-        <div class="scale-ratio" id="scaleRatioText">অনুপাত: 1:3,960</div>
+        <div class="scale-ticks" id="scaleTicksEl" style="width:100px">
+          <span>0</span><span id="scaleTickMid"></span><span id="scaleTickEnd"></span>
+        </div>
+        <div style="font-size:7px;color:#555;margin-bottom:2px" id="scaleUnitLabel">ফুট</div>
+        <div class="scale-label-main" id="scaleLabelMain">১৬" = ১ মাইল</div>
+        <div class="scale-label-ratio" id="scaleLabelRatio">অনুপাত: 1:3,960</div>
       </div>
     </div>
     <div class="cert-bottom">
@@ -286,39 +271,28 @@ input[type=number]{-moz-appearance:textfield}
 
 </div>
 <script>
-const SURVEY_META={
-  RS:{label:"RS জরিপ | Revisional Survey",full:"Revisional Survey (RS)",bg:"#e8f4e8",color:"#1a6b1a",border:"#1a6b1a"},
-  CS:{label:"CS জরিপ | Cadastral Survey",full:"Cadastral Survey (CS)",bg:"#e8e8f8",color:"#1a1a8b",border:"#1a1a8b"},
-  BS:{label:"BS জরিপ | Bangladesh Survey",full:"Bangladesh Survey (BS)",bg:"#f8f0e8",color:"#8b4a1a",border:"#8b4a1a"},
-  SA:{label:"SA জরিপ | State Acquisition",full:"State Acquisition (SA)",bg:"#f8e8e8",color:"#8b1a1a",border:"#8b1a1a"},
-};
-
-// px per foot এবং scale label ও ratio
-// 1 মাইল = 5280 ফুট, 96 DPI
-// 16" = 1 মাইল → px/ft = 16/5280 * 96
 const SCALE_PRESETS={
   "16_1mile": {px:(16/5280)*96, label:'১৬" = ১ মাইল',    ratio:'1:3,960',  barFt:100},
   "32_1mile": {px:(32/5280)*96, label:'৩২" = ১ মাইল',    ratio:'1:1,980',  barFt:50},
   "48_1mile": {px:(48/5280)*96, label:'৪৮" = ১ মাইল',    ratio:'1:1,320',  barFt:50},
   "64_1mile": {px:(64/5280)*96, label:'৬৪" = ১ মাইল',    ratio:'1:990',    barFt:25},
+  "89_1mile": {px:(89/5280)*96, label:'৮৯" = ১ মাইল',    ratio:'1:714',    barFt:25},
+  "160_1mile":{px:(160/5280)*96,label:'১৬০" = ১ মাইল',   ratio:'1:396',    barFt:10},
   "8_1mile":  {px:(8/5280)*96,  label:'৮" = ১ মাইল',     ratio:'1:7,920',  barFt:200},
   "4_1mile":  {px:(4/5280)*96,  label:'৪" = ১ মাইল',     ratio:'1:15,840', barFt:500},
   "2_1mile":  {px:(2/5280)*96,  label:'২" = ১ মাইল',     ratio:'1:31,680', barFt:1000},
   "1_1mile":  {px:(1/5280)*96,  label:'১" = ১ মাইল',     ratio:'1:63,360', barFt:2000},
-  // চেইন: 1 চেইন = 66 ফুট
   "4_1chain": {px:(4/66)*96,    label:'৪" = ১ চেইন',     ratio:'1:198',    barFt:20},
   "2_1chain": {px:(2/66)*96,    label:'২" = ১ চেইন',     ratio:'1:396',    barFt:40},
   "1_1chain": {px:(1/66)*96,    label:'১" = ১ চেইন',     ratio:'1:792',    barFt:66},
-  // মেট্রিক: 1 ফুট = 0.3048 মিটার, 96dpi → px/m = 96/0.0254 = 3779.5
-  "1_500":    {px:96/0.0254/500*0.3048,   label:'১:৫০০',    ratio:'1:500',    barFt:50},
-  "1_1000":   {px:96/0.0254/1000*0.3048,  label:'১:১০০০',   ratio:'1:1,000',  barFt:100},
-  "1_2000":   {px:96/0.0254/2000*0.3048,  label:'১:২০০০',   ratio:'1:2,000',  barFt:200},
-  "1_2500":   {px:96/0.0254/2500*0.3048,  label:'১:২৫০০',   ratio:'1:2,500',  barFt:200},
-  "1_5000":   {px:96/0.0254/5000*0.3048,  label:'১:৫০০০',   ratio:'1:5,000',  barFt:500},
-  "1_10000":  {px:96/0.0254/10000*0.3048, label:'১:১০,০০০', ratio:'1:10,000', barFt:1000},
-  "1_25000":  {px:96/0.0254/25000*0.3048, label:'১:২৫,০০০', ratio:'1:25,000', barFt:2000},
-  "1_50000":  {px:96/0.0254/50000*0.3048, label:'১:৫০,০০০', ratio:'1:50,000', barFt:5000},
-  "custom":   {px:0.29,                   label:'কাস্টম',    ratio:'—',        barFt:100},
+  "1_500":    {px:96/0.0254/500*0.3048,    label:'১:৫০০',    ratio:'1:500',    barFt:50},
+  "1_1000":   {px:96/0.0254/1000*0.3048,   label:'১:১০০০',   ratio:'1:1,000',  barFt:100},
+  "1_2000":   {px:96/0.0254/2000*0.3048,   label:'১:২০০০',   ratio:'1:2,000',  barFt:200},
+  "1_2500":   {px:96/0.0254/2500*0.3048,   label:'১:২৫০০',   ratio:'1:2,500',  barFt:200},
+  "1_5000":   {px:96/0.0254/5000*0.3048,   label:'১:৫০০০',   ratio:'1:5,000',  barFt:500},
+  "1_10000":  {px:96/0.0254/10000*0.3048,  label:'১:১০,০০০', ratio:'1:10,000', barFt:1000},
+  "1_25000":  {px:96/0.0254/25000*0.3048,  label:'১:২৫,০০০', ratio:'1:25,000', barFt:2000},
+  "1_50000":  {px:96/0.0254/50000*0.3048,  label:'১:৫০,০০০', ratio:'1:50,000', barFt:5000},
 };
 
 const SHAPE_DEFAULTS={
@@ -335,8 +309,7 @@ const DEFAULT_CHOU=[
 ];
 
 let _id=0,uid=()=>++_id;
-let surveyType="RS",zoom=SCALE_PRESETS["16_1mile"].px,sides=[],chous=[],mobileView="form";
-let currentScaleKey="16_1mile";
+let zoom=SCALE_PRESETS["16_1mile"].px,sides=[],chous=[],mobileView="form",currentScaleKey="16_1mile";
 
 function init(){
   document.getElementById("cvDate").textContent=new Date().toLocaleDateString("bn-BD",{year:"numeric",month:"long",day:"numeric"});
@@ -363,46 +336,27 @@ function toggleView(){
   const btn=document.getElementById("mobileToggle");
   if(mobileView==="form"){
     panel.classList.remove("show");preview.classList.add("show");
-    btn.textContent="✏️ ফর্ম";mobileView="preview";
-    setTimeout(draw,80);
+    btn.textContent="✏️ ফর্ম";mobileView="preview";setTimeout(draw,80);
   } else {
     panel.classList.add("show");preview.classList.remove("show");
     btn.textContent="👁 প্রিভিউ";mobileView="form";
   }
 }
 
-function setSurvey(type,btn){
-  surveyType=type;
-  document.querySelectorAll(".tab-btn").forEach(b=>b.classList.remove("active"));
-  btn.classList.add("active");updatePreview();
+function applyScale(key){
+  currentScaleKey=key;
+  const sc=SCALE_PRESETS[key];
+  zoom=sc.px;
+  document.getElementById("scaleInfo").textContent=sc.label+" | অনুপাত: "+sc.ratio;
+  document.getElementById("scaleLabelMain").textContent=sc.label;
+  document.getElementById("scaleLabelRatio").textContent="অনুপাত: "+sc.ratio;
+  draw();
 }
 
 function loadShape(sh,btn){
   if(btn){document.querySelectorAll(".shape-btn").forEach(b=>b.classList.remove("active"));btn.classList.add("active");}
   sides=SHAPE_DEFAULTS[sh].map(s=>({...s,id:uid(),links:+(s.ft/66*100).toFixed(3)}));
   renderSides();draw();
-}
-
-function applyScale(key){
-  currentScaleKey=key;
-  const sc=SCALE_PRESETS[key]||SCALE_PRESETS.custom;
-  zoom=sc.px;
-  document.getElementById("zoomRange").value=zoom;
-  document.getElementById("zoomVal").textContent=zoom.toFixed(4);
-  document.getElementById("scaleInfo").textContent=sc.label+" | অনুপাত: "+sc.ratio;
-  // Update legend
-  document.getElementById("scaleLabelText").textContent=sc.label;
-  document.getElementById("scaleRatioText").textContent="অনুপাত: "+sc.ratio;
-  draw();
-}
-
-function setZoom(val){
-  zoom=val;currentScaleKey="custom";
-  document.getElementById("zoomVal").textContent=zoom.toFixed(4);
-  document.getElementById("scaleInfo").textContent="কাস্টম | px/ft: "+zoom.toFixed(4);
-  document.getElementById("scaleLabelText").textContent="কাস্টম স্কেল";
-  document.getElementById("scaleRatioText").textContent="অনুপাত: —";
-  draw();
 }
 
 function renderSides(){
@@ -457,7 +411,7 @@ function draw(){
   const ctx=canvas.getContext("2d");
   ctx.scale(dpr,dpr);
 
-  // Build points with real px/ft zoom
+  // Build polygon with real zoom
   let pts=[{x:0,y:0}],cx=0,cy=0;
   sides.forEach(s=>{
     const rad=s.ang*Math.PI/180;
@@ -471,7 +425,7 @@ function draw(){
   const minY=Math.min(...ys),maxY=Math.max(...ys);
   const pw=maxX-minX||1,ph=maxY-minY||1;
 
-  // Auto-fit: scale down if too big, but never scale up beyond real scale
+  // Auto-fit if too big for canvas
   const pad=56;
   const fitScale=Math.min((W-pad*2)/pw,(H-pad*2)/ph,1);
   const sc=zoom*fitScale;
@@ -501,7 +455,7 @@ function draw(){
 
   if(pts2.length<2) return;
 
-  // Polygon
+  // Polygon fill & stroke
   ctx.beginPath();
   ctx.moveTo(pts2[0].x+ox,pts2[0].y+oy);
   pts2.slice(1).forEach(p=>ctx.lineTo(p.x+ox,p.y+oy));
@@ -509,29 +463,64 @@ function draw(){
   ctx.fillStyle="rgba(0,106,78,0.08)";ctx.fill();
   ctx.strokeStyle="#006a4e";ctx.lineWidth=2;ctx.stroke();
 
-  // Labels
+  // Corner dots + side labels WITH feet number
   sides.forEach((s,i)=>{
     const p1=pts2[i],p2=pts2[i+1];
-    if(!p2||!s.ft) return;
+    if(!p2) return;
+
+    // Corner dot
+    ctx.beginPath();ctx.arc(p1.x+ox,p1.y+oy,4,0,Math.PI*2);
+    ctx.fillStyle="#006a4e";ctx.fill();
+
+    if(!s.ft) return;
     const mx=(p1.x+p2.x)/2+ox,my=(p1.y+p2.y)/2+oy;
     const ang=Math.atan2(p2.y-p1.y,p2.x-p1.x);
-    ctx.save();ctx.strokeStyle="#006a4e";ctx.lineWidth=1.2;
+
+    // Tick marks at endpoints
+    ctx.save();ctx.strokeStyle="#006a4e";ctx.lineWidth=1.5;
     [p1,p2].forEach(p=>{
       const px=p.x+ox,py=p.y+oy;
-      ctx.beginPath();ctx.moveTo(px-Math.sin(ang)*4,py+Math.cos(ang)*4);
-      ctx.lineTo(px+Math.sin(ang)*4,py-Math.cos(ang)*4);ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo(px-Math.sin(ang)*5,py+Math.cos(ang)*5);
+      ctx.lineTo(px+Math.sin(ang)*5,py-Math.cos(ang)*5);
+      ctx.stroke();
     });
     ctx.restore();
-    ctx.save();ctx.translate(mx,my);ctx.rotate(ang);
+
+    // Label: দিক নাম + ফুট সংখ্যা
+    ctx.save();
+    ctx.translate(mx,my);ctx.rotate(ang);
     if(ang>Math.PI/2||ang<-Math.PI/2) ctx.rotate(Math.PI);
-    ctx.font="bold 11px Arial";ctx.fillStyle="#003d2e";ctx.textAlign="center";
-    ctx.fillText(`${s.label} (${s.ft}ft)`,0,-6);
+
+    // Background for readability
+    const labelText=s.label;
+    const ftText=s.ft+' ফুট';
+    ctx.font="bold 11px Arial";
+    const lw=Math.max(ctx.measureText(labelText).width,ctx.measureText(ftText).width)+8;
+    ctx.fillStyle="rgba(255,255,255,0.85)";
+    ctx.fillRect(-lw/2,-22,lw,22);
+
+    // Direction label (top)
+    ctx.fillStyle="#003d2e";ctx.textAlign="center";
+    ctx.font="bold 10px Arial";
+    ctx.fillText(labelText,0,-12);
+
+    // Feet number (bottom) — বড় ও লাল রঙে
+    ctx.font="bold 11px Arial";
+    ctx.fillStyle="#c0392b";
+    ctx.fillText(ftText,0,-2);
+
     ctx.restore();
-    ctx.beginPath();ctx.arc(p2.x+ox,p2.y+oy,3,0,Math.PI*2);
-    ctx.fillStyle="#006a4e";ctx.fill();
   });
 
-  // Area
+  // Last corner dot
+  if(pts2.length>1){
+    const last=pts2[pts2.length-1];
+    ctx.beginPath();ctx.arc(last.x+ox,last.y+oy,4,0,Math.PI*2);
+    ctx.fillStyle="#006a4e";ctx.fill();
+  }
+
+  // Area calculation
   let a=0;
   for(let i=0;i<pts2.length-1;i++) a+=pts2[i].x*pts2[i+1].y-pts2[i+1].x*pts2[i].y;
   const ft2=Math.abs(a)/2/(sc*sc);
@@ -542,19 +531,21 @@ function draw(){
   document.getElementById("aKatha").textContent=(ft2/720).toFixed(3);
   document.getElementById("aBigha").textContent=(ft2/14400).toFixed(4);
 
-  // Scale bar — sc px = 1 ft display এ
-  const scPreset=SCALE_PRESETS[currentScaleKey]||SCALE_PRESETS.custom;
+  // Scale bar update
+  const scPreset=SCALE_PRESETS[currentScaleKey];
   const barFt=scPreset.barFt;
-  const barPx=Math.min(Math.max(barFt*sc,20),160);
-  document.getElementById("scaleBarStrip").style.width=barPx+"px";
-  document.getElementById("scaleBarLabel").textContent=`0 ━━━ ${barFt} ফুট`;
+  const barPx=Math.min(Math.max(barFt*sc,30),160);
+  const strip=document.getElementById("scaleBarStrip");
+  const ticks=document.getElementById("scaleTicksEl");
+  strip.style.width=barPx+"px";
+  ticks.style.width=barPx+"px";
+  document.getElementById("scaleTickMid").textContent=Math.round(barFt/2);
+  document.getElementById("scaleTickEnd").textContent=barFt;
+  document.getElementById("scaleUnitLabel").textContent="ফুট";
 }
 
 function updatePreview(){
   const g=id=>document.getElementById(id)?.value||"";
-  const m=SURVEY_META[surveyType];
-  const badge=document.getElementById("surveyBadge");
-  badge.textContent=m.label;badge.style.background=m.bg;badge.style.color=m.color;badge.style.border=`1.5px solid ${m.border}`;
   document.getElementById("cvTitle").textContent=g("hTitle");
   document.getElementById("cvSub").textContent=`মোবাইল: ${g("hPhone")} | ${g("hReg")} | ${g("hLic")}`;
   document.getElementById("cvKhatian").textContent=g("khatianNo");
@@ -562,7 +553,7 @@ function updatePreview(){
   document.getElementById("cvYear").textContent=g("srvYear");
   document.getElementById("cvOwner").textContent=g("ownerDetails");
   document.getElementById("cvLocation").innerHTML=`<span>মৌজা: <b>${g("moujaName")}</b></span><span>| উপজেলা: <b>${g("upojelaName")}</b></span><span>| জেলা: <b>${g("jelaName")}</b></span><span>| বিভাগ: <b>${g("bibhagName")}</b></span>`;
-  document.getElementById("cvFooter").textContent=`এই নকশা বাংলাদেশ ভূমি জরিপ অধিদপ্তরের নিয়মানুযায়ী প্রস্তুতকৃত। | ${m.full} | মৌজা: ${g("moujaName")}`;
+  document.getElementById("cvFooter").textContent=`এই নকশা বাংলাদেশ ভূমি জরিপ অধিদপ্তরের নিয়মানুযায়ী প্রস্তুতকৃত। | মৌজা: ${g("moujaName")}`;
   updateChouPreview();draw();
 }
 
@@ -574,25 +565,16 @@ async function generatePDF(){
     const rp=document.getElementById("rightPreview");
     const wasHidden=window.innerWidth<=900&&mobileView!=="preview";
     if(wasHidden){rp.style.cssText="display:flex!important;visibility:hidden;position:fixed;top:0;left:0;width:800px;z-index:-1";}
-    await new Promise(r=>setTimeout(r,150));
-    draw();
-    await new Promise(r=>setTimeout(r,150));
+    await new Promise(r=>setTimeout(r,150));draw();await new Promise(r=>setTimeout(r,150));
     const cvs=await html2canvas(el,{scale:2,useCORS:true,backgroundColor:"#ffffff",logging:false,width:el.scrollWidth,height:el.scrollHeight});
     if(wasHidden) rp.style.cssText="";
     const imgData=cvs.toDataURL("image/jpeg",0.95);
     const {jsPDF}=window.jspdf;
     const pdf=new jsPDF({orientation:"portrait",unit:"mm",format:"a4"});
-    const pw=pdf.internal.pageSize.getWidth();
-    const ph=pdf.internal.pageSize.getHeight();
-    const mg=5,availW=pw-mg*2;
-    const ratio=cvs.height/cvs.width;
-    const imgH=availW*ratio;
-    if(imgH<=ph-mg*2){
-      pdf.addImage(imgData,"JPEG",mg,mg,availW,imgH);
-    } else {
-      let y=0;const pageH=ph-mg*2;
-      while(y<imgH){if(y>0)pdf.addPage();pdf.addImage(imgData,"JPEG",mg,mg-y,availW,imgH);y+=pageH;}
-    }
+    const pw=pdf.internal.pageSize.getWidth(),ph=pdf.internal.pageSize.getHeight();
+    const mg=5,availW=pw-mg*2,imgH=availW*(cvs.height/cvs.width);
+    if(imgH<=ph-mg*2){pdf.addImage(imgData,"JPEG",mg,mg,availW,imgH);}
+    else{let y=0;const ph2=ph-mg*2;while(y<imgH){if(y>0)pdf.addPage();pdf.addImage(imgData,"JPEG",mg,mg-y,availW,imgH);y+=ph2;}}
     pdf.save("ভূমি-নকশা.pdf");
   }catch(e){console.error(e);alert("ব্রাউজার প্রিন্ট (Ctrl+P) ব্যবহার করুন।");}
   btn.disabled=false;btn.textContent="🖨️ প্রিন্ট / PDF";
@@ -602,13 +584,11 @@ function resetAll(){
   if(!confirm("সব রিসেট করবেন?")) return;
   document.querySelectorAll(".shape-btn").forEach((b,i)=>b.classList.toggle("active",i===0));
   loadShape("quad",null);
-  chous=DEFAULT_CHOU.map(c=>({...c,id:uid()}));
-  renderChous();
-  document.getElementById("scaleKey").value="16_1mile";
-  applyScale("16_1mile");
+  chous=DEFAULT_CHOU.map(c=>({...c,id:uid()}));renderChous();
+  document.getElementById("scaleKey").value="16_1mile";applyScale("16_1mile");
 }
 
-window.addEventListener("resize",()=>{handleResize();});
+window.addEventListener("resize",handleResize);
 init();
 </script>
 </body>
