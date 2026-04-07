@@ -144,6 +144,7 @@ input[type=number]{-moz-appearance:textfield}
       <div class="row2">
         <div class="field"><label>রেজিস্ট্রেশন নং</label><input id="surveyorReg" value="০৩৭৩০০৯" oninput="updatePreview()"></div>
         <div class="field"><label>মোবাইল</label><input id="surveyorPhone" value="০১৯১৩-০৮৩২৬৫" oninput="updatePreview()"></div>
+        <div class="field"><label>ঠিকানা</label><input id="surveyorAddress" value="৮০৮, আশকোনা, দক্ষিণখান, ঢাকা-১২৩০" oninput="updatePreview()"></div>
       </div>
     </div>
 
@@ -245,7 +246,8 @@ input[type=number]{-moz-appearance:textfield}
   <div class="a4" id="a4Doc">
     <div class="cert-header">
       <div class="cert-org-name" id="cvTitle">ভূমি জরিপ ও নকশা কেন্দ্র</div>
-      <div class="cert-surveyor-info" id="cvSurveyorInfo">সার্ভেয়ার: মো: আব্দুল হামিদ  | রেজি: ০৩৭৩০০৯ | মোবাইল: ০১৯১৩-০৮৩২৬৫</div>
+      <div class="cert-surveyor-info" id="cvSurveyorInfo" style="font-size:13px;font-weight:700;color:#006a4e;margin-bottom:2px">সার্ভেয়ার: মো: আব্দুল হামিদ | রেজি: ০৩৭৩০০৯ | মোবাইল: ০১৯১৩-০৮৩২৬৫</div>
+<div class="cert-surveyor-address" id="cvSurveyorAddress" style="font-size:10px;color:#555;font-weight:600">৮০৮, আশকোনা, দক্ষিণখান, ঢাকা-১২৩০</div>
     </div>
     <div class="cert-meta-row">
       <div class="cert-meta-cell"><span class="mlabel">খতিয়ান নং</span><span class="mval" id="cvKhatian">২৪৫</span></div>
@@ -307,7 +309,7 @@ input[type=number]{-moz-appearance:textfield}
       <div class="sig-area">
         <div class="seal-circle">অফিস সীল</div>
         <div class="sig-line" id="cvSigLine">সার্ভেয়ার: মো: আব্দুল হামিদ <br>রেজি: ০৩৭৩০০৯</div>
-        <div class="sig-line">....</div>
+        <div class="sig-line"> স্বাক্ষর//</div>
       </div>
     </div>
     <div class="cert-footer" id="cvFooter">এই নকশা বাংলাদেশ ভূমি জরিপ অধিদপ্তরের নিয়মানুযায়ী প্রস্তুতকৃত।</div>
@@ -665,6 +667,7 @@ function draw(){
 function updatePreview(){
   const g=id=>document.getElementById(id)?.value||"";
   document.getElementById("cvSurveyorInfo").textContent=`সার্ভেয়ার: ${g("surveyorName")} | রেজি: ${g("surveyorReg")} | মোবাইল: ${g("surveyorPhone")}`;
+  document.getElementById("cvSurveyorAddress").textContent=g("surveyorAddress");
   document.getElementById("cvSigLine").innerHTML=`সার্ভেয়ার: ${g("surveyorName")}<br>রেজি: ${g("surveyorReg")}`;
   document.getElementById("cvKhatian").textContent=g("khatianNo")||"—";
   document.getElementById("cvYear").textContent=g("srvYear");
