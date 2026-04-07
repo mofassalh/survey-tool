@@ -226,6 +226,21 @@ input[type=number]{-moz-appearance:textfield}
     <div class="chou-header"><span>দিক</span><span>সীমান্তবর্তী</span><span></span></div>
     <div id="chouBody"></div>
     <button class="add-btn" onclick="addChou()">+ চৌহদ্দি যোগ করুন</button>
+     
+    <!-- AI Settings -->
+<div class="sec-title">🤖 AI সেটিংস</div>
+<div class="surveyor-box">
+  <div class="field">
+    <label>Anthropic API Key</label>
+    <input type="password" id="apiKey" placeholder="sk-ant-..." 
+      oninput="localStorage.setItem('anthro_key',this.value)"
+      style="font-family:monospace">
+  </div>
+  <button class="draw-btn" style="margin-top:4px" onclick="generateAIPlots()">
+    🤖 AI দিয়ে চারপাশ আঁকো
+  </button>
+  <div id="aiStatus" style="font-size:10px;color:#006a4e;margin-top:4px"></div>
+</div>
 
     <!-- কার্যক্রম -->
     <div class="sec-title">⚙️ কার্যক্রম</div>
@@ -578,6 +593,9 @@ function draw(){
   document.getElementById("aKatha").textContent=(ft2/720).toFixed(3);
   document.getElementById("aBigha").textContent=(ft2/14400).toFixed(4);
 
+ // AI plots
+  drawAIPlots(ctx, pts2, ox, oy, sc, W, H);
+ 
   // ── Corner dots ──
   pts2.slice(0,-1).forEach(p=>{
     ctx.beginPath();ctx.arc(p.x+ox,p.y+oy,4,0,Math.PI*2);
@@ -730,6 +748,201 @@ function resetAll(){
 
 window.addEventListener("resize",handleResize);
 init();
+
+// ── AI PLOT GENERATION ──
+let aiPlots = [];
+
+async function generateAIPlots(){
+  const key = document.getElementById("apiKey").value || localStorage.getItem("anthro_key");
+  if(!key){ alert("API Key দিন!"); return; }
+
+  const status = document.getElementById("aiStatus");
+  status.textContent = "⏳ AI চিন্তা করছে...";
+
+  // চৌহদ্দির তথ্য collect করো
+  const chouText = chous.map(c => `${c.dir}: ${c.val}`).join(", ");
+
+  const prompt = `তুমি একজন বাংলাদেশী ভূমি জরিপ বিশেষজ্ঞ। নিচের চৌহদ্দি তথ্য দেখে প্রতিটা দিকের জন্য একটা JSON array দাও।
+
+চৌহদ্দি: ${chouText}
+
+প্রতিটা item এ থাকবে:
+- dir: দিক (উত্তর/দক্ষিণ/পূর্ব/পশ্চিম)
+- type: রাস্তা/খাল/নদী/জমি/বাড়ি/দালান/বাগান/পুকুর
+- color: hex color code
+- pattern: solid/striped/wavy/dotted
+- label: সংক্ষিপ্ত বাংলা label
+
+শুধু JSON array দাও, অন্য কিছু না।
+
+উদাহরণ:
+[{"dir":"উত্তর","type":"রাস্তা","color":"#888888","pattern":"striped","label":"পাকা রাস্তা"},{"dir":"দক্ষিণ","type":"জমি","color":"#90EE90","pattern":"solid","label":"ফসলি জমি"}]`;
+
+  try{
+    const res = await fetch("https://api.anthropic.com/v1/messages",{
+      method:"POST",
+      headers:{
+        "Content-Type":"application/json",
+        "x-api-key": key,
+        "anthropic-version":"2023-06-01",
+        "anthropic-dangerous-direct-browser-access":"true"
+      },
+      body: JSON.stringify({
+        model:"claude-haiku-4-5-20251001",
+        max_tokens:500,
+        messages:[{role:"user",content:prompt}]
+      })
+    });
+
+    const data = await res.json();
+    if(data.error){ status.textContent="❌ "+data.error.message; return; }
+
+    const text = data.content[0].text.trim();
+    // JSON parse
+    const jsonMatch = text.match(/\[[\s\S]*\]/);
+    if(!jsonMatch){ status.textContent="❌ AI response বুঝতে পারিনি"; return; }
+
+    aiPlots = JSON.parse(jsonMatch[0]);
+    status.textContent = "✅ "+aiPlots.length+"টা plot তৈরি হয়েছে!";
+    draw();
+
+  }catch(e){
+    console.error(e);
+    status.textContent="❌ Error: "+e.message;
+  }
+}
+
+// ── DRAW AI PLOTS (draw() function এর ভেতরে call হবে) ──
+function drawAIPlots(ctx, pts2, ox, oy, sc, W, H){
+  if(!aiPlots||aiPlots.length===0) return;
+
+  // Bounding box of main polygon
+  const xs=pts2.map(p=>p.x+ox), ys=pts2.map(p=>p.y+oy);
+  const minX=Math.min(...xs), maxX=Math.max(...xs);
+  const minY=Math.min(...ys), maxY=Math.max(...ys);
+  const pw=maxX-minX, ph=maxY-minY;
+  const plotW=Math.min(pw*0.15, 60);
+  const plotH=Math.min(ph*0.15, 60);
+
+  aiPlots.forEach(plot=>{
+    let rx,ry,rw,rh;
+    const dir=plot.dir;
+
+    if(dir.includes("উত্তর")){
+      rx=minX; ry=minY-plotH; rw=pw; rh=plotH;
+    } else if(dir.includes("দক্ষিণ")){
+      rx=minX; ry=maxY; rw=pw; rh=plotH;
+    } else if(dir.includes("পূর্ব")){
+      rx=maxX; ry=minY; rw=plotW; rh=ph;
+    } else if(dir.includes("পশ্চিম")){
+      rx=minX-plotW; ry=minY; rw=plotW; rh=ph;
+    } else return;
+
+    ctx.save();
+
+    // Fill based on type
+    const col=plot.color||"#cccccc";
+
+    if(plot.pattern==="wavy"||plot.type.includes("খাল")||plot.type.includes("নদী")){
+      // Water — blue wavy
+      ctx.fillStyle="rgba(100,180,255,0.35)";
+      ctx.fillRect(rx,ry,rw,rh);
+      ctx.strokeStyle="#4499cc";ctx.lineWidth=1;
+      // wavy lines
+      ctx.beginPath();
+      const step=8;
+      if(rw>rh){
+        for(let y2=ry+step;y2<ry+rh;y2+=step){
+          ctx.moveTo(rx,y2);
+          for(let x2=rx;x2<rx+rw;x2+=10){
+            ctx.quadraticCurveTo(x2+5,y2-3,x2+10,y2);
+          }
+        }
+      } else {
+        for(let x2=rx+step;x2<rx+rw;x2+=step){
+          ctx.moveTo(x2,ry);
+          for(let y2=ry;y2<ry+rh;y2+=10){
+            ctx.quadraticCurveTo(x2+3,y2+5,x2,y2+10);
+          }
+        }
+      }
+      ctx.stroke();
+
+    } else if(plot.pattern==="striped"||plot.type.includes("রাস্তা")){
+      // Road — gray striped
+      ctx.fillStyle="rgba(160,160,160,0.4)";
+      ctx.fillRect(rx,ry,rw,rh);
+      ctx.strokeStyle="#999";ctx.lineWidth=0.5;
+      const gap=8;
+      if(rw>rh){
+        for(let x2=rx;x2<rx+rw;x2+=gap){
+          ctx.beginPath();ctx.moveTo(x2,ry);ctx.lineTo(x2,ry+rh);ctx.stroke();
+        }
+      } else {
+        for(let y2=ry;y2<ry+rh;y2+=gap){
+          ctx.beginPath();ctx.moveTo(rx,y2);ctx.lineTo(rx+rw,y2);ctx.stroke();
+        }
+      }
+      // Center line
+      ctx.strokeStyle="#fff";ctx.lineWidth=1.5;ctx.setLineDash([8,4]);
+      ctx.beginPath();
+      if(rw>rh){ctx.moveTo(rx,ry+rh/2);ctx.lineTo(rx+rw,ry+rh/2);}
+      else{ctx.moveTo(rx+rw/2,ry);ctx.lineTo(rx+rw/2,ry+rh);}
+      ctx.stroke();ctx.setLineDash([]);
+
+    } else if(plot.type.includes("বাড়ি")||plot.type.includes("দালান")){
+      // Building — gray solid
+      ctx.fillStyle="rgba(180,180,180,0.4)";
+      ctx.fillRect(rx,ry,rw,rh);
+      ctx.strokeStyle="#666";ctx.lineWidth=1;
+      ctx.strokeRect(rx,ry,rw,rh);
+      // X inside
+      ctx.beginPath();ctx.moveTo(rx,ry);ctx.lineTo(rx+rw,ry+rh);
+      ctx.moveTo(rx+rw,ry);ctx.lineTo(rx,ry+rh);ctx.stroke();
+
+    } else if(plot.type.includes("পুকুর")){
+      // Pond — blue ellipse
+      ctx.fillStyle="rgba(100,180,255,0.4)";
+      ctx.beginPath();
+      ctx.ellipse(rx+rw/2,ry+rh/2,rw/2,rh/2,0,0,Math.PI*2);
+      ctx.fill();ctx.strokeStyle="#4499cc";ctx.lineWidth=1;ctx.stroke();
+
+    } else {
+      // Default — green land
+      ctx.fillStyle="rgba(144,238,144,0.35)";
+      ctx.fillRect(rx,ry,rw,rh);
+      ctx.strokeStyle="#4a8";ctx.lineWidth=0.8;
+      // Crop lines
+      const gap2=10;
+      if(rw>rh){
+        for(let y2=ry+gap2;y2<ry+rh;y2+=gap2){
+          ctx.beginPath();ctx.moveTo(rx,y2);ctx.lineTo(rx+rw,y2);ctx.stroke();
+        }
+      } else {
+        for(let x2=rx+gap2;x2<rx+rw;x2+=gap2){
+          ctx.beginPath();ctx.moveTo(x2,ry);ctx.lineTo(x2,ry+rh);ctx.stroke();
+        }
+      }
+    }
+
+    // Border
+    ctx.strokeStyle=col;ctx.lineWidth=1.5;ctx.setLineDash([4,3]);
+    ctx.strokeRect(rx,ry,rw,rh);
+    ctx.setLineDash([]);
+
+    // Label
+    ctx.fillStyle="#333";ctx.font="bold 9px Arial";ctx.textAlign="center";
+    ctx.textBaseline="middle";
+    const lx=rx+rw/2, ly=ry+rh/2;
+    ctx.fillStyle="rgba(255,255,255,0.7)";
+    const tw=ctx.measureText(plot.label).width+6;
+    ctx.fillRect(lx-tw/2,ly-8,tw,14);
+    ctx.fillStyle="#333";
+    ctx.fillText(plot.label,lx,ly);
+
+    ctx.restore();
+  });
+}
 </script>
 </body>
 </html>
