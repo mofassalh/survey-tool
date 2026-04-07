@@ -753,7 +753,12 @@ init();
 let aiPlots = [];
 
 async function generateAIPlots(){
-  const key = document.getElementById("apiKey").value || localStorage.getItem("anthro_key");
+  const keyInput = document.getElementById("apiKey");
+const key = (keyInput ? keyInput.value.trim() : "") || localStorage.getItem("anthro_key","").trim();
+if(!key || !key.startsWith("sk-ant-")){ 
+  status.textContent="❌ সঠিক API Key দিন (sk-ant- দিয়ে শুরু হবে)"; 
+  return; 
+}
   if(!key){ alert("API Key দিন!"); return; }
 
   const status = document.getElementById("aiStatus");
