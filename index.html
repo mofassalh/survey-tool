@@ -57,8 +57,8 @@ body{font-family:'Hind Siliguri','Noto Sans Bengali','Segoe UI',Arial,sans-serif
 .a4{width:210mm;min-height:297mm;background:#fff;padding:8mm 10mm;box-shadow:0 4px 30px rgba(0,0,0,.18);display:flex;flex-direction:column}
 .cert-header{text-align:center;padding-bottom:8px;margin-bottom:8px;border-bottom:3px double #006a4e}
 .cert-org-name{font-family:serif;color:#006a4e;font-size:20px;font-weight:700;margin-bottom:2px}
-.cert-org-sub{font-size:10px;color:#555;font-weight:600;margin-bottom:2px}
-.cert-surveyor-info{font-size:10px;color:#006a4e;font-weight:700}
+.cert-surveyor-info{font-size:13px;color:#006a4e;font-weight:700;margin-bottom:2px}
+.cert-surveyor-address{font-size:10px;color:#555;font-weight:600}
 .cert-meta-row{display:grid;grid-template-columns:repeat(4,1fr);font-size:10px;margin-bottom:6px;background:#f5faf8;border:1px solid #d0e8df;border-radius:4px;overflow:hidden}
 .cert-meta-cell{padding:5px 7px;border-right:1px solid #d0e8df}
 .cert-meta-cell:last-child{border-right:none}
@@ -142,17 +142,17 @@ input[type=number]{-moz-appearance:textfield}
 
     <div class="sec-title">👤 সার্ভেয়ারের তথ্য</div>
     <div class="surveyor-box">
-      <div class="field"><label>সার্ভেয়ারের নাম</label><input id="surveyorName" value="মো: আব্দুল হামিদ " oninput="updatePreview()"></div>
+      <div class="field"><label>সার্ভেয়ারের নাম</label><input id="surveyorName" value="মো: আব্দুল হামিদ" oninput="updatePreview()"></div>
       <div class="row2">
         <div class="field"><label>রেজিস্ট্রেশন নং</label><input id="surveyorReg" value="০৩৭৩০০৯" oninput="updatePreview()"></div>
         <div class="field"><label>মোবাইল</label><input id="surveyorPhone" value="০১৯১৩-০৮৩২৬৫" oninput="updatePreview()"></div>
-        <div class="field"><label>ঠিকানা</label><input id="surveyorAddress" value="৮০৮, আশকোনা, দক্ষিণখান, ঢাকা-১২৩০" oninput="updatePreview()"></div>
       </div>
+      <div class="field"><label>ঠিকানা</label><input id="surveyorAddress" value="৮০৮, আশকোনা, দক্ষিণখান, ঢাকা-১২৩০" oninput="updatePreview()"></div>
     </div>
 
     <div class="sec-title">📄 জমির রেকর্ড তথ্য</div>
     <div class="row2">
-      <div class="field"><label>খতিয়ান নং</label><input id="khatianNo" value="২৪৫" oninput="updatePreview()"></div>
+      <div class="field"><label>খতিয়ান নং</label><input id="khatianNo" value="২৪০" oninput="updatePreview()"></div>
       <div class="field"><label>জরিপ বর্ষ</label><input id="srvYear" value="২০২৪" oninput="updatePreview()"></div>
     </div>
 
@@ -163,10 +163,8 @@ input[type=number]{-moz-appearance:textfield}
       <div class="field"><label>RS দাগ</label><input id="dagRS" value="১০৫" placeholder="RS" oninput="updatePreview()"></div>
       <div class="field"><label>BS দাগ</label><input id="dagBS" value="২৬২৯৪" placeholder="BS" oninput="updatePreview()"></div>
     </div>
-
-    <!-- অতিরিক্ত দাগ নম্বর -->
     <div style="margin-bottom:6px">
-      <div style="font-size:10px;color:#b8860b;font-weight:700;margin-bottom:4px">+ অতিরিক্ত দাগ নম্বর (২য়, ৩য় দাগ)</div>
+      <div style="font-size:10px;color:#b8860b;font-weight:700;margin-bottom:4px">+ অতিরিক্ত দাগ নম্বর</div>
       <div id="extraDagBody"></div>
       <button class="add-btn" style="border-color:#f0d070;color:#b8860b;background:#fffde8" onclick="addExtraDag()">+ আরো দাগ যোগ করুন</button>
     </div>
@@ -178,7 +176,7 @@ input[type=number]{-moz-appearance:textfield}
     </div>
     <div class="field"><label>বিভাগ</label><input id="bibhagName" value="ঢাকা বিভাগ" oninput="updatePreview()"></div>
     <div class="field"><label>মালিকের বিস্তারিত</label>
-      <textarea id="ownerDetails" rows="2" oninput="updatePreview()">মালিক: মো: আব্দুল হামিদ , পিতা: মৃত রহিম উদ্দিন, গ্রাম: চকবাজার।</textarea>
+      <textarea id="ownerDetails" rows="2" oninput="updatePreview()">মালিক: মো: আব্দুল করিম, পিতা: মৃত রহিম উদ্দিন, গ্রাম: চকবাজার।</textarea>
     </div>
 
     <div class="sec-title">📐 স্কেল</div>
@@ -248,11 +246,11 @@ input[type=number]{-moz-appearance:textfield}
   <div class="a4" id="a4Doc">
     <div class="cert-header">
       <div class="cert-org-name" id="cvTitle">ভূমি জরিপ ও নকশা কেন্দ্র</div>
-      <div class="cert-surveyor-info" id="cvSurveyorInfo" style="font-size:13px;font-weight:700;color:#006a4e;margin-bottom:2px">সার্ভেয়ার: মো: আব্দুল হামিদ | রেজি: ০৩৭৩০০৯ | মোবাইল: ০১৯১৩-০৮৩২৬৫</div>
-<div class="cert-surveyor-address" id="cvSurveyorAddress" style="font-size:10px;color:#555;font-weight:600">৮০৮, আশকোনা, দক্ষিণখান, ঢাকা-১২৩০</div>
+      <div class="cert-surveyor-info" id="cvSurveyorInfo">সার্ভেয়ার: মো: আব্দুল হামিদ | রেজি: ০৩৭৩০০৯ | মোবাইল: ০১৯১৩-০৮৩২৬৫</div>
+      <div class="cert-surveyor-address" id="cvSurveyorAddress">৮০৮, আশকোনা, দক্ষিণখান, ঢাকা-১২৩০</div>
     </div>
     <div class="cert-meta-row">
-      <div class="cert-meta-cell"><span class="mlabel">খতিয়ান নং</span><span class="mval" id="cvKhatian">২৪৫</span></div>
+      <div class="cert-meta-cell"><span class="mlabel">খতিয়ান নং</span><span class="mval" id="cvKhatian">২৪০</span></div>
       <div class="cert-meta-cell"><span class="mlabel">জরিপ বর্ষ</span><span class="mval" id="cvYear">২০২৪</span></div>
       <div class="cert-meta-cell"><span class="mlabel">স্কেল</span><span class="mval" id="cvScale">১৬" = ১ মাইল</span></div>
       <div class="cert-meta-cell"><span class="mlabel">তারিখ</span><span class="mval" id="cvDate"></span></div>
@@ -263,7 +261,6 @@ input[type=number]{-moz-appearance:textfield}
       <div class="dag-cell"><span class="dlabel">RS দাগ</span><span class="dval" id="cvDagRS">১০৫</span></div>
       <div class="dag-cell"><span class="dlabel">BS দাগ</span><span class="dval" id="cvDagBS">২৬২৯৪</span></div>
     </div>
-    <!-- অতিরিক্ত দাগ -->
     <div id="cvExtraDagArea"></div>
     <div class="cert-location" id="cvLocation">
       <span>মৌজা: <b>চকবাজার</b></span>
@@ -271,7 +268,7 @@ input[type=number]{-moz-appearance:textfield}
       <span>| জেলা: <b>ঢাকা</b></span>
       <span>| বিভাগ: <b>ঢাকা বিভাগ</b></span>
     </div>
-    <div class="cert-owner" id="cvOwner">মালিক: মো: আব্দুল হামিদ , পিতা: মৃত রহিম উদ্দিন, গ্রাম: চকবাজার।</div>
+    <div class="cert-owner" id="cvOwner">মালিক: মো: আব্দুল করিম, পিতা: মৃত রহিম উদ্দিন, গ্রাম: চকবাজার।</div>
     <div class="cert-canvas-wrap" id="mapWrap">
       <canvas id="map-canvas"></canvas>
       <div class="north-tag">N ↑</div>
@@ -310,8 +307,8 @@ input[type=number]{-moz-appearance:textfield}
       </div>
       <div class="sig-area">
         <div class="seal-circle">অফিস সীল</div>
-        <div class="sig-line" id="cvSigLine">সার্ভেয়ার: মো: আব্দুল হামিদ <br>রেজি: ০৩৭৩০০৯</div>
-        <div class="sig-line"> স্বাক্ষর//</div>
+        <div class="sig-line" id="cvSigLine">সার্ভেয়ার: মো: আব্দুল হামিদ<br>রেজি: ০৩৭৩০০৯</div>
+        <div class="sig-line">অনুমোদনকারী কর্মকর্তার স্বাক্ষর</div>
       </div>
     </div>
     <div class="cert-footer" id="cvFooter">এই নকশা বাংলাদেশ ভূমি জরিপ অধিদপ্তরের নিয়মানুযায়ী প্রস্তুতকৃত।</div>
@@ -446,7 +443,6 @@ function updateChouPreview(){
   ).join("");
 }
 
-// ── অতিরিক্ত দাগ ──
 function renderExtraDags(){
   const body=document.getElementById("extraDagBody");body.innerHTML="";
   extraDags.forEach(d=>{
@@ -513,7 +509,7 @@ function draw(){
   const minX=Math.min(...xs),maxX=Math.max(...xs);
   const minY=Math.min(...ys),maxY=Math.max(...ys);
   const pw=maxX-minX||1,ph=maxY-minY||1;
-  const pad=64;
+  const pad=70;
   const fitScale=Math.min((W-pad*2)/pw,(H-pad*2)/ph,1);
   const sc=zoom*fitScale;
 
@@ -600,13 +596,15 @@ function draw(){
     ctx.fillStyle="#006a4e";ctx.fill();
   });
 
-  // Side labels + চৌহদ্দি outside
+  // Side labels + চৌহদ্দি outside — overlap fixed
   sides.forEach((s,i)=>{
     const p1=pts2[i],p2=pts2[i+1];
     if(!p2||!s.ft) return;
     const mx=(p1.x+p2.x)/2+ox;
     const my=(p1.y+p2.y)/2+oy;
     const ang=Math.atan2(p2.y-p1.y,p2.x-p1.x);
+
+    // Tick marks
     ctx.save();ctx.strokeStyle="#006a4e";ctx.lineWidth=1.5;
     [p1,p2].forEach(p=>{
       const px=p.x+ox,py=p.y+oy;
@@ -617,22 +615,25 @@ function draw(){
     });
     ctx.restore();
 
+    // Outward perpendicular
     const perpX=-Math.sin(ang);
     const perpY=Math.cos(ang);
-    const testX=mx+perpX*20;
-    const testY=my+perpY*20;
-    const inward=isInsidePolygon(testX-ox,testY-oy,pts2);
+    const inward=isInsidePolygon(mx+perpX*20-ox,my+perpY*20-oy,pts2);
     const outMult=inward?-1:1;
 
+    // Side label — বাহুর বাইরে parallel
+    const lx=mx+perpX*outMult*18;
+    const ly=my+perpY*outMult*18;
     ctx.save();
-    ctx.translate(mx,my);ctx.rotate(ang);
+    ctx.translate(lx,ly);
+    ctx.rotate(ang);
     if(ang>Math.PI/2||ang<-Math.PI/2) ctx.rotate(Math.PI);
     ctx.font="bold 10px Arial";
     const w1=ctx.measureText(s.label).width;
     ctx.font="bold 11px Arial";
     const w2=ctx.measureText(s.ft+' ফুট').width;
     const bw=Math.max(w1,w2)+10;
-    ctx.fillStyle="rgba(255,255,255,0.88)";
+    ctx.fillStyle="rgba(255,255,255,0.92)";
     ctx.fillRect(-bw/2,-20,bw,22);
     ctx.fillStyle="#003d2e";ctx.textAlign="center";
     ctx.font="bold 10px Arial";ctx.fillText(s.label,0,-10);
@@ -640,18 +641,21 @@ function draw(){
     ctx.fillText(s.ft+' ফুট',0,0);
     ctx.restore();
 
+    // চৌহদ্দি — আরো বাইরে
     const chouVal=getChouForSide(s.label);
     if(chouVal){
-      const lx=mx+perpX*outMult*30;
-      const ly=my+perpY*outMult*30;
+      const clx=mx+perpX*outMult*38;
+      const cly=my+perpY*outMult*38;
       ctx.save();
-      ctx.translate(lx,ly);ctx.rotate(ang);
+      ctx.translate(clx,cly);
+      ctx.rotate(ang);
       if(ang>Math.PI/2||ang<-Math.PI/2) ctx.rotate(Math.PI);
-      ctx.font="italic 9px Arial";ctx.textAlign="center";
+      ctx.font="italic 9px Arial";
       const cw=ctx.measureText(chouVal).width+8;
-      ctx.fillStyle="rgba(255,255,220,0.85)";
+      ctx.fillStyle="rgba(255,255,220,0.9)";
       ctx.fillRect(-cw/2,-11,cw,14);
-      ctx.fillStyle="#555";ctx.fillText(chouVal,0,0);
+      ctx.fillStyle="#555";ctx.textAlign="center";
+      ctx.fillText(chouVal,0,0);
       ctx.restore();
     }
   });
@@ -685,7 +689,6 @@ function updatePreview(){
   draw();
 }
 
-// ── PDF ──
 async function generatePDF(){
   const btn=document.getElementById("pdfBtn");
   btn.disabled=true;btn.textContent="⏳ তৈরি হচ্ছে...";
@@ -709,7 +712,6 @@ async function generatePDF(){
   btn.disabled=false;btn.textContent="🖨️ PDF ডাউনলোড";
 }
 
-// ── WhatsApp Share ──
 async function shareWhatsApp(){
   const btn=document.getElementById("waBtn");
   btn.disabled=true;btn.textContent="⏳ তৈরি হচ্ছে...";
@@ -721,26 +723,15 @@ async function shareWhatsApp(){
     await new Promise(r=>setTimeout(r,150));draw();await new Promise(r=>setTimeout(r,150));
     const cvs=await html2canvas(el,{scale:1.5,useCORS:true,backgroundColor:"#ffffff",logging:false});
     if(wasHidden) rp.style.cssText="";
-
-    // Image blob বানাও
     cvs.toBlob(async(blob)=>{
-      // Info text
       const g=id=>document.getElementById(id)?.value||"";
       const msg=`🗺 ভূমি জরিপ নকশা\n👤 মালিক: ${g("ownerDetails").substring(0,50)}\n📍 মৌজা: ${g("moujaName")}, ${g("jelaName")}\n📌 RS দাগ: ${g("dagRS")} | BS দাগ: ${g("dagBS")}\n📐 স্কেল: ${document.getElementById("cvScale").textContent}`;
-
-      // Web Share API চেক করো
       if(navigator.share&&navigator.canShare&&navigator.canShare({files:[new File([blob],"noksha.jpg",{type:"image/jpeg"})]})){
         const file=new File([blob],"ভূমি-নকশা.jpg",{type:"image/jpeg"});
-        await navigator.share({
-          title:"ভূমি জরিপ নকশা",
-          text:msg,
-          files:[file]
-        });
+        await navigator.share({title:"ভূমি জরিপ নকশা",text:msg,files:[file]});
       } else {
-        // Fallback: WhatsApp URL
         const encoded=encodeURIComponent(msg);
         window.open(`https://wa.me/?text=${encoded}`,"_blank");
-        // Image download
         const url=URL.createObjectURL(blob);
         const a=document.createElement("a");
         a.href=url;a.download="ভূমি-নকশা.jpg";a.click();
@@ -748,10 +739,7 @@ async function shareWhatsApp(){
         alert("নকশার image download হয়েছে। WhatsApp এ manually attach করুন।");
       }
     },"image/jpeg",0.9);
-  }catch(e){
-    console.error(e);
-    alert("WhatsApp share করতে পারেনি। PDF download করুন।");
-  }
+  }catch(e){console.error(e);alert("WhatsApp share করতে পারেনি। PDF download করুন।");}
   btn.disabled=false;btn.textContent="📲 WhatsApp এ পাঠান";
 }
 
@@ -767,10 +755,34 @@ function resetAll(){
 window.addEventListener("resize",handleResize);
 init();
 </script>
+
 <script>
 if('serviceWorker' in navigator){
   navigator.serviceWorker.register('/sw.js');
 }
+</script>
+
+<script>
+let deferredPrompt;
+window.addEventListener('beforeinstallprompt',(e)=>{
+  e.preventDefault();
+  deferredPrompt=e;
+  const btn=document.createElement('button');
+  btn.id='installBtn';
+  btn.textContent='📲 App Install করুন';
+  btn.style.cssText='position:fixed;bottom:20px;right:20px;z-index:999;padding:12px 18px;background:#006a4e;color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,0.3);font-family:inherit';
+  document.body.appendChild(btn);
+  btn.addEventListener('click',async()=>{
+    deferredPrompt.prompt();
+    const{outcome}=await deferredPrompt.userChoice;
+    if(outcome==='accepted') btn.remove();
+    deferredPrompt=null;
+  });
+});
+window.addEventListener('appinstalled',()=>{
+  const btn=document.getElementById('installBtn');
+  if(btn) btn.remove();
+});
 </script>
 </body>
 </html>
