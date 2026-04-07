@@ -464,19 +464,27 @@ function draw(){
   ctx.strokeStyle="#006a4e";ctx.lineWidth=2;ctx.stroke();
 
   // Corner dots + side labels WITH feet number
+  pts2.forEach((p,i)=>{
+    if(i===0||i===pts2.length-1) return;
+    ctx.beginPath();ctx.arc(p.x+ox,p.y+oy,4,0,Math.PI*2);
+    ctx.fillStyle="#006a4e";ctx.fill();
+  });
+  ctx.beginPath();ctx.arc(pts2[0].x+ox,pts2[0].y+oy,4,0,Math.PI*2);
+  ctx.fillStyle="#006a4e";ctx.fill();
+
+  // Side labels — মাঝখানে, বাহুর বাইরের দিকে
   sides.forEach((s,i)=>{
     const p1=pts2[i],p2=pts2[i+1];
-    if(!p2) return;
-
-    // Corner dot
-    ctx.beginPath();ctx.arc(p1.x+ox,p1.y+oy,4,0,Math.PI*2);
-    ctx.fillStyle="#006a4e";ctx.fill();
-
-    if(!s.ft) return;
-    const mx=(p1.x+p2.x)/2+ox,my=(p1.y+p2.y)/2+oy;
+    if(!p2||!s.ft) return;
+    const mx=(p1.x+p2.x)/2+ox;
+    const my=(p1.y+p2.y)/2+oy;
     const ang=Math.atan2(p2.y-p1.y,p2.x-p1.x);
 
-    // Tick marks at endpoints
+    // Perpendicular offset — label বাহুর বাইরে যাবে
+    const perpX=-Math.sin(ang)*22;
+    const perpY= Math.cos(ang)*22;
+
+    // Tick marks
     ctx.save();ctx.strokeStyle="#006a4e";ctx.lineWidth=1.5;
     [p1,p2].forEach(p=>{
       const px=p.x+ox,py=p.y+oy;
@@ -487,29 +495,30 @@ function draw(){
     });
     ctx.restore();
 
-    // Label: দিক নাম + ফুট সংখ্যা
-    ctx.save();
-    ctx.translate(mx,my);ctx.rotate(ang);
-    if(ang>Math.PI/2||ang<-Math.PI/2) ctx.rotate(Math.PI);
-
-    // Background for readability
+    // Label background + text
     const labelText=s.label;
     const ftText=s.ft+' ফুট';
-    ctx.font="bold 11px Arial";
-    const lw=Math.max(ctx.measureText(labelText).width,ctx.measureText(ftText).width)+8;
-    ctx.fillStyle="rgba(255,255,255,0.85)";
-    ctx.fillRect(-lw/2,-22,lw,22);
+    ctx.save();
+    ctx.translate(mx+perpX, my+perpY);
+    ctx.rotate(ang);
+    if(ang>Math.PI/2||ang<-Math.PI/2) ctx.rotate(Math.PI);
 
-    // Direction label (top)
+    ctx.font="bold 10px Arial";
+    const w1=ctx.measureText(labelText).width;
+    ctx.font="bold 11px Arial";
+    const w2=ctx.measureText(ftText).width;
+    const bw=Math.max(w1,w2)+10;
+
+    ctx.fillStyle="rgba(255,255,255,0.9)";
+    ctx.fillRect(-bw/2,-20,bw,22);
+
     ctx.fillStyle="#003d2e";ctx.textAlign="center";
     ctx.font="bold 10px Arial";
-    ctx.fillText(labelText,0,-12);
+    ctx.fillText(labelText,0,-10);
 
-    // Feet number (bottom) — বড় ও লাল রঙে
-    ctx.font="bold 11px Arial";
     ctx.fillStyle="#c0392b";
-    ctx.fillText(ftText,0,-2);
-
+    ctx.font="bold 11px Arial";
+    ctx.fillText(ftText,0,0);
     ctx.restore();
   });
 
